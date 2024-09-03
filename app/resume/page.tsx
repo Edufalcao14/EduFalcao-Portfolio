@@ -1,19 +1,17 @@
 "use client";
 import { motion } from "framer-motion";
-import React from 'react';
+import { HorizontalDivider } from "@/components/divider/horizontal";
+import { Resume } from "@/components/pages/resume/tabAboutMe/resume";
+import { WorkExperience } from "@/components/pages/resume/workExperience/workExperience";
 
 const Page = () => {
     return (
-        <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1, transform: { delay: 2.4, duration: 0.4, ease: "easeIn" }}}
-            className="min-h-[80vh] flex items-center justify-center py-12 xl:py-0"
-        >
-            <div className="container mx-auto">
-                <h1>Hello resume</h1>
-            </div>
-        </motion.div>
+        <section className="bg-hero-image bg-cover bg-center bg-no-repeat">
+            <Resume />
+            <WorkExperience />
+            
+        </section>
     );
-}
+};
 
 export default Page;

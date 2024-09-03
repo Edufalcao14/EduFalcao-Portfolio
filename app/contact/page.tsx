@@ -1,17 +1,20 @@
 "use client";
-import { motion } from "framer-motion";
 import React from 'react';
+import { ContactForm } from "@/components/pages/contact/contact-form";
+import { motion } from "framer-motion";
+import { fadeIn } from "@/components/Animations/fadeIn";
 
 const Contact = () => {
     return (
-        <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1, transform: { delay: 2.4, duration: 0.4, ease: "easeIn" }}}
-            className="min-h-[80vh] flex items-center justify-center py-12 xl:py-0"
-        >
-            <div className="container mx-auto">
-                <h1>Hello Contact</h1>
-            </div>
+        <motion.div
+            variants={fadeIn("down", 0.4)}
+            initial="hidden"
+            animate="show"
+            exit="hidden"
+            className="">
+            <section className="h-max bg-hero-image bg-cover bg-center bg-no-repeat">
+                <ContactForm />
+            </section>
         </motion.div>
     );
 }

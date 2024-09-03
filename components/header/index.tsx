@@ -41,8 +41,8 @@ export const Header = () => {
   }, []);
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-20 h-24 flex items-center transition-all duration-300 ${isScrolled ? 'backdrop-blur-[5px] bg-gray/50' : ''}`}>
-      <div className="container lg:p-0 mx-auto sm:px-6 flex justify-between items-center">
+    <header className={`fixed top-0 left-0 w-full z-20 h-24 flex items-center transition-all duration-300 ${isScrolled ? 'md:backdrop-blur-[5px] md:bg-gray/50' : ''}`}>
+      <div className="container lg:p-0 mx-auto sm:px-6 flex justify-between items-center font-mono">
 
         {/* Logo */}
         <Link href="/">
@@ -76,14 +76,14 @@ export const Header = () => {
 
             {NAV_ITEMS.map((item, index) => (
               <NavItem
-                key={index} // Adding a unique key prop
+                key={index}
                 label={item.label}
                 href={item.href}
                 onClick={handleLinkClick}
               />
             ))}
             <Link href="/contact" onClick={handleLinkClick}>
-              <Button className="text-white rounded-md flex items-center justify-center space-x-2 shadow-button">
+              <Button className="text-white font-mono rounded-md flex items-center justify-center space-x-2 shadow-button">
                 Hire me
                 <HiArrowNarrowRight size={18} />
               </Button>
