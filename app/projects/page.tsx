@@ -1,18 +1,29 @@
-"use client";
-import { motion } from "framer-motion";
-import React from 'react';
+
+import React from "react";
+import { PageIntroduction } from "@/components/pages/projects/page-introduction";
+import { ProjectCard } from "@/components/pages/projects/project-card";
+import { HorizontalDivider } from "@/components/divider/horizontal";
+
+export const metadata = {
+    title: 'Projects',
+    description: 'Portfolio',
+};
+
 
 const Projects = () => {
     return (
-        <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1, transform: { delay: 2.4, duration: 0.4, ease: "easeIn" }}}
-            className="min-h-[80vh] flex items-center justify-center py-12 xl:py-0"
-        >
-            <div className="container mx-auto">
-                <h1>Hello projetcs</h1>
+        <section className=" bg-hero-image bg-cover bg-center bg-no-repeat">
+            <PageIntroduction />
+            <div className=" container mt-6">
+                <ProjectCard />
+                <HorizontalDivider className="my-16" />
+                <ProjectCard />
+                <HorizontalDivider className="my-16" />
+                <ProjectCard />
+                <HorizontalDivider className="my-16" />
             </div>
-        </motion.div>
+
+        </section>
     );
 }
 

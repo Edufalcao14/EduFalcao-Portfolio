@@ -4,9 +4,9 @@ import './globals.css';
 import { ReactNode } from 'react';
 // Import Next.js Metadata API
 import { Metadata } from 'next';
-
+import { Footer } from '../components/footer'
 import { Header } from '../components/header';
-
+import { BackToTop } from '@/components/back-to-top/backToTop';
 // Initialize fonts
 import { Inter, JetBrains_Mono } from 'next/font/google';
 
@@ -23,8 +23,11 @@ const jetBrainsMono = JetBrains_Mono({
 
 // Define metadata
 export const metadata: Metadata = {
-  title: 'Eduardo Falcao',
-  description: 'My port',
+  title: {
+    default:'Eduardo Falcao',
+    template:'%s | Eduardo Falcao'
+  },
+  description: 'Portfolio',
   icons: {
     icon: '/images/logo.svg',
   },
@@ -37,7 +40,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body>
         <Header />
         {children}
+        <Footer/>
       </body>
+      <BackToTop/>
     </html>
   );
 }
