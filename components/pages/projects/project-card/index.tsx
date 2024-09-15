@@ -3,37 +3,48 @@ import { IoMdCode } from "react-icons/io";
 import { TechBagde } from "@/components/tech-bagde";
 import { Link } from "@/components/Link";
 import { HiArrowNarrowRight } from "react-icons/hi";
-export const ProjectCard = () => {
+import { ProjectCardType } from "@/app/types/projectsInfo";
+
+type ProjectCardProps = {
+    project: ProjectCardType
+}
+
+export const ProjectCard = ({ project }: ProjectCardProps) => {
     return (
         <div className="flex gap-6 lg:gap-12 flex-col lg:flex-row">
             <div className="w-full h-full">
-                <Image
-                    width={380}
-                    height={200}
-                    src="/images/tumb_project.png"
-                    alt="Thumbnail Project"
-                    className="w-full h-[200px] lg:min-h-full object-cover rounded-lg z-1"
-                />
+                {project.thumbPhoto && project.thumbPhoto.url ? (
+                    <Image
+                        width={480}
+                        height={300}
+                        src={project.thumbPhoto.url}
+                        alt="Thumbnail Project"
+                        className="w-full h-[200px] lg:min-h-full object-cover rounded-lg z-1"
+                    />
+                ) : (
+                    <div className="w-full h-[200px] lg:min-h-full bg-gray-200 rounded-lg flex items-center justify-center">
+                        <p className="text-gray-500">No Image Available</p>
+                    </div>
+                )}
             </div>
+
             <div className="">
                 <h3 className="flex items-center gap-3 font-medium text-lg text-gray-50 ">
                     <IoMdCode style={{ width: 30, height: 30, color: 'rgb(52,211,153)' }} />
-                    Mr.Falcao
+                    {project.projectName}
                 </h3>
                 <p className="text-gray-400 my-6">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi, pariatur, labore at corrupti iusto officiis, temporibus fugit magnam earum laborum tenetur sint sed illum debitis voluptate deserunt qui tempore sapiente voluptatum nesciunt. Exercitationem nihil facere consectetur labore nisi corporis dolorum modi, commodi quo impedit quidem accusamus possimus officia optio ipsa?
+                    {project.projectDescription}
                 </p>
                 <div className="flex gap-x-2 gap-y-3 flex-wrap mb-8 lg:max-w-[350px]">
-                    <TechBagde name="Next.js" />
-                    <TechBagde name="Next.js" />
-                    <TechBagde name="Next.js" />
-                    <TechBagde name="Next.js" />
-                    <TechBagde name="Next.js" />
+                    {project.technology.map((tech) => (
+                        <TechBagde key={`${project.projectName}-tech-${tech.name}`} name={tech.name} />
+                    ))}
+
                 </div>
-                <Link href="/projects/bookwise">
+                <Link href={`/projects/${project.slug}`}>
                     Check Project
                     <HiArrowNarrowRight />
-                    <Image></Image>
                 </Link>
             </div>
         </div>

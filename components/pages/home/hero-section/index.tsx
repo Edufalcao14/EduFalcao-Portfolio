@@ -8,6 +8,10 @@ import { HiArrowNarrowRight } from 'react-icons/hi'
 import { TbBrandGithub, TbBrandLinkedin, TbBrandWhatsapp } from 'react-icons/tb'
 import ParticlesContainer from "@/components/ParticlesContainer"
 import React, { useState, useEffect } from 'react';
+import { HomePageInfo } from '@/app/types/pageInfo';
+import { RichText } from '@/components/rich-text';
+import { CMSIcon } from '@/components/cms-icon';
+
 
 
 const MOCK_CONTACTS = [
@@ -28,8 +32,11 @@ interface ImageSize {
     width: number;
     height: number;
 }
+type HomeSectionProps = {
+    homeInfo: HomePageInfo
+}
 
-export const HeroSection = () => {
+export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
     const [imageSize, setImageSize] = useState<ImageSize>({ width: 402, height: 420 });
 
     useEffect(() => {
@@ -39,10 +46,10 @@ export const HeroSection = () => {
             if (window.innerWidth >= 1600) {
                 setImageSize({ width: 522, height: 520 });
             }
-            if(window.innerWidth <= 1000){   
+            if (window.innerWidth <= 1000) {
                 setImageSize({ width: 552, height: 520 });
-            } 
- 
+            }
+
         };
         // Initial check
         updateImageSize();
@@ -69,9 +76,9 @@ export const HeroSection = () => {
                         <h2 className="font-mono font-bold text-5xl mt-2">Hello, My name is Eduardo Falcao</h2>
                         <h1 className="font-mono text-md mt-3 text-emerald-100">Full Stack Developer</h1>
                         <div>
-                            <p className="text-gray-400 text-2xl my-4 text-sm sm:text-base">
-                                Specializing in full-stack development to create powerful, high-performance applications tailored for impactful solutions.
-                            </p>
+                            <div className="text-gray-400 text-2xl my-4 text-sm sm:text-base">
+                                <RichText content={homeInfo.introduction.raw} />
+                            </div>
                             <div className="mt-6 lg:mt-3 flex sm:items-center sm:gap-5 flex-col sm:flex-row">
                                 <Link href={"/resume"}>
                                     <Button className="w-max shadow-button">
@@ -80,9 +87,15 @@ export const HeroSection = () => {
                                     </Button>
                                 </Link>
                                 <div className="text-2xl text-gray-600 flex items-center h-20 gap-3">
-                                    {MOCK_CONTACTS.map((contact, index) => (
-                                        <a href={contact.url} key={`contact-${index}`} target="_blank" className="text-white hover:text-emerald-400 transition-colors">
-                                            {contact.icon}
+                                    {homeInfo.socials.map((contact, i) => (
+                                        <a
+                                            href={contact.url}
+                                            key={`contact-${i}`}
+                                            target="_blank"
+                                            className="hover:text-gray-100 transition-colors"
+                                            rel="noreferrer"
+                                        >
+                                            <CMSIcon icon={contact.iconSvg} />
                                         </a>
                                     ))}
                                 </div>
