@@ -3,7 +3,7 @@ import React from "react";
 import { PageIntroduction } from "@/components/pages/projects/page-introduction";
 import { ProjectCard } from "@/components/pages/projects/project-card";
 import { HorizontalDivider } from "@/components/divider/horizontal";
-import { ProjectsPageData } from "../../types/ProjectsInfo";
+import { ProjectsPageData } from "@/types/ProjectsInfo";
 import { fetchHygraphQuery } from "@/pages/api/fetch-hygraph-query";
 
 export const metadata = {
