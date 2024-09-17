@@ -1,4 +1,4 @@
-import { ProjectCardType, ProjectPageData } from "@/app/types/ProjectsInfo";
+import { ProjectPageData } from "@/app/types/ProjectsInfo";
 import { ProjectDetails } from "@/components/pages/projects/project-details";
 import { ProjectSections } from "@/components/pages/projects/project-sections";
 import { fetchHygraphQuery } from "@/pages/api/fetch-hygraph-query";
