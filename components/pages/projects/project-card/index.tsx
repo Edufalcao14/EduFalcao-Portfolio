@@ -1,9 +1,11 @@
+"use client";
 import Image from "next/image";
 import { IoMdCode } from "react-icons/io";
 import { TechBagde } from "@/components/tech-bagde";
 import { Link } from "@/components/Link";
 import { HiArrowNarrowRight } from "react-icons/hi";
-import { ProjectCardType } from "@/app/types/projectsInfo";
+import { ProjectCardType } from "@/app/types/ProjectsInfo";
+import { motion } from "framer-motion";
 
 type ProjectCardProps = {
     project: ProjectCardType
@@ -11,6 +13,12 @@ type ProjectCardProps = {
 
 export const ProjectCard = ({ project }: ProjectCardProps) => {
     return (
+        <motion.div
+        initial={{ opacity: 0, x: -100 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -100 }}
+        transition={{ duration: 0.5 }}
+    >
         <div className="flex gap-6 lg:gap-12 flex-col lg:flex-row">
             <div className="w-full h-full">
                 {project.thumbPhoto && project.thumbPhoto.url ? (
@@ -48,6 +56,6 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
                 </Link>
             </div>
         </div>
-
+        </motion.div>
     )
 }

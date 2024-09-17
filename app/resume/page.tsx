@@ -65,8 +65,7 @@ query MyQuery {
   }
 }
 `;
-console.log()
-  return await fetchHygraphQuery(queryExecution);
+  return await fetchHygraphQuery(queryExecution, 1000 * 60 * 60 * 2);
 };
 
 

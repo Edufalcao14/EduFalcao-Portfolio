@@ -11,17 +11,17 @@ export type EducationCard = {
 export type Social = {
     name: string;
     url: string;
-    iconSvg: string; // Assuming the SVG is returned as a string
+    iconSvg: string; 
 };
 
 export type SkillCard = {
     name: string;
-    skillIcon: string; // Assuming the icon is returned as a string (SVG content)
+    skillIcon: string; 
 };
 
 export type AboutMe = {
     aboutmeText: {
-        raw: RichTextContent; // Nested raw field of type RichTextContent
+        raw: RichTextContent; 
     };
     email: string;
     socialsAboutMe: Social[];

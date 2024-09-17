@@ -8,7 +8,7 @@ import { HiArrowNarrowRight } from 'react-icons/hi'
 import { TbBrandGithub, TbBrandLinkedin, TbBrandWhatsapp } from 'react-icons/tb'
 import ParticlesContainer from "@/components/ParticlesContainer"
 import React, { useState, useEffect } from 'react';
-import { HomePageInfo } from '@/app/types/pageInfo';
+import { HomePageInfo } from '@/app/types/HomePageInfo';
 import { RichText } from '@/components/rich-text';
 import { CMSIcon } from '@/components/cms-icon';
 

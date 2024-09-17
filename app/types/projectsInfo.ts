@@ -26,8 +26,8 @@ export type ProjectCardType = {
 };
 
 export type ProjectPageData = {
-    project: ProjectCardType;
-};
+    projectCard: ProjectCardType
+  }
 
 export type ProjectspageStaticData={
     projectCards:{

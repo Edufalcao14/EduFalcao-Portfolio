@@ -18,7 +18,7 @@ const getPageData = async () :Promise<HomePageData> => {
   }
 }`
 
-  return fetchHygraphQuery(query);
+  return fetchHygraphQuery(query, 1000 * 60 * 60 * 2);
 }
 
 export default async function Home() {
