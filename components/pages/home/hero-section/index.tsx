@@ -71,7 +71,7 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
                     animate="show"
                     exit="hidden"
                     className="">
-                    <div className="max-w-[530px] lg:max-w-[530px] pt-32 md:pt-6">
+                    <div className="max-w-[580px] lg:max-w-[530px] pt-32 md:pt-6">
                         <p className="font-mono text-2xl text-emerald-400 sm:text-center">Welcome to my Portfolio !</p>
                         <h2 className="font-mono font-bold text-5xl mt-2">Hello, My name is Eduardo Falcao</h2>
                         <h1 className="font-mono text-md mt-3 text-emerald-100">Full Stack Developer</h1>
@@ -79,14 +79,14 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
                             <div className="text-gray-400 text-2xl my-4 text-sm sm:text-base">
                                 <RichText content={homeInfo.introduction.raw} />
                             </div>
-                            <div className="mt-6 lg:mt-3 flex sm:items-center sm:gap-5 flex-col sm:flex-row">
+                            <div className="mt-6 lg:mt-3 flex sm:items-center sm:gap-5 flex-col sm:flex-row relative z-20">
                                 <Link href={"/resume"}>
                                     <Button className="w-max shadow-button">
                                         More about me
                                         <HiArrowNarrowRight size={18} />
                                     </Button>
                                 </Link>
-                                <div className="text-2xl text-gray-600 flex items-center h-20 gap-3">
+                                <div className="text-2xl text-gray-600 flex items-center h-40 gap-3">
                                     {homeInfo.socials.map((contact, i) => (
                                         <a
                                             href={contact.url}
@@ -115,7 +115,7 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
                         height={imageSize.height}
                         src="/images/avatar.webp"
                         alt="Profile's picture"
-                        className="opacity-15 absolute lg:relative lg:opacity-45 md:relative md:opacity-35" />
+                        className="opacity-15 absolute lg:relative lg:opacity-45 md:relative md:opacity-35 z-0" />
                 </motion.div>
             </div>
             <ParticlesContainer />
