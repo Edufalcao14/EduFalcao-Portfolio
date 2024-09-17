@@ -26,7 +26,7 @@
       "@/utils/*": ["utils/*"],
       "@/pages/*": ["pages/*"],
       "@/config/*": ["config/*"],
-      "@/types/*": ["app/types/*"] // Add this alias
+      "@/types/*": ["app/types/*"] 
     }
   },
   "include": [
