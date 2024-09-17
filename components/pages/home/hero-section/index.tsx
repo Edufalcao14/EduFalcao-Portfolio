@@ -63,8 +63,8 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
 
 
     return (
-        <section className="w-full h-screen bg-hero-image bg-cover bg-center bg-no-repeat flex flex-col  sm:pb-38 lg:pt-40 pt-5 lg:pb-[110px] overflow-hidden">
-            <div className="container flex items-start justify-between flex-col-reverse md:flex-row lg:flex-row  ">
+        <section className="w-full h-screen bg-hero-image bg-cover bg-center bg-no-repeat flex flex-col  sm:pb-38 lg:pt-40 pt-20 lg:pb-[110px] overflow-hidden relative -z-5">
+            <div className="container flex items-start justify-between flex-col-reverse md:flex-row lg:flex-row relative z-20 ">
                 <motion.div
                     variants={fadeIn("down", 0.4)}
                     initial="hidden"
@@ -76,10 +76,10 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
                         <h2 className="font-mono font-bold text-5xl mt-2">Hello, My name is Eduardo Falcao</h2>
                         <h1 className="font-mono text-md mt-3 text-emerald-100">Full Stack Developer</h1>
                         <div>
-                            <div className="text-gray-400 text-2xl my-4 text-sm sm:text-base">
+                            <div className="text-gray-400 text-2xl my-4 text-sm sm:text-base ">
                                 <RichText content={homeInfo.introduction.raw} />
                             </div>
-                            <div className="my-6 lg:mt-3 flex sm:items-center gap-5 flex-col sm:flex-row ">
+                            <div className="my-6 lg:mt-3 flex sm:items-center gap-5 flex-col sm:flex-row  ">
                                 <Link href={"/resume"}>
                                     <Button className="w-max shadow-button">
                                         More about me
@@ -109,13 +109,13 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
                     animate="show"
                     exit="hidden"
                     transition={{ duration: 1, ease: 'easeInOut' }}
-                    className="sm:opacity-25 justify-center z-10">
+                    className="sm:opacity-25 justify-center -z-5">
                     <Image
                         width={imageSize.width}
                         height={imageSize.height}
                         src="/images/avatar.webp"
                         alt="Profile's picture"
-                        className="opacity-15 absolute lg:relative lg:opacity-45 md:relative md:opacity-35 z-0" />
+                        className="opacity-15 absolute lg:relative lg:opacity-35 md:relative md:opacity-35  -z-5 " />
                 </motion.div>
             </div>
             <ParticlesContainer />

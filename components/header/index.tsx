@@ -41,7 +41,7 @@ export const Header = () => {
   }, []);
 
   return (
-    <header className={`fixed top-0 left-0 w-full z-20 h-24 flex items-center transition-all duration-300 ${isScrolled ? 'md:backdrop-blur-[5px] md:bg-gray/50' : ''}`}>
+    <header className={`fixed top-0 left-0 w-full sm:relative z-50 h-24 flex items-center transition-all duration-300 ${isScrolled ? 'md:backdrop-blur-[5px] md:bg-gray/50' : ''}`}>
       <div className="container lg:p-0 mx-auto sm:px-6 flex justify-between items-center font-mono">
 
         {/* Logo */}

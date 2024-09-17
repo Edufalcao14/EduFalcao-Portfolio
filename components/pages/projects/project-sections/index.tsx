@@ -1,4 +1,5 @@
 "use client";
+import ParticlesContainer from "@/components/ParticlesContainer";
 import { ProjectCardType, ProjectPageData, ProjectSection } from "@/types/ProjectsInfo";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -47,7 +48,7 @@ export const ProjectSections = ({ projectCard }: ProjectDetailsProps) => { // De
               ))}
             </motion.div>
           </div>
-        ))}
+        ))}     
       </section>
     </motion.div>
   );

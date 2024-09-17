@@ -5,6 +5,7 @@ import { ProjectCard } from "@/components/pages/projects/project-card";
 import { HorizontalDivider } from "@/components/divider/horizontal";
 import { ProjectsPageData } from "@/types/ProjectsInfo";
 import { fetchHygraphQuery } from "@/pages/api/fetch-hygraph-query";
+import ParticlesContainer from "@/components/ParticlesContainer";
 
 export const metadata = {
     title: 'Projects',
@@ -57,7 +58,7 @@ export default async function Projects() {
                     </div>
                 ))}
             </div>
-
+            <ParticlesContainer />
         </section>
     );
 }
