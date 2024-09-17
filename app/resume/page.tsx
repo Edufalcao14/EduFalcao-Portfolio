@@ -1,8 +1,8 @@
 import { Resume } from "@/components/pages/resume/tabAboutMe";
 import { WorkExperience } from "@/components/pages/resume/workExperience/index";
-import { ResumePageData } from "../types/ResumePageInfo";
+import { ResumePageData } from "../../types/ResumePageInfo";
 import { fetchHygraphQuery } from "@/pages/api/fetch-hygraph-query";
-import { ExperiencePageData } from "../types/WorkExperiencesInfo";
+import { ExperiencePageData } from "../../types/WorkExperiencesInfo";
 
 export const metadata = {
   title: 'Resume',

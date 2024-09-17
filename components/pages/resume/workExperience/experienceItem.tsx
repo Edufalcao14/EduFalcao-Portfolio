@@ -3,7 +3,7 @@ import { IoCodeWorkingOutline } from "react-icons/io5";
 import { TechBagde } from "@/components/tech-bagde";
 import React from "react";
 import { motion } from "framer-motion";
-import { ExperienceItemType } from "@/app/types/WorkExperiencesInfo";
+import { ExperienceItemType } from "@/types/WorkExperiencesInfo";
 
 
 

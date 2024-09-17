@@ -6,7 +6,7 @@ import { TbBrandGithub } from "react-icons/tb";
 import { FiGlobe } from 'react-icons/fi';
 import { Link } from "@/components/Link";
 import { HiArrowNarrowLeft } from "react-icons/hi";
-import { ProjectCardType } from "@/app/types/ProjectsInfo";
+import { ProjectCardType } from "@/types/ProjectsInfo";
 import { motion } from "framer-motion";
 
 interface ProjectDetailsProps {

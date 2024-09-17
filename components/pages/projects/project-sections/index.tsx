@@ -1,5 +1,5 @@
 "use client";
-import { ProjectCardType, ProjectPageData, ProjectSection } from "@/app/types/ProjectsInfo";
+import { ProjectCardType, ProjectPageData, ProjectSection } from "@/types/ProjectsInfo";
 import { motion } from "framer-motion";
 import Image from "next/image";
 

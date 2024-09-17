@@ -4,7 +4,7 @@ import { IoMdCode } from "react-icons/io";
 import { TechBagde } from "@/components/tech-bagde";
 import { Link } from "@/components/Link";
 import { HiArrowNarrowRight } from "react-icons/hi";
-import { ProjectCardType } from "@/app/types/ProjectsInfo";
+import { ProjectCardType } from "@/types/ProjectsInfo";
 import { motion } from "framer-motion";
 
 type ProjectCardProps = {

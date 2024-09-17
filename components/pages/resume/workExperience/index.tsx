@@ -2,7 +2,7 @@ import { SectionTitle } from "@/components/section-title";
 import React from 'react';
 
 import { ExperienceItem } from "./experienceItem";
-import { ExperiencePageInfo } from "@/app/types/WorkExperiencesInfo";
+import { ExperiencePageInfo } from "@/types/WorkExperiencesInfo";
 
 
 

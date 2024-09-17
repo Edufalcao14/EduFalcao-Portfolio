@@ -9,10 +9,10 @@ import { ScrollArea } from "@/components/UI/scrollarea";
 import ParticlesContainer from "@/components/ParticlesContainer";
 import { TbBrandGithub, TbBrandLinkedin, TbBrandWhatsapp } from "react-icons/tb";
 import { fadeIn } from "@/components/Animations/fadeIn";
-import { ResumePageData, ResumePageInfo } from "@/app/types/ResumePageInfo";
+import { ResumePageData, ResumePageInfo } from "@/types/ResumePageInfo";
 import { RichText } from "@/components/rich-text";
 import { CMSIcon } from "@/components/cms-icon";
-import { Social } from "@/app/types/ResumePageInfo";
+import { Social } from "@/types/ResumePageInfo";
 
 const abouta = {
     title: "About me",
