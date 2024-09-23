@@ -41,7 +41,7 @@ const getPageData = async (): Promise<ProjectsPageData> => {
   }
 }
   `;
-    return await fetchHygraphQuery(query);
+    return await fetchHygraphQuery(query ,  1000 * 60 * 60 * 24);
 };
 
 
