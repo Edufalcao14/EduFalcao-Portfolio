@@ -1,29 +1,20 @@
-"use client";
-import { IoCodeWorkingOutline } from "react-icons/io5";
-import { TechBagde } from "@/components/tech-bagde";
-import React from "react";
-import { motion } from "framer-motion";
-import { ExperienceItemType } from "@/types/WorkExperiencesInfo";
-import { RichText } from "@/components/rich-text";
-
-
+import { IoCodeWorkingOutline } from "react-icons/io5"
+import { TechBagde } from "@/components/tech-bagde"
+import { ExperienceItemType } from "@/types/WorkExperiencesInfo"
+import { RichText } from "@/components/rich-text"
+import { SlideInView } from "@/components/UI/slide-in-view"
 
 export const ExperienceItem = (experience: ExperienceItemType) => {
-    const formatDate = (dateString : string) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-GB'); // en-GB formats it as day/month/year
-    };
+    const formatDate = (dateString: string) => {
+        const date = new Date(dateString)
+        return date.toLocaleDateString('en-GB')
+    }
 
     return (
-        <motion.div
-            initial={{ opacity: 0, x: -100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.5 }}
-        >
+        <SlideInView>
             <div className="grid grid-cols-[40px,1fr] gap-4 md:gap-10">
                 <div className="flex flex-col items-center gap-4">
-                    <div className="rounded-full border border-gray-500  ">
+                    <div className="rounded-full border border-gray-500">
                         <IoCodeWorkingOutline className="rounded-full p-1" style={{ width: 40, height: 40, color: 'rgb(52,211,153)' }} />
                     </div>
                     <div className="h-full w-[1px] bg-gray-700">
@@ -52,6 +43,6 @@ export const ExperienceItem = (experience: ExperienceItemType) => {
                     </div>
                 </div>
             </div>
-        </motion.div>
+        </SlideInView>
     )
 }

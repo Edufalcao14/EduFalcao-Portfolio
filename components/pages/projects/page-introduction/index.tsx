@@ -1,9 +1,7 @@
-"use client";
-import { SectionTitle } from "@/components/section-title";
-import { Link } from "@/components/Link";
-import { HiArrowNarrowLeft } from "react-icons/hi";
-import { motion } from "framer-motion";
-import { fadeIn } from "@/components/Animations/fadeIn";
+import { SectionTitle } from "@/components/section-title"
+import { Link } from "@/components/Link"
+import { HiArrowNarrowLeft } from "react-icons/hi"
+import { SlideInView } from "@/components/UI/slide-in-view"
 
 type introductionProps = {
     mainText: string
@@ -11,13 +9,7 @@ type introductionProps = {
 
 export const PageIntroduction = ({ mainText }: introductionProps) => {
     return (
-
-        <motion.div
-        initial={{ opacity: 0, y: -100 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -100 }}
-        transition={{ duration: 0.7 }}
-    >
+        <SlideInView>
             <section className="w-full h-[450px] lg:h[630px] pt-32 flex flex-col items-center justify-center px-2">
                 <div className="flex flex-col items-center backdrop-blur-sm rounded-2xl px-10 py-8">
                     <SectionTitle
@@ -36,7 +28,6 @@ export const PageIntroduction = ({ mainText }: introductionProps) => {
                     </div>
                 </div>
             </section>
-
-        </motion.div >
+        </SlideInView>
     )
 }

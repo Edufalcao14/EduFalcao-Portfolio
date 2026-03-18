@@ -1,25 +1,20 @@
-"use client";
-import { Button } from "@/components/button";
-import { SectionTitle } from "@/components/section-title";
-import { TechBagde } from "@/components/tech-bagde";
-import { TbBrandGithub } from "react-icons/tb";
-import { FiGlobe } from 'react-icons/fi';
-import { Link } from "@/components/Link";
-import { HiArrowNarrowLeft } from "react-icons/hi";
-import { ProjectCardType } from "@/types/ProjectsInfo";
-import { motion } from "framer-motion";
+import { Button } from "@/components/button"
+import { SectionTitle } from "@/components/section-title"
+import { TechBagde } from "@/components/tech-bagde"
+import { TbBrandGithub } from "react-icons/tb"
+import { FiGlobe } from 'react-icons/fi'
+import { Link } from "@/components/Link"
+import { HiArrowNarrowLeft } from "react-icons/hi"
+import { ProjectCardType } from "@/types/ProjectsInfo"
+import { SlideInView } from "@/components/UI/slide-in-view"
 
 interface ProjectDetailsProps {
     projectCard: ProjectCardType;
 }
-export const ProjectDetails = ({projectCard}: ProjectDetailsProps) => {
+
+export const ProjectDetails = ({ projectCard }: ProjectDetailsProps) => {
     return (
-        <motion.div
-            initial={{ opacity: 0, x: -100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -100 }}
-            transition={{ duration: 0.5 }}
-        >
+        <SlideInView>
             <section className="w-full sm:min-h-[750px] flex flex-col items-center justify-end relative pb-10 sm:pb-24 py-24 px-6 overflow-hidden">
                 <div className="absolute inset-0 z-[-1]"
                     style={{
@@ -62,6 +57,6 @@ export const ProjectDetails = ({projectCard}: ProjectDetailsProps) => {
                     Go back to projects
                 </Link>
             </section>
-        </motion.div>
-    );
-};
+        </SlideInView>
+    )
+}

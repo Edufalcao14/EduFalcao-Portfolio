@@ -1,7 +1,6 @@
-"use client";
-import { ProjectCardType } from "@/types/ProjectsInfo";
-import { motion } from "framer-motion";
-import Image from "next/image";
+import { ProjectCardType } from "@/types/ProjectsInfo"
+import Image from "next/image"
+import { SlideInView } from "@/components/UI/slide-in-view"
 
 interface ProjectDetailsProps {
   projectCard: ProjectCardType;
@@ -11,12 +10,7 @@ export const ProjectSections = ({ projectCard }: ProjectDetailsProps) => {
   const sections = projectCard.projectSection;
 
   return (
-    <motion.div
-      initial={{ opacity: 0, x: -100 }}
-      whileInView={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -100 }}
-      transition={{ duration: 0.5 }}
-    >
+    <SlideInView>
       <section className="container my-12 md:my-32 flex flex-col gap-8 md:gap-32">
         {sections.map((section) => (
           <div
@@ -26,13 +20,7 @@ export const ProjectSections = ({ projectCard }: ProjectDetailsProps) => {
             <h2 className="text-2xl md:text-3xl font-medium text-gray-300 py-6">
               {section.title}
             </h2>
-            <motion.div
-              initial={{ opacity: 0, x: -100 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -100 }}
-              transition={{ duration: 0.5 }}
-              className="flex flex-col gap-4"
-            >
+            <div className="flex flex-col gap-4">
               {section.image.map((img, index) => (
                 <Image
                   key={`${section.title}-img-${index}`}
@@ -43,10 +31,10 @@ export const ProjectSections = ({ projectCard }: ProjectDetailsProps) => {
                   alt={`${section.title} screenshot ${index + 1}`}
                 />
               ))}
-            </motion.div>
+            </div>
           </div>
         ))}
       </section>
-    </motion.div>
-  );
-};
+    </SlideInView>
+  )
+}

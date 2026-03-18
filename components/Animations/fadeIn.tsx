@@ -1,5 +1,3 @@
-    'use client';
-
 export const fadeIn = (direction: string, delay: number) => {
     return {
       hidden: {
