@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/button";
 import { SectionTitle } from "@/components/section-title";
-import { TechBagde } from "@/components/tech-bagde";// Fixed typo here
+import { TechBagde } from "@/components/tech-bagde";
 import { TbBrandGithub } from "react-icons/tb";
 import { FiGlobe } from 'react-icons/fi';
 import { Link } from "@/components/Link";
@@ -41,7 +41,7 @@ export const ProjectDetails = ({projectCard}: ProjectDetailsProps) => {
                 </div>
                 <div className="my-6 sm:my-12 flex items-center gap-2 sm:gap-4 flex-col sm:flex-row">
                     {projectCard.githubUrl && (
-                        <a href={projectCard.githubUrl} target="_blank">
+                        <a href={projectCard.githubUrl} target="_blank" rel="noopener noreferrer">
                             <Button className="min-w-[180px]">
                                 <TbBrandGithub size={20} />
                                 Repository
@@ -49,7 +49,7 @@ export const ProjectDetails = ({projectCard}: ProjectDetailsProps) => {
                         </a>
                     )}
                     {projectCard.liveUrl && (
-                        <a href={projectCard.liveUrl} target="_blank">
+                        <a href={projectCard.liveUrl} target="_blank" rel="noopener noreferrer">
                             <Button className="min-w-[180px]">
                                 <FiGlobe size={20} />
                                 Live Site

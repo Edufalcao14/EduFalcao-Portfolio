@@ -3,18 +3,26 @@
 import { TbArrowNarrowUp } from 'react-icons/tb'
 import { Button } from '../button'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 export const BackToTop = () => {
   const [show, setShow] = useState(false)
+  const showRef = useRef(false)
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
+
   const handleScroll = useCallback(() => {
-    if (!show && window.scrollY > 500) setShow(true)
-    if (show && window.scrollY <= 500) setShow(false)
-  }, [show])
+    if (!showRef.current && window.scrollY > 500) {
+      showRef.current = true
+      setShow(true)
+    }
+    if (showRef.current && window.scrollY <= 500) {
+      showRef.current = false
+      setShow(false)
+    }
+  }, [])
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)

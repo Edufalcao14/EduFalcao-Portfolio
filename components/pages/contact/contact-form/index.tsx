@@ -4,34 +4,24 @@ import { SectionTitle } from "../../../section-title";
 import { Button } from "../../../button";
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { sendContactForm } from '@/lib/api';
 import { motion } from "framer-motion";
 import { fadeIn } from "@/components/Animations/fadeIn";
 import Swal from 'sweetalert2'
-
-const contactFormSchema = z.object({
-    name: z.string().min(3).max(100),
-    email: z.string().email(),
-    message: z.string().min(1).max(500)
-});
-
-type ContactFormData = z.infer<typeof contactFormSchema>;
+import { contactFormSchema, ContactFormData } from '@/lib/schemas/contactFormSchema';
 
 export const ContactForm = () => {
-
     const [isLoading, setIsLoading] = useState(false);
 
     const { handleSubmit, register } = useForm<ContactFormData>({
-        resolver: zodResolver(contactFormSchema)
+        resolver: zodResolver(contactFormSchema),
     });
 
     const onSubmit = async (data: ContactFormData) => {
         setIsLoading(true);
         let response;
         try {
-           
             response = await sendContactForm(data);
         } catch (err) {
             console.error("Failed to send contact form:", err);
@@ -47,8 +37,7 @@ export const ContactForm = () => {
         } finally {
             setIsLoading(false);
         }
-        if (response.message === "Email sent successfully!") {
-            setIsLoading(false);
+        if (response?.message === "Email sent successfully!") {
             Swal.fire({
                 toast: true,
                 position: "center",
@@ -60,6 +49,7 @@ export const ContactForm = () => {
             });
         }
     };
+
     return (
         <motion.div
             variants={fadeIn("down", 0.4)}
@@ -67,7 +57,7 @@ export const ContactForm = () => {
             animate="show"
             exit="hidden"
             className="">
-            <section className="py-32  xxl:py-60  px-6 md:py-32 flex lg:mt-18 xl:pb-60 overflow-hidden flex flex-row">
+            <section className="py-32 xxl:py-60 px-6 md:py-32 flex lg:mt-18 xl:pb-60 overflow-hidden flex flex-row">
                 <div className="w-full max-w-[420px] mx-auto backdrop-blur-sm rounded-2xl p-8">
                     <SectionTitle
                         subtitle="Contact"
@@ -86,7 +76,7 @@ export const ContactForm = () => {
                         />
                         <input
                             placeholder="E-Mail"
-                            type="text"
+                            type="email"
                             className="w-full h-14 bg-gray-800 rounded-lg placeholder:text-gray-400 text-gray-50 p-4 focus:outline-none focus:ring-2 ring-emerald-600"
                             {...register("email")}
                         />
@@ -99,7 +89,7 @@ export const ContactForm = () => {
                         <Button
                             className="w-max mx-auto mt-6 shadow-button"
                             type="submit"
-                            disabled={isLoading} // Optionally disable the button while loading
+                            disabled={isLoading}
                         >
                             {isLoading ? "Sending..." : "Send Message"}
                             <HiArrowNarrowRight size={18} />

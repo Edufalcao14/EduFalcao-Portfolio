@@ -58,13 +58,18 @@ export const Header = () => {
           <button
             onClick={toggleMenu}
             className="text-white focus:outline-none"
-            aria-label="Toggle menu">
+            aria-label="Toggle menu"
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-menu">
             {isMenuOpen ? <HiX size={24} /> : <HiMenu size={24} />}
           </button>
         </div>
 
         {/* Navigation Links */}
-        <nav className={`flex-1 flex lg:justify-end justify-center fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out sm:static sm:bg-transparent sm:translate-x-0 sm:flex sm:items-center sm:gap-10`}>
+        <nav
+          id="mobile-menu"
+          aria-hidden={!isMenuOpen}
+          className={`flex-1 flex lg:justify-end justify-center fixed top-0 left-0 w-full h-full bg-black bg-opacity-90 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out sm:static sm:bg-transparent sm:translate-x-0 sm:flex sm:items-center sm:gap-10`}>
           <div className="flex flex-col sm:flex-row items-center gap-10 sm:gap-10 mt-24 sm:mt-0 sm:mr-6">
             {/* Close Button inside Menu for Mobile */}
             <button
@@ -74,9 +79,9 @@ export const Header = () => {
               <HiX size={24} />
             </button>
 
-            {NAV_ITEMS.map((item, index) => (
+            {NAV_ITEMS.map((item) => (
               <NavItem
-                key={index}
+                key={item.href}
                 label={item.label}
                 href={item.href}
                 onClick={handleLinkClick}

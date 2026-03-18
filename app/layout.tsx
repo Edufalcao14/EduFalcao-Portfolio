@@ -1,14 +1,10 @@
-// Import global styles
 import './globals.css';
-// Import required types from React
 import { ReactNode } from 'react';
-// Import Next.js Metadata API
 import { Metadata } from 'next';
 import { Footer } from '../components/footer'
 import { Header } from '../components/header';
 import { BackToTop } from '@/components/back-to-top/backToTop';
-import GlobalMatrixBackground from '@/components/GlobalMatrixBackground';
-// Initialize fonts
+import { GlobalMatrixBackground } from '@/components/GlobalMatrixBackground';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 
 const inter = Inter({
@@ -22,11 +18,10 @@ const jetBrainsMono = JetBrains_Mono({
   weight: ['400', '500', '600', '700'],
 });
 
-// Define metadata
 export const metadata: Metadata = {
   title: {
-    default:'Eduardo Falcao',
-    template:'%s | Eduardo Falcao'
+    default: 'Eduardo Falcao',
+    template: '%s | Eduardo Falcao',
   },
   description: 'Portfolio',
   icons: {
@@ -34,7 +29,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Define and export the RootLayout component
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="pt-BR" className={`${inter.variable} ${jetBrainsMono.variable}`}>
@@ -42,9 +36,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <GlobalMatrixBackground />
         <Header />
         {children}
-        <Footer/>
+        <Footer />
       </body>
-      <BackToTop/>
+      <BackToTop />
     </html>
   );
 }

@@ -1,15 +1,15 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import ParticlesContainer from "@/components/ParticlesContainer";
+import { ParticlesContainer } from "@/components/ParticlesContainer";
 
-const GlobalMatrixBackground = () => {
+export const GlobalMatrixBackground = () => {
     const pathname = usePathname();
 
     // Home page has its own canvas inside the hero section (position: absolute)
     // so it scrolls away when the user scrolls past the hero.
     // All other pages get a subtle fixed version here.
-    if (pathname === "/") return null;
+    if (!pathname || pathname === "/") return null;
 
     const isProjectDetail = pathname.startsWith("/projects/") && pathname.split("/").length > 2;
     const opacity = isProjectDetail ? 0.15 : 0.45;

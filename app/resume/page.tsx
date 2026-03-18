@@ -1,77 +1,23 @@
+import type { Metadata } from "next";
 import { Resume } from "@/components/pages/resume/tabAboutMe";
 import { WorkExperience } from "@/components/pages/resume/workExperience/index";
 import { ResumePageData } from "@/types/ResumePageInfo";
 import { fetchHygraphQuery } from "@/pages/api/fetch-hygraph-query";
 import { ExperiencePageData } from "@/types/WorkExperiencesInfo";
+import { RESUME_QUERY, EXPERIENCE_QUERY } from "@/lib/queries/resume";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Resume',
   description: 'Portfolio',
 };
 
 const getPageData = async (): Promise<ResumePageData> => {
-  const query = `
-query MyQuery {
-        resumePage(where: {slug: "resumepage"}) {
-           education{
-            educationText
-            educationCard{
-              institution
-              degree
-              startDate
-              endDate
-              amountHours
-              description
-            }
-          } 
-        aboutMe{
-          aboutmeText{
-            raw
-          }
-          email
-          socialsAboutMe{
-            name
-            iconSvg
-            url
-          }
-        }
-    	skill{
-        skillText
-        skillCard{
-          name
-          skillIcon
-        }
-      }
-    }
-}
-`;
-  return await fetchHygraphQuery(query);
+  return fetchHygraphQuery(RESUME_QUERY);
 };
 
 const getExperiencePageData = async (): Promise<ExperiencePageData> => {
-  const queryExecution = `
-query MyQuery {
-  professionalExperience(where: {slug: "experiences"}) {
-    mainText
-    experienceItem {
-      projectName
-      title
-      startDate
-      endDate
-      experienceText {
-        raw
-      }
-      technology {
-        name
-      }
-    }
-  }
-}
-`;
-  return await fetchHygraphQuery(queryExecution, 1000 * 60 * 60 * 2);
+  return fetchHygraphQuery(EXPERIENCE_QUERY);
 };
-
-
 
 export default async function ResumePage() {
   const { resumePage: pageData } = await getPageData();

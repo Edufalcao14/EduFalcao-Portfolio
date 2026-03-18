@@ -21,7 +21,7 @@ interface ParticlesContainerProps {
     positioning?: "absolute" | "fixed";
 }
 
-const ParticlesContainer = ({ opacityScale = 1, positioning = "fixed" }: ParticlesContainerProps) => {
+export const ParticlesContainer = ({ opacityScale = 1, positioning = "fixed" }: ParticlesContainerProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [visible, setVisible] = useState(false);
 
@@ -135,7 +135,6 @@ const ParticlesContainer = ({ opacityScale = 1, positioning = "fixed" }: Particl
 
         animId = requestAnimationFrame(draw);
 
-        // Delay visibility so page content renders first, avoiding flash of dark canvas
         const showTimer = setTimeout(() => setVisible(true), 400);
 
         return () => {

@@ -1,16 +1,6 @@
-export const sendContactForm = (data: any) => {
-    console.log("DATA : " ,data);
-    return fetch("/api/contact", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-    }).then((res) => {
-        if (!res.ok) {
-          throw new Error("Failed to send message");
-        }
-        return res.json();
-      });
-  };
+import { sendContactAction } from '@/app/actions/contact'
+import { ContactFormData } from '@/lib/schemas/contactFormSchema'
+
+export const sendContactForm = (data: ContactFormData): Promise<{ message: string }> => {
+  return sendContactAction(data)
+}

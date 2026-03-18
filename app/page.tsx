@@ -1,29 +1,14 @@
 import { HeroSection } from "@/components/pages/home/hero-section";
 import { fetchHygraphQuery } from "@/pages/api/fetch-hygraph-query";
 import { HomePageData } from "@/types/HomePageInfo";
-const getPageData = async () :Promise<HomePageData> => {
+import { HOME_QUERY } from "@/lib/queries/home";
 
-  const query = `
-  query MyQuery {
-  page(where:{slug:"home"}) {
-    introduction{
-      raw
-    }
-    socials{
-      iconSvg
-      name
-      url
-    }
-    
-  }
-}`
-
-  return fetchHygraphQuery(query, 1000 * 60 * 60 * 2);
+const getPageData = async (): Promise<HomePageData> => {
+  return fetchHygraphQuery(HOME_QUERY);
 }
 
 export default async function Home() {
-
-const { page : pageData } = await getPageData();
+  const { page: pageData } = await getPageData();
   return (
     <>
       <HeroSection homeInfo={pageData} />

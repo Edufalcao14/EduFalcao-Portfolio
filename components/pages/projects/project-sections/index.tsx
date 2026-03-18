@@ -1,5 +1,5 @@
 "use client";
-import { ProjectCardType, ProjectPageData, ProjectSection } from "@/types/ProjectsInfo";
+import { ProjectCardType } from "@/types/ProjectsInfo";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -7,7 +7,7 @@ interface ProjectDetailsProps {
   projectCard: ProjectCardType;
 }
 
-export const ProjectSections = ({ projectCard }: ProjectDetailsProps) => { // Desestruturação correta
+export const ProjectSections = ({ projectCard }: ProjectDetailsProps) => {
   const sections = projectCard.projectSection;
 
   return (
@@ -35,18 +35,17 @@ export const ProjectSections = ({ projectCard }: ProjectDetailsProps) => { // De
             >
               {section.image.map((img, index) => (
                 <Image
+                  key={`${section.title}-img-${index}`}
                   src={img.url}
-                  key={index}
                   width={1080}
                   height={672}
                   className="w-full aspect-auto rounded-lg object-cover"
-                  alt={`Image of the section ${section.title}`}
-                  unoptimized
+                  alt={`${section.title} screenshot ${index + 1}`}
                 />
               ))}
             </motion.div>
           </div>
-        ))}     
+        ))}
       </section>
     </motion.div>
   );
