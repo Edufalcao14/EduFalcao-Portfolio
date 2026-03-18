@@ -20,7 +20,7 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
 
     return (
         <section className="w-full h-screen bg-hero-image bg-cover bg-center bg-no-repeat flex flex-col sm:pb-38 lg:pt-40 pt-20 lg:pb-[110px] overflow-hidden relative -z-5">
-            <div className="container flex items-center justify-between flex-col-reverse md:flex-row lg:flex-row relative z-20 gap-8">
+            <div className="container flex items-center justify-between flex-col-reverse md:flex-row lg:flex-row relative z-20 gap-2">
                 <motion.div
                     variants={fadeIn("down", 0.4)}
                     initial="hidden"
@@ -81,7 +81,7 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
                         {/* Orbit ring 1 — slow clockwise */}
                         <motion.div
                             className="absolute rounded-full border border-emerald-500/25"
-                            style={{ width: '420px', height: '420px' }}
+                            style={{ width: '480px', height: '480px' }}
                             animate={{ rotate: 360 }}
                             transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
                         >
@@ -101,8 +101,8 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
                         <motion.div
                             className="absolute rounded-full"
                             style={{
-                                width: '370px',
-                                height: '370px',
+                                width: '430px',
+                                height: '430px',
                                 border: '1px dashed rgba(16, 185, 129, 0.2)',
                             }}
                             animate={{ rotate: -360 }}
@@ -120,10 +120,14 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
                             />
                         </motion.div>
 
-                        {/* Ambient glow behind the circle */}
+                        {/* Ambient glow behind the image */}
                         <motion.div
-                            className="absolute rounded-full"
-                            style={{ width: '320px', height: '320px' }}
+                            className="absolute"
+                            style={{
+                                width: '380px',
+                                height: '380px',
+                                borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
+                            }}
                             animate={{
                                 boxShadow: isHovered
                                     ? '0 0 70px 25px rgba(5, 150, 105, 0.45), 0 0 120px 50px rgba(5, 150, 105, 0.15)'
@@ -134,24 +138,33 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
 
                         {/* Rotating arc border (conic gradient wrapping the image) */}
                         <motion.div
-                            className="absolute rounded-full"
-                            style={{ width: '326px', height: '326px' }}
+                            className="absolute"
+                            style={{
+                                width: '386px',
+                                height: '386px',
+                                borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
+                            }}
                             animate={{ rotate: 360 }}
                             transition={{ duration: isHovered ? 2 : 4, repeat: Infinity, ease: 'linear' }}
                         >
                             <div
-                                className="w-full h-full rounded-full"
+                                className="w-full h-full"
                                 style={{
                                     background: 'conic-gradient(from 0deg, transparent 0%, #059669 20%, #34d399 32%, transparent 55%)',
                                     padding: '3px',
+                                    borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
                                 }}
                             />
                         </motion.div>
 
-                        {/* Image circle */}
+                        {/* Image blob */}
                         <motion.div
-                            className="relative rounded-full overflow-hidden bg-gray-950 z-10"
-                            style={{ width: '320px', height: '320px' }}
+                            className="relative overflow-hidden bg-gray-950 z-10"
+                            style={{
+                                width: '380px',
+                                height: '380px',
+                                borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%',
+                            }}
                             animate={{ scale: isHovered ? 1.04 : 1 }}
                             transition={{ duration: 0.4, ease: 'easeOut' }}
                         >
@@ -164,7 +177,8 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
 
                             {/* Hover tint overlay */}
                             <motion.div
-                                className="absolute inset-0 rounded-full"
+                                className="absolute inset-0"
+                                style={{ borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' }}
                                 animate={{
                                     background: isHovered
                                         ? 'linear-gradient(to top, rgba(5, 150, 105, 0.28) 0%, transparent 60%)'
