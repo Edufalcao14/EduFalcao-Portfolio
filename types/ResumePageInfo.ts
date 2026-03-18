@@ -6,6 +6,7 @@ export type EducationCard = {
     startDate: string | null;
     endDate: string | null;
     amountHours: number | null;
+    description: string | null;
 };
 
 export type Social = {

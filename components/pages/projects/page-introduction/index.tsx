@@ -19,19 +19,21 @@ export const PageIntroduction = ({ mainText }: introductionProps) => {
         transition={{ duration: 0.7 }}
     >
             <section className="w-full h-[450px] lg:h[630px] pt-32 flex flex-col items-center justify-center px-2">
-                <SectionTitle
-                    subtitle="Projects"
-                    title="My Projects"
-                    className="text-center items-center [&>h3]:text-4xl"
-                />
-                <div className="flex flex-col items-center">
-                    <p className="text-gray-400 text-center max-w-[640px] my-6 text-sm sm:text-base">
-                        {mainText}
-                    </p>
-                    <Link href={"/"}>
-                        <HiArrowNarrowLeft />
-                        Go Back to Home
-                    </Link>
+                <div className="flex flex-col items-center backdrop-blur-sm rounded-2xl px-10 py-8">
+                    <SectionTitle
+                        subtitle="Projects"
+                        title="My Projects"
+                        className="text-center items-center [&>h3]:text-4xl"
+                    />
+                    <div className="flex flex-col items-center">
+                        <p className="text-gray-400 text-center max-w-[640px] my-6 text-sm sm:text-base">
+                            {mainText}
+                        </p>
+                        <Link href={"/"}>
+                            <HiArrowNarrowLeft />
+                            Go Back to Home
+                        </Link>
+                    </div>
                 </div>
             </section>
 

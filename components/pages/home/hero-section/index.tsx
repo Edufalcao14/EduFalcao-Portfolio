@@ -6,8 +6,8 @@ import Image from "next/image"
 import { Button } from "@/components/button"
 import { HiArrowNarrowRight } from 'react-icons/hi'
 import { TbBrandGithub, TbBrandLinkedin, TbBrandWhatsapp } from 'react-icons/tb'
-import ParticlesContainer from "@/components/ParticlesContainer"
 import React, { useState, useEffect } from 'react';
+import ParticlesContainer from "@/components/ParticlesContainer";
 import { HomePageInfo } from '@/types/HomePageInfo';
 import { RichText } from '@/components/rich-text';
 import { CMSIcon } from '@/components/cms-icon';
@@ -72,32 +72,34 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
                     exit="hidden"
                     className="">
                     <div className="max-w-[580px] lg:max-w-[530px] pt-32 md:pt-6 relative z-20">
-                        <p className="font-mono text-2xl text-emerald-400 sm:text-center">Welcome to my Portfolio !</p>
-                        <h2 className="font-mono font-bold text-5xl mt-2">Hello, My name is Eduardo Falcao</h2>
-                        <h1 className="font-mono text-md mt-3 text-emerald-100">Full Stack Developer</h1>
-                        <div>
-                            <div className="text-gray-400 text-2xl my-4 text-sm sm:text-base ">
-                                <RichText content={homeInfo.introduction.raw} />
-                            </div>
-                            <div className="my-6 lg:mt-3 flex sm:items-center gap-5 flex-col sm:flex-row  ">
-                                <Link href={"/resume"}>
-                                    <Button className="w-max shadow-button">
-                                        More about me
-                                        <HiArrowNarrowRight size={18} />
-                                    </Button>
-                                </Link>
-                                <div className="text-2xl text-gray-600 flex sm:items-center h-20 gap-3">
-                                    {homeInfo.socials.map((contact, i) => (
-                                        <a
-                                            href={contact.url}
-                                            key={`contact-${i}`}
-                                            target="_blank"
-                                            className="hover:text-gray-100 transition-colors"
-                                            rel="noreferrer"
-                                        >
-                                            <CMSIcon icon={contact.iconSvg} />
-                                        </a>
-                                    ))}
+                        <div className="backdrop-blur-sm rounded-2xl p-6">
+                            <p className="font-mono text-2xl text-emerald-400 sm:text-center">Welcome to my Portfolio !</p>
+                            <h2 className="font-mono font-bold text-5xl mt-2">Hello, My name is Eduardo Falcao</h2>
+                            <h1 className="font-mono text-md mt-3 text-emerald-100">Full Stack Developer</h1>
+                            <div>
+                                <div className="text-gray-400 text-2xl my-4 text-sm sm:text-base ">
+                                    <RichText content={homeInfo.introduction.raw} />
+                                </div>
+                                <div className="my-6 lg:mt-3 flex sm:items-center gap-5 flex-col sm:flex-row  ">
+                                    <Link href={"/resume"}>
+                                        <Button className="w-max shadow-button">
+                                            More about me
+                                            <HiArrowNarrowRight size={18} />
+                                        </Button>
+                                    </Link>
+                                    <div className="text-2xl text-gray-600 flex sm:items-center h-20 gap-3">
+                                        {homeInfo.socials.map((contact, i) => (
+                                            <a
+                                                href={contact.url}
+                                                key={`contact-${i}`}
+                                                target="_blank"
+                                                className="hover:text-gray-100 transition-colors"
+                                                rel="noreferrer"
+                                            >
+                                                <CMSIcon icon={contact.iconSvg} />
+                                            </a>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -118,7 +120,7 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
                         className="opacity-15 absolute lg:relative lg:opacity-35 md:relative md:opacity-35  -z-5 " />
                 </motion.div>
             </div>
-            <ParticlesContainer />
+            <ParticlesContainer opacityScale={1} positioning="absolute" />
         </section>
 
     )

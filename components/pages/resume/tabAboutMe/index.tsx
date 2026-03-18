@@ -5,8 +5,6 @@ import { FaHtml5, FaCss3, FaJs, FaReact, FaGit, FaNodeJs, FaJava } from "react-i
 import { SiTypescript, SiNextdotjs, SiPostgresql, SiSpringboot, SiDocker } from "react-icons/si";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/UI/tabs";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/UI/tooltip";
-import { ScrollArea } from "@/components/UI/scrollarea";
-import ParticlesContainer from "@/components/ParticlesContainer";
 import { TbBrandGithub, TbBrandLinkedin, TbBrandWhatsapp } from "react-icons/tb";
 import { fadeIn } from "@/components/Animations/fadeIn";
 import { ResumePageData, ResumePageInfo } from "@/types/ResumePageInfo";
@@ -127,8 +125,8 @@ export const Resume = ({ resumeInfo }: ResumeSectionProps) => {
         >
             <section className=" container ">
                 <div className="flex flex-row pt-32">
-                    <Tabs defaultValue="about" className="container flex flex-col xl:flex-row gap-[60px]" value={activeTab} onValueChange={setActiveTab}>
-                        <TabsList className="flex flex-col w-full max-w-[380px] mx-auto xl:mx-0 gap-6">
+                    <Tabs defaultValue="about" className="container flex flex-col xl:flex-row xl:items-center gap-[60px]" value={activeTab} onValueChange={setActiveTab}>
+                        <TabsList className="flex flex-col w-full max-w-[380px] mx-auto xl:mx-0 xl:-translate-y-16 gap-6">
                             <TabsTrigger
                                 className={`font-mono font-bold text-emerald-900 border-none hover:bg-emerald-600 hover:text-white ${activeTab === "about" ? "bg-emerald-600 text-white" : "bg-white"}`}
                                 value="about">
@@ -147,7 +145,7 @@ export const Resume = ({ resumeInfo }: ResumeSectionProps) => {
                                 Skills
                             </TabsTrigger>
                         </TabsList>
-                        <div className="min-h-[70vh] w-full ">
+                        <div className="min-h-[70vh] w-full backdrop-blur-sm rounded-2xl p-6">
                             <TabsContent value="about" className="w-full text-center xl:text-left pb-10">
                                 <motion.div
                                     variants={fadeIn("down", 0.4)}
@@ -194,32 +192,37 @@ export const Resume = ({ resumeInfo }: ResumeSectionProps) => {
                                     <div className="flex flex-col gap-[30px] text-center xl:text-left pb-16">
                                         <h3 className="text-4xl font-bold">Education</h3>
                                         <p className="max-w-[600px] text-white/60 mx-auto xl:mx-0">{resumeInfo.education.educationText}</p>
-                                        <ScrollArea className="h-[320px]">
-                                            <ul className="grid grid-cols-1 lg:grid-cols-2 gap-[30px]">
-                                                {resumeInfo.education.educationCard.map((card, index) => {
-                                                    // Function to format date in day/month/year format
-                                                    const formatDate = (dateString : string) => {
-                                                        const date = new Date(dateString);
-                                                        return date.toLocaleDateString('en-GB'); // en-GB formats it as day/month/year
-                                                    };
+                                        <ul className="flex flex-col gap-5">
+                                            {resumeInfo.education.educationCard.map((card, index) => {
+                                                const formatDate = (dateString: string) => {
+                                                    const date = new Date(dateString);
+                                                    return date.toLocaleDateString('en-GB');
+                                                };
 
-                                                    return (
-                                                        <li key={index} className="bg-[#232329] lg:h-[134px] h-[164px] py-4 px-8 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1">
-                                                            {card.startDate && card.endDate ? (
-                                                                <span className="text-accent">{formatDate(card.startDate)} - {formatDate(card.endDate)}</span>
-                                                            ) : (
-                                                                <span className="text-accent">{card.amountHours} Hours</span>
-                                                            )}
-
-                                                            <h3 className="text-xl max-w-[260px] min-h-[60px] text-center lg-text-left">{card.degree}</h3>
-                                                            <div className="flex items-center gap-3">
-                                                                <p className="text-white/60 ">{card.institution}</p>
+                                                return (
+                                                    <li key={index} className="bg-[#030712]/60 backdrop-blur-sm w-full rounded-2xl px-8 py-6 flex flex-col gap-2 border border-white/10 hover:border-emerald-600/40 transition-colors duration-300">
+                                                        <div className="flex flex-col xl:flex-row xl:items-start xl:justify-between gap-1">
+                                                            <h3 className="text-xl font-semibold text-white">{card.degree}</h3>
+                                                            <div className="flex items-center gap-2 text-sm text-emerald-400 font-mono shrink-0">
+                                                                {card.startDate || card.endDate ? (
+                                                                    <>
+                                                                        {card.startDate && <span>{formatDate(card.startDate)}</span>}
+                                                                        {card.startDate && card.endDate && <span className="text-white/30">—</span>}
+                                                                        {card.endDate && <span>{formatDate(card.endDate)}</span>}
+                                                                    </>
+                                                                ) : card.amountHours ? (
+                                                                    <span>{card.amountHours} Hours</span>
+                                                                ) : null}
                                                             </div>
-                                                        </li>
-                                                    );
-                                                })}
-                                            </ul>
-                                        </ScrollArea>
+                                                        </div>
+                                                        {card.description && (
+                                                            <p className="text-white/70 text-sm leading-relaxed">{card.description}</p>
+                                                        )}
+                                                        <p className="text-white/40 text-xs">{card.institution}</p>
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
                                     </div>
                                 </motion.div>
                             </TabsContent>
@@ -258,7 +261,6 @@ export const Resume = ({ resumeInfo }: ResumeSectionProps) => {
                             </TabsContent>
                         </div>
                     </Tabs>
-                    <ParticlesContainer />
                 </div>
             </section >
         </motion.div>

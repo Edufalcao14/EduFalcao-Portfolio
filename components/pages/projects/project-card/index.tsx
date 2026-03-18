@@ -36,7 +36,7 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
                 )}
             </div>
 
-            <div className="">
+            <div className="backdrop-blur-sm rounded-xl p-5">
                 <h3 className="flex items-center gap-3 font-medium text-lg text-gray-50 ">
                     <IoMdCode style={{ width: 30, height: 30, color: 'rgb(52,211,153)' }} />
                     {project.projectName}

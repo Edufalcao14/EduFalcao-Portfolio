@@ -6,7 +6,6 @@ import { HiArrowNarrowRight } from "react-icons/hi";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ParticlesContainer from "@/components/ParticlesContainer";
 import { sendContactForm } from '@/lib/api';
 import { motion } from "framer-motion";
 import { fadeIn } from "@/components/Animations/fadeIn";
@@ -69,7 +68,7 @@ export const ContactForm = () => {
             exit="hidden"
             className="">
             <section className="py-32  xxl:py-60  px-6 md:py-32 flex lg:mt-18 xl:pb-60 overflow-hidden flex flex-row">
-                <div className="w-full max-w-[420px] mx-auto">
+                <div className="w-full max-w-[420px] mx-auto backdrop-blur-sm rounded-2xl p-8">
                     <SectionTitle
                         subtitle="Contact"
                         title="Let's work together?"
@@ -107,7 +106,6 @@ export const ContactForm = () => {
                         </Button>
                     </form>
                 </div>
-                <ParticlesContainer />
             </section>
         </motion.div>
     );

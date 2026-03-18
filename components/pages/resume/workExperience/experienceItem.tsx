@@ -4,6 +4,7 @@ import { TechBagde } from "@/components/tech-bagde";
 import React from "react";
 import { motion } from "framer-motion";
 import { ExperienceItemType } from "@/types/WorkExperiencesInfo";
+import { RichText } from "@/components/rich-text";
 
 
 
@@ -28,16 +29,20 @@ export const ExperienceItem = (experience: ExperienceItemType) => {
                     <div className="h-full w-[1px] bg-gray-700">
                     </div>
                 </div>
-                <div>
+                <div className="backdrop-blur-sm rounded-xl p-4">
                     <div className="flex flex-col gap-2 text-sm sm:text-base">
                         <p className="text-gray-500 hover:text-emerald-500 transition-colors">
                             @ {experience.projectName}
                         </p>
                         <h4 className="text-gray-300">{experience.title}</h4>
-                        <span className="text-gray-500">{formatDate(experience.startDate)} - {formatDate(experience.endDate)}</span>
-                        <p className="text-gray-400">
-                            {experience.experienceText}
-                        </p>
+                        <span className="text-gray-500">
+                            {formatDate(experience.startDate)}{experience.endDate ? ` - ${formatDate(experience.endDate)}` : ' - Present'}
+                        </span>
+                        {experience.experienceText && (
+                            <div className="text-gray-400">
+                                <RichText content={experience.experienceText.raw} />
+                            </div>
+                        )}
                     </div>
                     <p className="text-gray-400 text-sm mb-3 mt-6 font-semibold">Technologies used</p>
                     <div className="flex gap-2 gap-y-3 flex-wrap lg:max-w-[350px] mb-8">

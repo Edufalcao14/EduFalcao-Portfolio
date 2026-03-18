@@ -1,5 +1,4 @@
 "use client";
-import ParticlesContainer from "@/components/ParticlesContainer";
 import { ProjectCardType, ProjectPageData, ProjectSection } from "@/types/ProjectsInfo";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -32,9 +31,9 @@ export const ProjectSections = ({ projectCard }: ProjectDetailsProps) => { // De
               whileInView={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.5 }}
+              className="flex flex-col gap-4"
             >
               {section.image.map((img, index) => (
-
                 <Image
                   src={img.url}
                   key={index}
@@ -44,7 +43,6 @@ export const ProjectSections = ({ projectCard }: ProjectDetailsProps) => { // De
                   alt={`Image of the section ${section.title}`}
                   unoptimized
                 />
-
               ))}
             </motion.div>
           </div>

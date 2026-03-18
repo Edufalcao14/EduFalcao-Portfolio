@@ -5,8 +5,6 @@ import { ProjectCard } from "@/components/pages/projects/project-card";
 import { HorizontalDivider } from "@/components/divider/horizontal";
 import { ProjectsPageData } from "@/types/ProjectsInfo";
 import { fetchHygraphQuery } from "@/pages/api/fetch-hygraph-query";
-import ParticlesContainer from "@/components/ParticlesContainer";
-
 export const metadata = {
     title: 'Projects',
     description: 'Portfolio',
@@ -41,7 +39,7 @@ const getPageData = async (): Promise<ProjectsPageData> => {
   }
 }
   `;
-    return await fetchHygraphQuery(query ,  1000 * 60 * 60 * 24);
+    return await fetchHygraphQuery(query ,  2);
 };
 
 
@@ -58,7 +56,6 @@ export default async function Projects() {
                     </div>
                 ))}
             </div>
-            <ParticlesContainer />
         </section>
     );
 }

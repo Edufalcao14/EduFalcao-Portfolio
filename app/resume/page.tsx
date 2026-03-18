@@ -21,6 +21,7 @@ query MyQuery {
               startDate
               endDate
               amountHours
+              description
             }
           } 
         aboutMe{
@@ -57,7 +58,9 @@ query MyQuery {
       title
       startDate
       endDate
-      experienceText
+      experienceText {
+        raw
+      }
       technology {
         name
       }
