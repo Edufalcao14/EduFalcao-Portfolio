@@ -27,11 +27,35 @@ const dirname = path.dirname(fileURLToPath(import.meta.url))
  * writing into the filesystem, so the project boots on a clean checkout with
  * nothing but a Postgres container.
  */
+/**
+ * Public object base for the bucket.
+ *
+ * The adapter's default URL is `endpoint/bucket/key`, which points at the S3 API
+ * path and needs a signed request, so a browser fetching it gets a 403. Public
+ * objects live under a different path entirely, and that is the one the page has
+ * to load.
+ */
+const publicObjectBase =
+  process.env.NEXT_PUBLIC_MEDIA_HOST && process.env.S3_BUCKET
+    ? `https://${process.env.NEXT_PUBLIC_MEDIA_HOST}/storage/v1/object/public/${process.env.S3_BUCKET}`
+    : null
+
 const storagePlugins: Plugin[] =
   process.env.S3_BUCKET && process.env.S3_ENDPOINT
     ? [
         s3Storage({
-          collections: { media: true },
+          collections: {
+            media: publicObjectBase
+              ? {
+                  // Serve straight from the CDN instead of proxying every image
+                  // through the Next server. The performance budget does not
+                  // have room for the extra hop.
+                  disablePayloadAccessControl: true,
+                  generateFileURL: ({ filename, prefix }) =>
+                    [publicObjectBase, prefix, filename].filter(Boolean).join('/'),
+                }
+              : true,
+          },
           bucket: process.env.S3_BUCKET,
           config: {
             endpoint: process.env.S3_ENDPOINT,

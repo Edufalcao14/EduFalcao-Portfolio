@@ -91,6 +91,7 @@ const fetchHygraph = async <T>(query: string): Promise<T> => {
 const payload = await getPayload({ config })
 
 const offences: { doc: string; field: string; terms: string[] }[] = []
+const failures: { project: string; reason: string }[] = []
 
 const audit = (doc: string, field: string, text?: string | null) => {
   if (!text) return
@@ -217,6 +218,36 @@ const main = async () => {
 
     const summary = (card.projectDescription ?? '').slice(0, 200)
 
+    /**
+     * Screenshot galleries, imported before the project so they can be attached
+     * to it rather than left floating in the media library.
+     */
+    const sections: { title: string; image: number[] }[] = []
+    for (const section of card.projectSection ?? []) {
+      audit(card.projectName, `section: ${section.title}`, section.title)
+      const images: number[] = []
+      for (const [index, image] of (section.image ?? []).entries()) {
+        const asset = await importAsset(
+          image.url,
+          `${card.projectName} ${section.title} ${index + 1}`,
+        )
+        if (asset) images.push(asset.id)
+      }
+      if (images.length > 0) sections.push({ title: section.title, image: images })
+    }
+    if (sections.length > 0) {
+      console.log(`  ${sections.length} gallery section(s)`)
+    }
+
+    /**
+     * A project needs at least one link to be publishable. Imported cards often
+     * have neither, so it is reported and skipped rather than crashing the run
+     * halfway through: a partial import is worse than a listed gap.
+     */
+    if (!card.githubUrl && !card.liveUrl) {
+      console.warn('  ! no repo or live link: imported anyway, but it cannot be published until you add one')
+    }
+
     const payloadData = {
       title: card.projectName,
       slug,
@@ -233,6 +264,7 @@ const main = async () => {
         liveUrl: card.liveUrl ?? undefined,
       },
       thumbnail: thumbnail.id,
+      projectSection: sections,
       _status: 'draft' as const,
     }
 
@@ -244,34 +276,31 @@ const main = async () => {
       draft: true,
     })
 
-    if (existing.docs[0]) {
-      await payload.update({
-        collection: 'projects',
-        id: existing.docs[0].id,
-        data: payloadData,
-        draft: true,
-        overrideAccess: true,
-      })
-      console.log('  updated draft')
-    } else {
-      await payload.create({
-        collection: 'projects',
-        data: payloadData,
-        draft: true,
-        overrideAccess: true,
-      })
-      console.log('  created draft')
+    try {
+      if (existing.docs[0]) {
+        await payload.update({
+          collection: 'projects',
+          id: existing.docs[0].id,
+          data: payloadData,
+          draft: true,
+          overrideAccess: true,
+        })
+        console.log('  updated draft')
+      } else {
+        await payload.create({
+          collection: 'projects',
+          data: payloadData,
+          draft: true,
+          overrideAccess: true,
+        })
+        console.log('  created draft')
+      }
+    } catch (error) {
+      // One bad card must not abort the whole import.
+      failures.push({ project: card.projectName, reason: (error as Error).message })
+      console.warn(`  ! failed: ${(error as Error).message}`)
     }
 
-    // The old site had sections of screenshots. They are imported as media so
-    // nothing is lost, but the doc restricts case images to public store
-    // screens, so they are not attached to the body automatically.
-    for (const section of card.projectSection ?? []) {
-      audit(card.projectName, `section: ${section.title}`, section.title)
-      for (const [index, image] of (section.image ?? []).entries()) {
-        await importAsset(image.url, `${card.projectName} ${section.title} ${index + 1}`)
-      }
-    }
   }
 
   console.log('\n─────────────────────────────────────────')
@@ -288,6 +317,15 @@ const main = async () => {
     console.log(
       `\n${offences.length} field(s) to rewrite. The validators are active again outside this script, so none of these can be published as-is.`,
     )
+  }
+
+  if (failures.length > 0) {
+    console.log('\n─────────────────────────────────────────')
+    console.log('FAILED TO IMPORT')
+    console.log('─────────────────────────────────────────')
+    for (const failure of failures) {
+      console.log(`\n${failure.project}\n  ${failure.reason}`)
+    }
   }
 
   console.log('\nDone. Nothing was published.\n')

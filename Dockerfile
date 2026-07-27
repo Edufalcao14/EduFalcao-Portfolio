@@ -38,4 +38,8 @@ EXPOSE 3000
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
 
+# Schema is created by the `migrate` service in docker-compose.yml, which runs
+# the builder stage once before this container starts. It is not done here: the
+# runtime image is a standalone bundle without the Payload CLI or the TS config,
+# and `push` is off outside development, so nothing creates tables on its own.
 CMD ["node", "server.js"]
