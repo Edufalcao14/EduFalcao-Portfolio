@@ -34,9 +34,17 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=deps /app/node_modules/sharp ./node_modules/sharp
 
 USER nextjs
-EXPOSE 3000
+
+# Port is a default, not a fixed value: set PORT in the deploy environment to
+# move it. The Next standalone server reads it at boot.
+#
+# Note this is the port *inside* the container. It does not collide with
+# anything on the host, because the container has its own network namespace, and
+# the reverse proxy reaches it over the Docker network. If the proxy returns 502,
+# the usual cause is the proxy being pointed at a different port than this one.
 ENV PORT=3000
 ENV HOSTNAME=0.0.0.0
+EXPOSE 3000
 
 # Schema is created by the `migrate` service in docker-compose.yml, which runs
 # the builder stage once before this container starts. It is not done here: the
