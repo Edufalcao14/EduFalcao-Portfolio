@@ -206,6 +206,7 @@ export const getResumeInfo = unstable_cache(
 const toExperienceItem = (experience: Experience): ExperienceItemType => ({
   projectName: experience.company,
   title: experience.role,
+  location: experience.location ?? null,
   startDate: experience.startDate,
   endDate: experience.endDate ?? null,
   experienceText: experience.body ? { raw: experience.body } : null,

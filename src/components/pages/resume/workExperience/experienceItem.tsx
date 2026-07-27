@@ -41,6 +41,12 @@ export const ExperienceItem = (experience: ExperienceItemType) => {
                     </h3>
                     <p className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-sm text-gray-400">
                         <span className="text-emerald-400">{experience.projectName}</span>
+                        {experience.location && (
+                            <>
+                                <span aria-hidden className="text-gray-700">·</span>
+                                <span>{experience.location}</span>
+                            </>
+                        )}
                         <span aria-hidden className="text-gray-700">/</span>
                         <span>
                             {monthYear(experience.startDate)}

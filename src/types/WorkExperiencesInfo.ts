@@ -14,6 +14,7 @@ export type ExperienceProject = {
 export type ExperienceItemType = {
     projectName: string;
     title: string;
+    location: string | null;
     startDate: string;
     endDate: string | null;
     experienceText: {

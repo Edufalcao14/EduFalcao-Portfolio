@@ -420,12 +420,25 @@ const main = async () => {
     { company: { equals: 'Vision Tech Group' } },
     {
       order: 3,
-      role: 'Software Engineer',
+      role: 'Software Engineer (Part-time)',
       company: 'Vision Tech Group',
+      location: 'Brussels, Belgium',
       startDate: '2023-03-01',
       endDate: '2024-11-01',
       employmentType: 'partTime',
-      tech: ids(['React Native', 'TypeScript']),
+      tech: ids(['React Native', 'React', 'TypeScript', 'Node.js', 'Express']),
+      // No named product here, so the evidence lives on the role itself rather
+      // than in a project block.
+      body: bullets([
+        {
+          lead: 'Reduced reported technical debt ',
+          rest: 'by fixing critical defects in authentication and transaction flows across React Native, React and Node.js/Express applications, triaging logic errors at their source.',
+        },
+        {
+          lead: 'Refactored over 80% of the legacy codebase ',
+          rest: 'to modern function hooks, consistent React Native patterns and strict TypeScript.',
+        },
+      ]),
     },
   )
   log('3 experience entries')
