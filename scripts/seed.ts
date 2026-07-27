@@ -403,15 +403,34 @@ const main = async () => {
     { company: { equals: 'C Design' } },
     {
       order: 2,
-      role: 'Freelance Software Engineer, sole technical owner',
+      role: 'Freelance Lead Software Engineer',
       company: 'C Design',
       startDate: '2026-02-01',
       endDate: '2026-03-01',
       employmentType: 'freelance',
-      tech: ids(['Next.js', 'Node.js', 'PostgreSQL']),
-      body: paragraph(
-        'B2B and B2C platform for a Belgian textile factory. Built the multi-step quoting engine, the catalogue back office and the SSR layer. Alone, from the Postgres schema to deploy, in under two months. Result: 30% more qualified leads.',
-      ),
+      tech: ids(['Next.js', 'Node.js', 'PostgreSQL', 'TypeScript', 'React']),
+      body: bullets([
+        {
+          lead: 'Delivered the platform from concept to deployment in under two months ',
+          rest: 'by leading the work end to end and coordinating a team of three, myself plus one developer and a designer, through to handover to the client.',
+        },
+        {
+          lead: 'Increased qualified leads by 30% ',
+          rest: 'by building the lead capture and management flow the sales side now works from, so every enquiry lands in one place instead of several.',
+        },
+        {
+          lead: "Gave the client's team control of its own catalogue and site copy ",
+          rest: 'by building an internal platform with ERP and basic CRM features: content management, product management, and customer estimate management.',
+        },
+        {
+          lead: 'Turned school campaigns into something the client sells without manual invoicing ',
+          rest: 'by building campaign creation and payment links that parents pay directly.',
+        },
+        {
+          lead: 'Made the quoting step self-service ',
+          rest: 'by building a multi-step quoting engine that produces the estimate the client used to write by hand for each enquiry.',
+        },
+      ]),
     },
   )
 
