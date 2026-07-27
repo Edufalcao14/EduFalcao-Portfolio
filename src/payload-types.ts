@@ -372,6 +372,10 @@ export interface Experience {
           [k: string]: unknown;
         } | null;
         /**
+         * This product's own stack. Leave empty to show only the role-level stack below.
+         */
+        stack?: (number | Technology)[] | null;
+        /**
          * Optional link to a full case study.
          */
         case?: (number | null) | Project;
@@ -621,6 +625,7 @@ export interface ExperiencesSelect<T extends boolean = true> {
         name?: T;
         descriptor?: T;
         bullets?: T;
+        stack?: T;
         case?: T;
         id?: T;
       };

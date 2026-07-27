@@ -82,6 +82,14 @@ export const ExperienceItem = (experience: ExperienceItemType) => {
                                     </div>
                                 )}
 
+                                {project.stack.length > 0 && (
+                                    <div className="mt-4 flex flex-wrap gap-2 gap-y-3">
+                                        {project.stack.map((tech) => (
+                                            <TechBagde key={tech.name} name={tech.name} />
+                                        ))}
+                                    </div>
+                                )}
+
                                 {project.caseSlug && (
                                     <Link
                                         href={`/projects/${project.caseSlug}`}

@@ -133,6 +133,16 @@ export const Experiences: CollectionConfig = {
           },
         },
         {
+          name: 'stack',
+          type: 'relationship',
+          relationTo: 'technologies',
+          hasMany: true,
+          admin: {
+            description:
+              "This product's own stack. Leave empty to show only the role-level stack below.",
+          },
+        },
+        {
           name: 'case',
           type: 'relationship',
           relationTo: 'projects',

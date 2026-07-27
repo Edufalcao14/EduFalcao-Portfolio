@@ -214,6 +214,7 @@ const toExperienceItem = (experience: Experience): ExperienceItemType => ({
     name: project.name,
     descriptor: project.descriptor ?? null,
     bullets: project.bullets ?? null,
+    stack: relations<Technology>(project.stack).map((tech) => ({ name: tech.name })),
     caseSlug:
       project.case && typeof project.case === 'object' ? (project.case.slug as string) : null,
   })),

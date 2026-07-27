@@ -8,6 +8,8 @@ export type ExperienceProject = {
     name: string;
     descriptor: string | null;
     bullets: SerializedEditorState | null;
+    /** This product's own stack. Empty means the role-level stack speaks for it. */
+    stack: Technology[];
     caseSlug: string | null;
 };
 

@@ -149,6 +149,12 @@ const SUPPORTING_TECHNOLOGIES: {
   { name: 'GraphQL', category: 'web' },
   { name: 'Kysely Query Builder', category: 'web' },
   { name: 'Onion Architecture', category: 'web' },
+  { name: 'TanStack Query', category: 'mobile' },
+  { name: 'Firebase Cloud Messaging', category: 'mobile' },
+  { name: 'Firebase Auth', category: 'web' },
+  { name: 'Firebase Crashlytics', category: 'tooling' },
+  { name: 'Expo Native Modules', category: 'mobile' },
+  { name: 'SwiftUI', category: 'mobile' },
   { name: 'Maestro', category: 'tooling' },
   { name: 'Sentry', category: 'tooling' },
   { name: 'Yarn monorepo', category: 'tooling' },
@@ -302,7 +308,14 @@ const main = async () => {
       tech: ids([
         'React Native',
         'Expo',
+        'Expo Native Modules',
         'TypeScript',
+        'SwiftUI',
+        'Kotlin',
+        'TanStack Query',
+        'Firebase Cloud Messaging',
+        'Firebase Auth',
+        'Firebase Crashlytics',
         'GraphQL',
         'Node.js',
         'Express',
@@ -347,6 +360,10 @@ const main = async () => {
               rest: 'by building a build-caching system.',
             },
           ]),
+          // Empty on purpose: the stack is shown once per role, not repeated
+          // under every product. Omitting the key entirely leaves stale
+          // relations behind, so it has to be an explicit empty array.
+          stack: [],
         },
         {
           name: 'Press Shop & More',
@@ -393,6 +410,7 @@ const main = async () => {
               rest: 'by integrating Firebase Auth as the identity gateway, including token issuing and refresh, and email verification.',
             },
           ]),
+          stack: [],
         },
       ],
     },
