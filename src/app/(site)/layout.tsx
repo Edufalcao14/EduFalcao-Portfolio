@@ -19,20 +19,40 @@ const jetBrainsMono = JetBrains_Mono({
   weight: ['400', '500', '600', '700'],
 });
 
-/** Title and description come from the CMS instead of being hardcoded as "Portfolio". */
+/**
+ * Title and description come from the CMS instead of being hardcoded as
+ * "Portfolio".
+ *
+ * The fallback is not decoration. This runs for every statically rendered page,
+ * including the 404, and those are rendered inside a build container that has no
+ * database. Without it the whole image fails to build.
+ */
+const METADATA_FALLBACK = {
+  name: 'Eduardo Sampaio Falcão',
+  title: 'Eduardo Falcão, Mobile Engineer · React Native & Expo',
+  description:
+    'Mobile engineer, React Native and Expo. 3 years of apps in production in fintech: payments, KYC, biometrics, 30k active users.',
+};
+
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSettings();
+  let name = METADATA_FALLBACK.name;
+  let title = METADATA_FALLBACK.title;
+  let description = METADATA_FALLBACK.description;
+
+  try {
+    const settings = await getSettings();
+    name = settings.name;
+    title = settings.defaultTitle;
+    description = settings.defaultDescription;
+  } catch {
+    // No database reachable, which at build time is expected.
+  }
 
   return {
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://eduardofalcao.dev'),
-    title: {
-      default: settings.defaultTitle,
-      template: `%s | ${settings.name}`,
-    },
-    description: settings.defaultDescription,
-    icons: {
-      icon: '/images/logo.svg',
-    },
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://edufalcao.site'),
+    title: { default: title, template: `%s | ${name}` },
+    description,
+    icons: { icon: '/images/logo.svg' },
   };
 }
 

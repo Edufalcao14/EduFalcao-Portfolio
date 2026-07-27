@@ -6,6 +6,10 @@ import { Summary } from "@/components/pages/resume/summary"
 import { Education } from "@/components/pages/resume/education"
 import { getExperienceInfo, getResumeInfo, getSettings } from "@/lib/content"
 
+// Rendered per request: the build container has no database to prerender from.
+// Data is cached in src/lib/content.ts and purged on publish.
+export const dynamic = 'force-dynamic'
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSettings()
   return {

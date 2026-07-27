@@ -3,7 +3,18 @@ import { notFound } from 'next/navigation'
 import { ProjectDetails } from "@/components/pages/projects/project-details"
 import { ProjectSections } from "@/components/pages/projects/project-sections"
 import { CaseBody } from "@/components/pages/projects/case-body"
-import { getProjectCard, getProjectSlugs } from "@/lib/content"
+import { getProjectCard } from "@/lib/content"
+
+/**
+ * Rendered on demand, not at build time.
+ *
+ * This page used to prerender every slug through generateStaticParams, which
+ * queried Postgres while the Docker image was being built. A build container has
+ * no database, so the whole deploy failed on ECONNREFUSED. Reads are cached in
+ * src/lib/content.ts and purged when something is published, so serving these
+ * per request costs a render, not a query.
+ */
+export const dynamic = 'force-dynamic'
 
 // Next 16 hands params in as a promise, so it has to be awaited.
 type ProjectProps = {
@@ -41,8 +52,4 @@ export default async function Project({ params }: ProjectProps) {
       <ProjectSections projectCard={projectCard} />
     </>
   )
-}
-
-export async function generateStaticParams() {
-  return getProjectSlugs()
 }

@@ -5,6 +5,10 @@ import { ProjectCard } from "@/components/pages/projects/project-card"
 import { HorizontalDivider } from "@/components/divider/horizontal"
 import { getProjectsPageInfo, getSettings } from "@/lib/content"
 
+// Rendered per request: the build container has no database to prerender from.
+// Data is cached in src/lib/content.ts and purged on publish.
+export const dynamic = 'force-dynamic'
+
 // Its own description, from the CMS. All four pages used to ship "Portfolio".
 export async function generateMetadata(): Promise<Metadata> {
   const [page, settings] = await Promise.all([getProjectsPageInfo(), getSettings()])

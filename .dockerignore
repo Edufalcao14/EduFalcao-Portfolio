@@ -1,0 +1,34 @@
+# Keeps the build context equal to what a fresh git clone contains. Without
+# this, a local `docker build` copies files the deploy will never have, and the
+# image behaves differently on a laptop than on the server. That difference is
+# how a build-time database dependency went unnoticed until it broke a deploy.
+
+# Secrets. These must never end up in an image layer.
+.env
+.env.*
+!.env.example
+
+# Rebuilt inside the image
+node_modules
+.next
+out
+
+# Local uploads, only used when S3 is not configured
+media
+
+# Internal docs, never shipped
+PRODUCT.md
+DESIGN.md
+PLAN.md
+visao_novo_portfolio.md
+.impeccable
+
+# Tooling and history
+.git
+.github
+.vscode
+.idea
+.claude
+.playwright-mcp
+*.log
+.DS_Store

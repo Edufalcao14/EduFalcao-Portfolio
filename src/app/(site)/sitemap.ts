@@ -9,8 +9,20 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://eduardofalcao.dev'
  * routes, so every prerendered case was left out of the one file that tells a
  * crawler it exists.
  */
+// Generated per request for the same reason the pages are: no database exists
+// while the image is being built.
+export const dynamic = 'force-dynamic'
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const projects = await getProjectSlugs()
+  // A sitemap missing its case pages is a bad day for SEO; a sitemap that takes
+  // the whole site down is a worse one. If the database is unreachable, ship the
+  // static routes rather than throwing.
+  let projects: { slug: string }[] = []
+  try {
+    projects = await getProjectSlugs()
+  } catch (error) {
+    console.error('Sitemap could not read projects:', error)
+  }
 
   return [
     { url: BASE_URL, changeFrequency: 'monthly', priority: 1 },

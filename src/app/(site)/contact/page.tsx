@@ -4,7 +4,8 @@ import { ContactForm } from "@/components/pages/contact/contact-form"
 
 export const metadata: Metadata = {
   title: 'Contact',
-  description: 'Portfolio',
+  description:
+    'Get in touch about mobile engineering work. Available in São Paulo from August 2026.',
 }
 
 const Contact = () => {
