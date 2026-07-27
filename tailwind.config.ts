@@ -1,10 +1,8 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    './pages/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
-    './app/**/*.{js,ts,jsx,tsx}',
-  ],
+import type { Config } from 'tailwindcss'
+
+/** Restored from the original site. ESM export because the package is type: module. */
+const config: Config = {
+  content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
       sans: ['var(--font-inter)', 'sans-serif'],
@@ -25,3 +23,5 @@ module.exports = {
   },
   plugins: [],
 }
+
+export default config

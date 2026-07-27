@@ -36,3 +36,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# internal docs — positioning, product truth, design system, plans (never publish)
+/PRODUCT.md
+/DESIGN.md
+/visao_novo_portfolio.md
+/PLAN.md
+/*.plan.md
+/docs/internal/
+.impeccable/
+
+# Payload local uploads (only used when S3 is not configured)
+/media/
+
+# Playwright MCP output
+/.playwright-mcp/
+*.playwright.png
