@@ -304,6 +304,10 @@ export interface Media {
 export interface Experience {
   id: number;
   /**
+   * Position on the resume. Lower comes first; entries without a number fall to the end, newest first.
+   */
+  order?: number | null;
+  /**
    * Exactly as it reads on the CV. Divergence costs credibility.
    */
   role: string;
@@ -603,6 +607,7 @@ export interface TechnologiesSelect<T extends boolean = true> {
  * via the `definition` "experiences_select".
  */
 export interface ExperiencesSelect<T extends boolean = true> {
+  order?: T;
   role?: T;
   company?: T;
   location?: T;

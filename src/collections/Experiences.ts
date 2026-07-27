@@ -22,8 +22,20 @@ export const Experiences: CollectionConfig = {
     afterChange: [revalidateResumeSource],
     afterDelete: [revalidateResumeSource],
   },
-  defaultSort: '-startDate',
+  // Hand-set order wins, newest first only as the tie-break. Sorting purely by
+  // date put a two-month freelance engagement above the current full-time role,
+  // which is the opposite of the emphasis this page needs.
+  defaultSort: ['order', '-startDate'],
   fields: [
+    {
+      name: 'order',
+      type: 'number',
+      admin: {
+        position: 'sidebar',
+        description:
+          'Position on the resume. Lower comes first; entries without a number fall to the end, newest first.',
+      },
+    },
     {
       name: 'role',
       type: 'text',

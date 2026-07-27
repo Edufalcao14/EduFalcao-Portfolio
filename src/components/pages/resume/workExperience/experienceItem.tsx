@@ -28,7 +28,7 @@ export const ExperienceItem = (experience: ExperienceItemType) => {
               border-left is this element's, so padding keeps the timeline
               continuous while a gap would cut it into pieces.
             */}
-            <article className="relative border-l border-gray-800 pl-6 sm:pl-10 pb-20">
+            <article className="relative border-l border-gray-800 pl-6 sm:pl-10 pb-10">
                 {/* Timeline marker, kept from the original design. */}
                 <span
                     aria-hidden

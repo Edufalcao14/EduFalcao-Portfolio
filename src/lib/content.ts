@@ -224,7 +224,14 @@ export const getExperienceInfo = unstable_cache(
     const payload = await client()
     const [page, experiences] = await Promise.all([
       payload.findGlobal({ slug: 'resumePage', depth: 1 }),
-      payload.find({ collection: 'experiences', sort: '-startDate', depth: 2, limit: 50 }),
+      payload.find({
+        collection: 'experiences',
+        // Hand-set order first; anything without a number falls to the end,
+        // newest first.
+        sort: ['order', '-startDate'],
+        depth: 2,
+        limit: 50,
+      }),
     ])
 
     return {
