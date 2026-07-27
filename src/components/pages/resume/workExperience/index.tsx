@@ -1,5 +1,4 @@
 import { SectionTitle } from "@/components/section-title";
-import React from 'react';
 import { ExperienceItem } from "./experienceItem";
 import { ExperiencePageInfo } from "@/types/WorkExperiencesInfo";
 
@@ -7,21 +6,26 @@ type WorkExperienceProps = {
   experienceInfo: ExperiencePageInfo
 }
 
+/**
+ * The lead section of the resume page.
+ *
+ * It used to sit below the tabs in a narrow right-hand column, sharing the row
+ * with an intro card. Now it owns the full width: the roles are the reason
+ * anyone opens this page, and the intro copy moved down to the summary.
+ */
 export const WorkExperience = ({ experienceInfo }: WorkExperienceProps) => {
   return (
-    <section className="container py-5 flex lg:gap-16 md:gap-4 sm:gap-10 flex-col md:flex-row">
-      <div className="max-w-[420px] backdrop-blur-sm rounded-2xl p-6 h-fit">
-        <SectionTitle title="Professional and Academic Experiences" subtitle="Experiences" />
-        <p className="text-gray-400 mt-6 pb-5">
-          I&apos;m always open to new challenges and exciting projects. Let&apos;s work together to create amazing solutions for your company!
-        </p>
+    <section id="experience" className="container pt-32 pb-8">
+      <div className="max-w-[720px]">
+        <SectionTitle title="Professional Experience" subtitle="Experiences" />
+        {experienceInfo.mainText && (
+          <p className="text-gray-400 mt-6 leading-relaxed">{experienceInfo.mainText}</p>
+        )}
       </div>
-      <div className="flex flex-col gap-4">
+
+      <div className="mt-14">
         {experienceInfo.experienceItem.map((item) => (
-          <ExperienceItem
-            key={`${item.projectName}-${item.startDate}`}
-            {...item}
-          />
+          <ExperienceItem key={`${item.projectName}-${item.startDate}`} {...item} />
         ))}
       </div>
     </section>
