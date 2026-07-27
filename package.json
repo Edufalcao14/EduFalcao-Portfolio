@@ -21,7 +21,8 @@
     "db:down": "docker compose stop db",
     "seed": "cross-env NODE_OPTIONS=--no-deprecation node --env-file=.env --import tsx scripts/seed.ts",
     "generate:ascii": "cross-env NODE_OPTIONS=--no-deprecation tsx scripts/generate-ascii.ts",
-    "migrate:hygraph": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_DISABLE_COPY_RULES=true node --env-file=.env --import tsx scripts/migrate-hygraph.ts"
+    "migrate:hygraph": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_DISABLE_COPY_RULES=true node --env-file=.env --import tsx scripts/migrate-hygraph.ts",
+    "check:storage": "cross-env NODE_OPTIONS=--no-deprecation node --env-file=.env --import tsx scripts/check-storage.ts"
   },
   "dependencies": {
     "@graphcms/rich-text-react-renderer": "^0.6.2",
