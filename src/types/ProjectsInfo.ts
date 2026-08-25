@@ -1,5 +1,13 @@
+/**
+ * An item in a screenshot section. Not always an image: the Media collection
+ * accepts mp4 and webm, so `mimeType` is what tells the gallery whether to
+ * render a picture or a player. `alt` is the one written on the media itself,
+ * which is the only description that says what the screen actually shows.
+ */
 export type Image={
     url:string
+    alt?:string
+    mimeType?:string
 }
 
 

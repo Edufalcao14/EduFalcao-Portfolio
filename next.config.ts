@@ -14,11 +14,18 @@ const nextConfig: NextConfig = {
     // Declaring localPatterns at all blocks every local path not listed here, so
     // /images/** has to be explicit or the static assets in /public stop loading.
     localPatterns: [{ pathname: '/api/media/file/**' }, { pathname: '/images/**' }],
-    // Supabase Storage bucket. Host comes from the env so staging and prod
-    // can point at different projects without a code change.
-    remotePatterns: process.env.NEXT_PUBLIC_MEDIA_HOST
-      ? [{ protocol: 'https', hostname: process.env.NEXT_PUBLIC_MEDIA_HOST }]
-      : [],
+    // Supabase Storage bucket. `NEXT_PUBLIC_MEDIA_HOST` narrows this to one
+    // project when it is set, but it cannot be the only source: this file is
+    // evaluated during `next build`, so a host supplied only to the container's
+    // runtime env leaves the list empty and every bucket image comes back as a
+    // 400 with `"url" parameter is not allowed`. The wildcard is the floor, so
+    // a deploy that forgets the build arg still renders its images.
+    remotePatterns: [
+      ...(process.env.NEXT_PUBLIC_MEDIA_HOST
+        ? [{ protocol: 'https' as const, hostname: process.env.NEXT_PUBLIC_MEDIA_HOST }]
+        : []),
+      { protocol: 'https' as const, hostname: '*.storage.supabase.co' },
+    ],
     formats: ['image/avif', 'image/webp'],
   },
   webpack: (webpackConfig) => {

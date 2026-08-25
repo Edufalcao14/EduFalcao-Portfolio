@@ -80,7 +80,13 @@ const toProjectCard = (project: Project): ProjectCardType => ({
   thumbPhoto: { url: mediaUrl(project.thumbnail) },
   projectSection: (project.projectSection ?? []).map((section) => ({
     title: section.title,
-    image: relations<Media>(section.image).map((image) => ({ url: mediaUrl(image, 'full') })),
+    // A video has no `sizes`, so mediaUrl falls back to the original. mimeType
+    // travels with it so the gallery can tell the two apart.
+    image: relations<Media>(section.image).map((image) => ({
+      url: mediaUrl(image, 'full'),
+      alt: image.alt,
+      mimeType: image.mimeType ?? undefined,
+    })),
   })),
   technology: relations<Technology>(project.tech).map((tech) => ({ name: tech.name })),
   body: project.body,

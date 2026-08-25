@@ -6,6 +6,17 @@ interface ProjectDetailsProps {
   projectCard: ProjectCardType;
 }
 
+/**
+ * Screenshot sections below the case.
+ *
+ * The Media collection accepts mp4 and webm alongside images, and next/image
+ * cannot decode either: routing a video through it returns a 400 and the slot
+ * renders empty. So the mime type decides the element.
+ *
+ * Alt text comes from the media itself. Deriving it from the section title
+ * described the group rather than the screen, which is the one thing alt text
+ * is for.
+ */
 export const ProjectSections = ({ projectCard }: ProjectDetailsProps) => {
   const sections = projectCard.projectSection;
 
@@ -21,16 +32,30 @@ export const ProjectSections = ({ projectCard }: ProjectDetailsProps) => {
               {section.title}
             </h2>
             <div className="flex flex-col gap-4">
-              {section.image.map((img, index) => (
-                <Image
-                  key={`${section.title}-img-${index}`}
-                  src={img.url}
-                  width={1080}
-                  height={672}
-                  className="w-full aspect-auto rounded-lg object-cover"
-                  alt={`${section.title} screenshot ${index + 1}`}
-                />
-              ))}
+              {section.image.map((media, index) =>
+                media.mimeType?.startsWith('video/') ? (
+                  <video
+                    key={`${section.title}-media-${index}`}
+                    src={media.url}
+                    className="w-full aspect-auto rounded-lg"
+                    controls
+                    playsInline
+                    muted
+                    loop
+                    preload="metadata"
+                    aria-label={media.alt || `${section.title} recording ${index + 1}`}
+                  />
+                ) : (
+                  <Image
+                    key={`${section.title}-media-${index}`}
+                    src={media.url}
+                    width={1080}
+                    height={672}
+                    className="w-full aspect-auto rounded-lg object-cover"
+                    alt={media.alt || `${section.title} screenshot ${index + 1}`}
+                  />
+                ),
+              )}
             </div>
           </div>
         ))}
