@@ -48,6 +48,9 @@ next-env.d.ts
 
 # Payload local uploads (only used when S3 is not configured)
 /media/
+# Staging dir for uploads. The files live in the bucket after `npm run seed:deentz`;
+# keeping 40MB of screenshots in git as well buys nothing.
+/media-temp/
 
 # Playwright MCP output
 /.playwright-mcp/
