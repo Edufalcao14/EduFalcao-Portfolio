@@ -1,9 +1,15 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { HiArrowNarrowLeft } from "react-icons/hi"
+
+import { Link } from "@/components/Link"
 import { ProjectDetails } from "@/components/pages/projects/project-details"
-import { ProjectSections } from "@/components/pages/projects/project-sections"
+import { CaseWalkthrough } from "@/components/pages/projects/case-walkthrough"
+import { CaseStack } from "@/components/pages/projects/case-stack"
+import { CaseSummary } from "@/components/pages/projects/case-summary"
 import { CaseBody } from "@/components/pages/projects/case-body"
 import { getProjectCard } from "@/lib/content"
+import { toMetaDescription } from "@/lib/meta"
 
 /**
  * Rendered on demand, not at build time.
@@ -25,12 +31,16 @@ export async function generateMetadata({ params }: ProjectProps): Promise<Metada
   const { slug } = await params
   const projectCard = await getProjectCard(slug)
   if (!projectCard) return {}
+  // The summary can run to several paragraphs on the page; a search result
+  // cannot, so it is trimmed to whole sentences here.
+  const description = toMetaDescription(projectCard.projectDescription)
+
   return {
     title: projectCard.projectName,
-    description: projectCard.projectDescription,
+    description,
     openGraph: {
       title: projectCard.projectName,
-      description: projectCard.projectDescription,
+      description,
       type: 'article',
       ...(projectCard.thumbPhoto.url ? { images: [{ url: projectCard.thumbPhoto.url }] } : {}),
     },
@@ -48,8 +58,16 @@ export default async function Project({ params }: ProjectProps) {
   return (
     <>
       <ProjectDetails projectCard={projectCard} />
+      <CaseSummary text={projectCard.projectDescription} />
       <CaseBody projectCard={projectCard} />
-      <ProjectSections projectCard={projectCard} />
+      <CaseStack projectCard={projectCard} />
+      <CaseWalkthrough projectCard={projectCard} />
+      <div className="container mb-20 border-t border-gray-800 pt-8">
+        <Link href="/projects">
+          <HiArrowNarrowLeft size={18} />
+          Go back to projects
+        </Link>
+      </div>
     </>
   )
 }
