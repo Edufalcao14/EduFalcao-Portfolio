@@ -41,8 +41,13 @@ export type ProjectCardType = {
     projectDescription: string;
     githubUrl?: string;
     liveUrl?: string;
+    /**
+     * The card and the hero media. May be a video: the field accepts one, so
+     * `mimeType` travels with the URL and every renderer branches on it.
+     */
     thumbPhoto: {
         url: string;
+        mimeType?: string;
     };
     projectSection: ProjectSection[];
     technology: Technology[];

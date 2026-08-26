@@ -35,6 +35,11 @@ const mediaUrl = (value: unknown, size: 'thumb' | 'card' | 'full' = 'card'): str
   return media.sizes?.[size]?.url ?? media.url ?? ''
 }
 
+const mediaMime = (value: unknown): string | undefined => {
+  if (!value || typeof value !== 'object') return undefined
+  return (value as Media).mimeType ?? undefined
+}
+
 const relations = <T>(value: unknown): T[] =>
   Array.isArray(value) ? (value.filter((entry) => typeof entry === 'object') as T[]) : []
 
@@ -82,7 +87,8 @@ const toProjectCard = (project: Project): ProjectCardType => ({
   liveUrl: project.links?.liveUrl ?? project.links?.appStore ?? project.links?.playStore ?? undefined,
   appStoreUrl: project.links?.appStore ?? undefined,
   playStoreUrl: project.links?.playStore ?? undefined,
-  thumbPhoto: { url: mediaUrl(project.thumbnail) },
+  // A video has no `sizes`, so mediaUrl falls back to the original file.
+  thumbPhoto: { url: mediaUrl(project.thumbnail), mimeType: mediaMime(project.thumbnail) },
   projectSection: (project.projectSection ?? []).map((section) => ({
     title: section.title,
     description: section.description ?? undefined,

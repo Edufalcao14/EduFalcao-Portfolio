@@ -1,4 +1,3 @@
-import Image from "next/image"
 import { TbBrandGithub } from "react-icons/tb"
 import { FiGlobe } from "react-icons/fi"
 import { SiAppstore, SiGoogleplay } from "react-icons/si"
@@ -6,6 +5,7 @@ import type { IconType } from "react-icons"
 
 import { Button } from "@/components/button"
 import { SlideInView } from "@/components/UI/slide-in-view"
+import { ProjectMedia, isVideo } from "@/components/UI/project-media"
 import type { Metric, ProjectCardType } from "@/types/ProjectsInfo"
 
 interface ProjectDetailsProps {
@@ -177,13 +177,17 @@ export const ProjectDetails = ({ projectCard }: ProjectDetailsProps) => {
                             rather than stretched behind the text. */}
                         {projectCard.thumbPhoto.url && (
                             <figure className="border border-gray-800 bg-gray-900/60 p-2 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)]">
-                                <Image
-                                    src={projectCard.thumbPhoto.url}
+                                <ProjectMedia
+                                    media={projectCard.thumbPhoto}
                                     alt={`${projectCard.projectName} interface`}
                                     width={960}
                                     height={600}
                                     priority
-                                    className="h-auto w-full object-cover"
+                                    className={
+                                        isVideo(projectCard.thumbPhoto)
+                                            ? 'aspect-video w-full bg-gray-900 object-contain'
+                                            : 'h-auto w-full object-cover'
+                                    }
                                 />
                             </figure>
                         )}

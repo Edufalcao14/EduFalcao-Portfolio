@@ -1,10 +1,10 @@
-import Image from "next/image"
 import { IoMdCode } from "react-icons/io"
 import { TechBagde } from "@/components/tech-bagde"
 import { Link } from "@/components/Link"
 import { HiArrowNarrowRight } from "react-icons/hi"
 import { ProjectCardType } from "@/types/ProjectsInfo"
 import { SlideInView } from "@/components/UI/slide-in-view"
+import { ProjectMedia } from "@/components/UI/project-media"
 
 type ProjectCardProps = {
     project: ProjectCardType
@@ -16,12 +16,13 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
             <div className="flex gap-6 lg:gap-12 flex-col lg:flex-row">
                 <div className="w-full h-full">
                     {project.thumbPhoto && project.thumbPhoto.url ? (
-                        <Image
+                        <ProjectMedia
+                            media={project.thumbPhoto}
+                            alt={`${project.projectName} thumbnail`}
                             width={480}
                             height={300}
-                            src={project.thumbPhoto.url}
-                            alt="Thumbnail Project"
-                            className="w-full h-[200px] lg:min-h-full object-cover rounded-lg z-1"
+                            mode="poster"
+                            className="w-full h-[200px] lg:min-h-full object-cover rounded-lg z-1 bg-gray-900"
                         />
                     ) : (
                         <div className="w-full h-[200px] lg:min-h-full bg-gray-200 rounded-lg flex items-center justify-center">

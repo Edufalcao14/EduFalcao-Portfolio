@@ -421,8 +421,9 @@ const METRICS: { value: string; label: string; method: string }[] = [
   },
   {
     value: '809',
-    label: 'API tests',
-    method: 'Across 114 files, counted by npm run verify with tsc and lint clean.',
+    label: 'Tests on every pull request',
+    method:
+      'Four workflows on every pull request: unit tests with an architecture check and a typecheck; integration tests against a Postgres 16 service, with coverage compared to main; the migration queue replayed on a shadow database, failing on drift from the schema; and 23 Playwright specs driven against the real API.',
   },
   {
     value: '2 into 1',
@@ -434,7 +435,7 @@ const METRICS: { value: string; label: string; method: string }[] = [
     value: '97%',
     label: 'Copilot task accuracy on open-weight models',
     method:
-      'The agent runs on open-weight models only: Qwen3-235B through OpenRouter, with DeepSeek and Llama 3.3 70B as fallbacks. The accuracy is scored by the author across the copilot task set, not yet by an automated suite.',
+      'The agent runs on an open-weight model, Qwen3-235B, served through OpenRouter. The accuracy is scored by the author across the copilot task set, not yet by an automated suite.',
   },
 ]
 

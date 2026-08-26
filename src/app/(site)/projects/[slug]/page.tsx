@@ -9,6 +9,7 @@ import { CaseStack } from "@/components/pages/projects/case-stack"
 import { CaseSummary } from "@/components/pages/projects/case-summary"
 import { CaseBody } from "@/components/pages/projects/case-body"
 import { getProjectCard } from "@/lib/content"
+import type { ProjectCardType } from "@/types/ProjectsInfo"
 import { toMetaDescription } from "@/lib/meta"
 
 /**
@@ -27,6 +28,29 @@ type ProjectProps = {
   params: Promise<{ slug: string }>
 }
 
+/**
+ * The Open Graph media for a case, picked by kind.
+ *
+ * A crawler needs a still to draw the card with, so a video thumbnail is
+ * published as `videos` and the still is borrowed from the first image in the
+ * walkthrough. A project with no still at all simply has no preview image,
+ * which is better than a preview that fails to load.
+ */
+const ogMedia = (project: ProjectCardType) => {
+  const firstStill = project.projectSection
+    .flatMap((section) => section.image)
+    .find((media) => media.url && !media.mimeType?.startsWith('video/'))
+
+  if (project.thumbPhoto.mimeType?.startsWith('video/')) {
+    return {
+      videos: [{ url: project.thumbPhoto.url }],
+      ...(firstStill ? { images: [{ url: firstStill.url }] } : {}),
+    }
+  }
+
+  return project.thumbPhoto.url ? { images: [{ url: project.thumbPhoto.url }] } : {}
+}
+
 export async function generateMetadata({ params }: ProjectProps): Promise<Metadata> {
   const { slug } = await params
   const projectCard = await getProjectCard(slug)
@@ -42,7 +66,10 @@ export async function generateMetadata({ params }: ProjectProps): Promise<Metada
       title: projectCard.projectName,
       description,
       type: 'article',
-      ...(projectCard.thumbPhoto.url ? { images: [{ url: projectCard.thumbPhoto.url }] } : {}),
+      // The thumbnail may be a video, and an mp4 in `images` gives every social
+      // card a broken preview. A video goes in `videos`, and the preview image
+      // falls back to the first still in the walkthrough.
+      ...ogMedia(projectCard),
     },
   }
 }
