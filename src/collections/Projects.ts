@@ -8,6 +8,7 @@ import {
   noBannedCopy,
   noBannedCopyRichText,
   requireAtLeastOneLink,
+  requireMeasurementMethod,
 } from '@/lib/validators'
 
 /**
@@ -26,7 +27,9 @@ export const Projects: CollectionConfig = {
     defaultColumns: ['title', 'kind', 'proofTier', 'featured', '_status', 'updatedAt'],
     group: 'Content',
     livePreview: {
-      url: ({ data }) => `/work/${data?.slug ?? ''}`,
+      // The route is /projects/[slug]. This pointed at /work/, which does not
+      // exist, so live preview 404'd for every case.
+      url: ({ data }) => `/projects/${data?.slug ?? ''}`,
     },
   },
   access: {
@@ -88,15 +91,15 @@ export const Projects: CollectionConfig = {
               type: 'textarea',
               required: true,
               localized: true,
-              // Roughly five rendered lines in the hero, which is where this is
-              // read. It is also the meta description, so search engines will
-              // cut it around 160 characters: front-load the sentence that has
-              // to survive that cut.
-              maxLength: 400,
+              // Room for a short deck or a few paragraphs. Blank lines become
+              // real paragraphs in the hero. The meta description is derived
+              // from the first sentences rather than from the whole field, so
+              // length here does not damage the search result.
+              maxLength: 2000,
               validate: noBannedCopy,
               admin: {
                 description:
-                  'Up to about five lines. Read in the hero, and reused as the card and page meta description, so it has to stand alone. The first sentence is the one search results will show.',
+                  'The description under the case title. Separate paragraphs with a blank line: the first one renders as a centred lede, the rest as left-aligned body text. The opening sentence is what search results show, so it has to stand alone.',
               },
             },
             {
@@ -184,6 +187,64 @@ export const Projects: CollectionConfig = {
               hasMany: true,
               required: true,
             },
+            {
+              /**
+               * The measured numbers, rendered as a band under the hero.
+               *
+               * Optional, and absent means no band: an academic project with
+               * nothing measured must not render an empty row of labels. Capped
+               * at four so the band never wraps on a phone.
+               *
+               * `method` is required per row, which is the rule from the
+               * positioning doc made structural: a number that cannot say how it
+               * was measured cannot be published. `requireMeasurementMethod` has
+               * been sitting in src/lib/validators.ts unused since the rewrite,
+               * waiting for exactly this field.
+               */
+              name: 'metrics',
+              label: 'Measured numbers',
+              type: 'array',
+              maxRows: 4,
+              admin: {
+                description:
+                  'Optional. Leave empty and no band renders. Every number has to say how it was measured.',
+              },
+              fields: [
+                {
+                  type: 'row',
+                  fields: [
+                    {
+                      name: 'value',
+                      type: 'text',
+                      required: true,
+                      admin: {
+                        width: '35%',
+                        description: 'Formatted as it should read: 4 h/day, 809, 28 to 2.',
+                      },
+                    },
+                    {
+                      name: 'label',
+                      type: 'text',
+                      required: true,
+                      localized: true,
+                      validate: noBannedCopy,
+                      admin: { width: '65%', description: 'What the number is. Kept short.' },
+                    },
+                  ],
+                },
+                {
+                  name: 'method',
+                  type: 'text',
+                  required: true,
+                  localized: true,
+                  validate: requireMeasurementMethod,
+                  admin: {
+                    description:
+                      'How it was measured: the tool, the command, or who reported it. Shown under the number.',
+                  },
+                },
+              ],
+            },
           ],
         },
         {
@@ -223,20 +284,40 @@ export const Projects: CollectionConfig = {
             },
             {
               name: 'projectSection',
-              label: 'Screenshot sections',
+              label: 'Walkthrough sections',
               type: 'array',
               admin: {
                 description:
-                  'Galleries shown below the case. Public store screens only, per the positioning doc: no internal client screens.',
+                  'The walkthrough below the case, in order. The first section is the first thing a reader sees after the hero, so put the strongest screen or the recording there. Public store screens only, per the positioning doc: no internal client screens.',
               },
               fields: [
                 { name: 'title', type: 'text', required: true, localized: true },
+                {
+                  /**
+                   * The sentence that makes a screenshot worth looking at. A
+                   * section without one still renders, as a titled grid, which
+                   * is what the site did before this field existed.
+                   */
+                  name: 'description',
+                  type: 'textarea',
+                  localized: true,
+                  maxLength: 320,
+                  validate: noBannedCopy,
+                  admin: {
+                    description:
+                      'Optional. One or two sentences on why this screen exists. Shown beside the images, and it stays in place while they scroll past.',
+                  },
+                },
                 {
                   name: 'image',
                   type: 'upload',
                   relationTo: 'media',
                   hasMany: true,
                   required: true,
+                  admin: {
+                    description:
+                      'Images and video. A video renders as a player, so a recording can lead a section.',
+                  },
                 },
               ],
             },

@@ -76,10 +76,16 @@ const toProjectCard = (project: Project): ProjectCardType => ({
   projectName: project.title,
   projectDescription: project.summary,
   githubUrl: project.links?.repoUrl ?? undefined,
+  // liveUrl keeps the old fallback chain so the project cards on /projects,
+  // which only render one link, are unchanged. The case page reads the store
+  // URLs separately so it can name each button.
   liveUrl: project.links?.liveUrl ?? project.links?.appStore ?? project.links?.playStore ?? undefined,
+  appStoreUrl: project.links?.appStore ?? undefined,
+  playStoreUrl: project.links?.playStore ?? undefined,
   thumbPhoto: { url: mediaUrl(project.thumbnail) },
   projectSection: (project.projectSection ?? []).map((section) => ({
     title: section.title,
+    description: section.description ?? undefined,
     // A video has no `sizes`, so mediaUrl falls back to the original. mimeType
     // travels with it so the gallery can tell the two apart.
     image: relations<Media>(section.image).map((image) => ({
@@ -93,6 +99,15 @@ const toProjectCard = (project: Project): ProjectCardType => ({
     layer: tech.layer ?? undefined,
   })),
   body: project.body,
+  role: project.role ?? undefined,
+  company: project.company ?? undefined,
+  periodStart: project.periodStart ?? undefined,
+  periodEnd: project.periodEnd ?? undefined,
+  kind: project.kind ?? undefined,
+  // An empty array and an absent one mean the same thing here: no band.
+  metrics: (project.metrics ?? []).length > 0
+    ? (project.metrics ?? []).map((m) => ({ value: m.value, label: m.label, method: m.method }))
+    : undefined,
 })
 
 export const getProjectsPageInfo = unstable_cache(

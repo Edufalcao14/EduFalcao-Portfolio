@@ -157,7 +157,7 @@ export interface Project {
   order?: number | null;
   title: string;
   /**
-   * Up to about five lines. Read in the hero, and reused as the card and page meta description, so it has to stand alone. The first sentence is the one search results will show.
+   * The description under the case title. Separate paragraphs with a blank line: the first one renders as a centred lede, the rest as left-aligned body text. The opening sentence is what search results show, so it has to stand alone.
    */
   summary: string;
   body?: {
@@ -192,6 +192,26 @@ export interface Project {
   periodEnd?: string | null;
   tech: (number | Technology)[];
   /**
+   * Optional. Leave empty and no band renders. Every number has to say how it was measured.
+   */
+  metrics?:
+    | {
+        /**
+         * Formatted as it should read: 4 h/day, 809, 28 to 2.
+         */
+        value: string;
+        /**
+         * What the number is. Kept short.
+         */
+        label: string;
+        /**
+         * How it was measured: the tool, the command, or who reported it. Shown under the number.
+         */
+        method: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * At least one is required. A project with no link is not ready to be on the site.
    */
   links?: {
@@ -205,11 +225,18 @@ export interface Project {
    */
   thumbnail: number | Media;
   /**
-   * Galleries shown below the case. Public store screens only, per the positioning doc: no internal client screens.
+   * The walkthrough below the case, in order. The first section is the first thing a reader sees after the hero, so put the strongest screen or the recording there. Public store screens only, per the positioning doc: no internal client screens.
    */
   projectSection?:
     | {
         title: string;
+        /**
+         * Optional. One or two sentences on why this screen exists. Shown beside the images, and it stays in place while they scroll past.
+         */
+        description?: string | null;
+        /**
+         * Images and video. A video renders as a player, so a recording can lead a section.
+         */
         image: (number | Media)[];
         id?: string | null;
       }[]
@@ -576,6 +603,14 @@ export interface ProjectsSelect<T extends boolean = true> {
   periodStart?: T;
   periodEnd?: T;
   tech?: T;
+  metrics?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        method?: T;
+        id?: T;
+      };
   links?:
     | T
     | {
@@ -589,6 +624,7 @@ export interface ProjectsSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
+        description?: T;
         image?: T;
         id?: T;
       };

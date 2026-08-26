@@ -21,7 +21,16 @@ export type Technology = {
 
 export type ProjectSection = {
     title: string;
+    /** The sentence beside the images. Optional: a section can be a bare grid. */
+    description?: string;
     image: Image[]
+};
+
+/** A measured number. `method` is required by the CMS, so it is never absent. */
+export type Metric = {
+    value: string;
+    label: string;
+    method: string;
 };
 
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
@@ -39,6 +48,21 @@ export type ProjectCardType = {
     technology: Technology[];
     /** Case narrative. Added with the Payload backend; Hygraph had no equivalent. */
     body?: SerializedEditorState | null;
+
+    /**
+     * The facts rail and the metric band. Everything here is optional except the
+     * period, because the screen renders every project and a thin one has to
+     * hold: a cell with no value is dropped rather than rendered empty.
+     */
+    role?: string;
+    company?: string;
+    periodStart?: string;
+    periodEnd?: string;
+    kind?: 'mobile' | 'web' | 'academic';
+    metrics?: Metric[];
+    /** Kept separate from liveUrl so the button row can name each store. */
+    appStoreUrl?: string;
+    playStoreUrl?: string;
 };
 
 export type ProjectPageData = {
