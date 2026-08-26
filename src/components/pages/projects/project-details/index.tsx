@@ -6,6 +6,7 @@ import type { IconType } from "react-icons"
 import { Button } from "@/components/button"
 import { SlideInView } from "@/components/UI/slide-in-view"
 import { ProjectMedia, isVideo } from "@/components/UI/project-media"
+import { StackRail } from "@/components/pages/projects/case-stack"
 import type { Metric, ProjectCardType } from "@/types/ProjectsInfo"
 
 interface ProjectDetailsProps {
@@ -31,39 +32,22 @@ interface ProjectDetailsProps {
  * field is empty, because the thin project has to hold as well as this one.
  */
 
-const KIND_LABEL: Record<NonNullable<ProjectCardType['kind']>, string> = {
-    mobile: 'Mobile app',
-    web: 'Web',
-    academic: 'Academic work',
-}
-
-/** "Mar 2026". Month precision, because the CMS picker is month-only. */
-const formatMonth = (value?: string): string | null => {
-    if (!value) return null
-    const date = new Date(value)
-    if (Number.isNaN(date.getTime())) return null
-    return date.toLocaleDateString('en-GB', { month: 'short', year: 'numeric', timeZone: 'UTC' })
-}
-
-const formatPeriod = (start?: string, end?: string): string | null => {
-    const from = formatMonth(start)
-    if (!from) return null
-    // An empty end date means ongoing, which the CMS states explicitly.
-    return `${from} → ${formatMonth(end) ?? 'ongoing'}`
-}
-
 type Fact = { label: string; value: string; accent?: boolean }
 
-const buildFacts = (project: ProjectCardType): Fact[] => {
-    const period = formatPeriod(project.periodStart, project.periodEnd)
-
-    return [
+/**
+ * Who built it and for whom, and nothing else.
+ *
+ * The rail used to carry the period and the kind as well. Neither earned its
+ * quarter of a full-width row: "Web" restates what the screenshots already show,
+ * and a start date tells a reader nothing they came here to learn. The stack
+ * takes that space instead, which is the thing a reader actually reaches for
+ * after the role.
+ */
+const buildFacts = (project: ProjectCardType): Fact[] =>
+    [
         project.role ? { label: 'Role', value: project.role } : null,
         project.company ? { label: 'Company', value: project.company } : null,
-        period ? { label: 'Period', value: period } : null,
-        project.kind ? { label: 'Kind', value: KIND_LABEL[project.kind] } : null,
     ].filter((fact): fact is Fact => fact !== null)
-}
 
 type LinkSpec = { href: string; label: string; icon: IconType; primary?: boolean }
 
@@ -194,7 +178,7 @@ export const ProjectDetails = ({ projectCard }: ProjectDetailsProps) => {
                     </div>
 
                     {facts.length > 0 && (
-                        <dl className="mt-12 grid grid-cols-2 border-t border-gray-800 lg:grid-cols-4">
+                        <dl className="mt-12 grid grid-cols-2 border-t border-gray-800">
                             {facts.map((fact) => (
                                 <div
                                     key={fact.label}
@@ -208,6 +192,12 @@ export const ProjectDetails = ({ projectCard }: ProjectDetailsProps) => {
                             ))}
                         </dl>
                     )}
+
+                    {/* Directly after the facts, not in a section of its own
+                        further down the page. */}
+                    <div className="mt-10">
+                        <StackRail technologies={projectCard.technology} />
+                    </div>
 
                     {metrics.length > 0 && <MetricBand metrics={metrics} />}
                 </div>

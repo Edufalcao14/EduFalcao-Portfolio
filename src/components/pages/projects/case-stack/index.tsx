@@ -1,22 +1,24 @@
 import type { ProjectCardType, TechLayer } from "@/types/ProjectsInfo"
-import { SlideInView } from "@/components/UI/slide-in-view"
 
-interface CaseStackProps {
-    projectCard: ProjectCardType;
+interface StackRailProps {
+    technologies: ProjectCardType['technology'];
 }
 
 /**
- * The stack, as columns rather than a heap of glowing pills.
+ * The stack, in columns, directly under the facts.
  *
- * Two reasons for the change. A reader scanning a case wants to know which side
- * of the product each thing sits on, which a single undifferentiated row cannot
- * answer. And a wall of technology badges is a weak signal on its own: it reads
- * as a list of things touched rather than as judgement, so it belongs below the
- * numbers and the writing, not competing with the title.
+ * It used to be its own section far down the page, below the writing and the
+ * metrics. That put it after the point most readers stop, and it read as a
+ * trailing list of things touched. A reader who has just learned the role and
+ * the company wants the stack next, so it sits there instead.
  *
- * A technology with no `layer` is not dropped. It falls into a trailing
- * unlabelled column, because hiding part of a project's stack over an empty CMS
- * field would be the worse failure.
+ * Grouped by `layer` because a single undifferentiated row cannot answer which
+ * side of the product each thing sits on. A technology with no layer is not
+ * dropped: it falls into a trailing unlabelled column, since hiding part of a
+ * project's stack over an empty CMS field would be the worse failure.
+ *
+ * No wrapper of its own. It composes inside the hero's container, so the rails
+ * above and below it line up on the same grid.
  */
 
 const LAYERS: { layer: TechLayer; label: string }[] = [
@@ -25,46 +27,34 @@ const LAYERS: { layer: TechLayer; label: string }[] = [
     { layer: 'tooling', label: 'Tooling' },
 ]
 
-export const CaseStack = ({ projectCard }: CaseStackProps) => {
-    const technologies = projectCard.technology ?? []
-    if (technologies.length === 0) return null
+export const StackRail = ({ technologies }: StackRailProps) => {
+    const items = technologies ?? []
+    if (items.length === 0) return null
 
     const groups = [
         ...LAYERS.map(({ layer, label }) => ({
             label: label as string | null,
-            items: technologies.filter((tech) => tech.layer === layer),
+            items: items.filter((tech) => tech.layer === layer),
         })),
-        { label: null, items: technologies.filter((tech) => !tech.layer) },
+        { label: null, items: items.filter((tech) => !tech.layer) },
     ].filter((group) => group.items.length > 0)
 
     return (
-        <SlideInView>
-            <section className="container my-14 sm:my-20">
-                <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-14">
-                    <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-emerald-400 lg:pt-2">
-                        The stack
+        <div className="grid grid-cols-2 gap-x-5 gap-y-8 border-t border-gray-800 pt-5 sm:grid-cols-3 lg:grid-cols-4">
+            {groups.map((group) => (
+                <div key={group.label ?? 'other'}>
+                    <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500">
+                        {group.label ?? 'Also'}
                     </h2>
-
-                    <div className="grid grid-cols-1 gap-x-10 gap-y-8 border-t border-gray-800 pt-8 sm:grid-cols-2 lg:grid-cols-3">
-                        {groups.map((group) => (
-                            <div key={group.label ?? 'other'}>
-                                {group.label && (
-                                    <h3 className="font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500">
-                                        {group.label}
-                                    </h3>
-                                )}
-                                <ul className="mt-4 flex flex-col gap-2">
-                                    {group.items.map((tech) => (
-                                        <li key={tech.name} className="font-mono text-sm text-gray-300">
-                                            {tech.name}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
+                    <ul className="mt-3 flex flex-col gap-1.5">
+                        {group.items.map((tech) => (
+                            <li key={tech.name} className="text-sm text-gray-200">
+                                {tech.name}
+                            </li>
                         ))}
-                    </div>
+                    </ul>
                 </div>
-            </section>
-        </SlideInView>
+            ))}
+        </div>
     )
 }
