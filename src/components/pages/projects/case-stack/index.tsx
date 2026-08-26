@@ -28,8 +28,9 @@ interface StackRailProps {
  * glow, would outshout the title they sit under. The accent is spent on the
  * metrics instead.
  *
- * No wrapper of its own. It composes inside the hero's container, so the rails
- * above and below it line up on the same grid.
+ * No wrapper and no top rule of its own: it sits in the right half of the facts
+ * block, which already draws the line above both columns. Adding one here put a
+ * second hairline directly under the first, in the right column only.
  */
 
 const LAYERS: { layer: TechLayer; label: string }[] = [
@@ -51,7 +52,7 @@ export const StackRail = ({ technologies }: StackRailProps) => {
     ].filter((group) => group.items.length > 0)
 
     return (
-        <div className="border-t border-gray-800">
+        <div>
             {groups.map((group) => (
                 <div
                     key={group.label ?? 'other'}

@@ -177,27 +177,32 @@ export const ProjectDetails = ({ projectCard }: ProjectDetailsProps) => {
                         )}
                     </div>
 
-                    {facts.length > 0 && (
-                        <dl className="mt-12 grid grid-cols-2 border-t border-gray-800">
-                            {facts.map((fact) => (
-                                <div
-                                    key={fact.label}
-                                    className="border-b border-gray-800 py-4 pr-5 lg:border-b-0 lg:border-r lg:px-5 lg:first:pl-0 lg:last:border-r-0 lg:last:pr-0"
-                                >
-                                    <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500">
-                                        {fact.label}
-                                    </dt>
-                                    <dd className="mt-2 text-sm text-gray-200 sm:text-base">{fact.value}</dd>
-                                </div>
-                            ))}
-                        </dl>
-                    )}
+                    {/* Two blocks, not three. Who built it sits in one narrow
+                        column, stacked rather than spread across a full-width
+                        row, and the stack takes the space that row was wasting.
+                        Either side can be absent: a project with no technologies
+                        leaves the facts on their own, and the grid collapses to
+                        the one column that has content. */}
+                    {(facts.length > 0 || (projectCard.technology ?? []).length > 0) && (
+                        <div className="mt-12 grid gap-8 border-t border-gray-800 pt-6 lg:grid-cols-[minmax(0,220px)_minmax(0,1fr)] lg:gap-14">
+                            {facts.length > 0 && (
+                                <dl className="flex flex-col gap-5">
+                                    {facts.map((fact) => (
+                                        <div key={fact.label}>
+                                            <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500">
+                                                {fact.label}
+                                            </dt>
+                                            <dd className="mt-1.5 text-sm text-gray-200 sm:text-base">
+                                                {fact.value}
+                                            </dd>
+                                        </div>
+                                    ))}
+                                </dl>
+                            )}
 
-                    {/* Directly after the facts, not in a section of its own
-                        further down the page. */}
-                    <div className="mt-10">
-                        <StackRail technologies={projectCard.technology} />
-                    </div>
+                            <StackRail technologies={projectCard.technology} />
+                        </div>
+                    )}
 
                     {metrics.length > 0 && <MetricBand metrics={metrics} />}
                 </div>
