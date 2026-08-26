@@ -14,8 +14,19 @@ interface StackRailProps {
  *
  * Grouped by `layer` because a single undifferentiated row cannot answer which
  * side of the product each thing sits on. A technology with no layer is not
- * dropped: it falls into a trailing unlabelled column, since hiding part of a
+ * dropped: it falls into a trailing row labelled "Also", since hiding part of a
  * project's stack over an empty CMS field would be the worse failure.
+ *
+ * One row per layer, label on the left and chips wrapping on the right, which is
+ * how a spec sheet reads. It replaced parallel columns of plain text: with 18
+ * entries split three ways, those columns ended at different heights and the eye
+ * had nowhere to land. Rows also take any number of technologies without the
+ * layout changing shape.
+ *
+ * The chips are deliberately quiet: a hairline border on the page's own ground,
+ * not the filled emerald pill `TechBagde` draws. Eighteen of those, each with a
+ * glow, would outshout the title they sit under. The accent is spent on the
+ * metrics instead.
  *
  * No wrapper of its own. It composes inside the hero's container, so the rails
  * above and below it line up on the same grid.
@@ -40,15 +51,21 @@ export const StackRail = ({ technologies }: StackRailProps) => {
     ].filter((group) => group.items.length > 0)
 
     return (
-        <div className="grid grid-cols-2 gap-x-5 gap-y-8 border-t border-gray-800 pt-5 sm:grid-cols-3 lg:grid-cols-4">
+        <div className="border-t border-gray-800">
             {groups.map((group) => (
-                <div key={group.label ?? 'other'}>
-                    <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500">
+                <div
+                    key={group.label ?? 'other'}
+                    className="grid gap-3 border-b border-gray-800 py-4 last:border-b-0 sm:grid-cols-[104px_minmax(0,1fr)] sm:gap-6"
+                >
+                    <h2 className="font-mono text-[10px] uppercase tracking-[0.18em] text-gray-500 sm:pt-[7px]">
                         {group.label ?? 'Also'}
                     </h2>
-                    <ul className="mt-3 flex flex-col gap-1.5">
+                    <ul className="flex flex-wrap gap-2">
                         {group.items.map((tech) => (
-                            <li key={tech.name} className="text-sm text-gray-200">
+                            <li
+                                key={tech.name}
+                                className="rounded-md border border-gray-800 bg-gray-900/60 px-2.5 py-1 font-mono text-xs text-gray-300"
+                            >
                                 {tech.name}
                             </li>
                         ))}
