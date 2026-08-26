@@ -147,33 +147,40 @@ const doc = (children: Node[]) => ({
 // stack on the case page without appearing in the skills grid.
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** Already seeded by `scripts/seed.ts`. Looked up, never created. */
-const EXISTING_TECH = [
-  'typescript',
-  'node-js',
-  'express',
-  'graphql',
-  'postgresql',
-  'next-js',
-  'react',
-  'react-native',
-  'expo',
-  'reanimated',
-  'tanstack-query',
-  'onion-architecture',
-  'docker',
-  'git',
+type Layer = 'frontend' | 'backend' | 'tooling'
+
+/**
+ * The stack of this case, split the way a case page reads it.
+ *
+ * `layer` is written onto the technology even when the row already exists,
+ * because it is the field the badges group by and an unset one renders
+ * ungrouped. Mobile entries are deliberately absent: this case is the web app
+ * and the API behind it, and listing React Native under a case that does not
+ * discuss it is a claim the page never supports.
+ */
+const EXISTING_TECH: { slug: string; layer: Layer }[] = [
+  { slug: 'next-js', layer: 'frontend' },
+  { slug: 'react', layer: 'frontend' },
+  { slug: 'tanstack-query', layer: 'frontend' },
+  { slug: 'node-js', layer: 'backend' },
+  { slug: 'express', layer: 'backend' },
+  { slug: 'graphql', layer: 'backend' },
+  { slug: 'postgresql', layer: 'backend' },
+  { slug: 'onion-architecture', layer: 'backend' },
+  { slug: 'typescript', layer: 'tooling' },
+  { slug: 'docker', layer: 'tooling' },
+  { slug: 'git', layer: 'tooling' },
 ]
 
 /** Specific to this project. Created if missing. */
-const NEW_TECH: { name: string; category: 'mobile' | 'web' | 'tooling' }[] = [
-  { name: 'Prisma', category: 'web' },
-  { name: 'Apollo Client', category: 'web' },
-  { name: 'Tailwind CSS', category: 'web' },
-  { name: 'Row-Level Security', category: 'web' },
-  { name: 'Astro', category: 'web' },
-  { name: 'Vitest', category: 'tooling' },
-  { name: 'Playwright', category: 'tooling' },
+const NEW_TECH: { name: string; category: 'mobile' | 'web' | 'tooling'; layer: Layer }[] = [
+  { name: 'Apollo Client', category: 'web', layer: 'frontend' },
+  { name: 'Tailwind CSS', category: 'web', layer: 'frontend' },
+  { name: 'Astro', category: 'web', layer: 'frontend' },
+  { name: 'Prisma', category: 'web', layer: 'backend' },
+  { name: 'Row-Level Security', category: 'web', layer: 'backend' },
+  { name: 'Vitest', category: 'tooling', layer: 'tooling' },
+  { name: 'Playwright', category: 'tooling', layer: 'tooling' },
 ]
 
 const slugify = (value: string) =>
@@ -185,7 +192,7 @@ const slugify = (value: string) =>
 const resolveTech = async (): Promise<number[]> => {
   const ids: number[] = []
 
-  for (const slug of EXISTING_TECH) {
+  for (const { slug, layer } of EXISTING_TECH) {
     const found = await payload.find({
       collection: 'technologies',
       where: { slug: { equals: slug } },
@@ -198,10 +205,20 @@ const resolveTech = async (): Promise<number[]> => {
         `Technology "${slug}" is missing. Run \`npm run seed\` first: this script does not invent stack entries.`,
       )
     }
+
+    if (existing.layer !== layer) {
+      await payload.update({
+        collection: 'technologies',
+        id: existing.id,
+        data: { layer },
+        overrideAccess: true,
+      })
+      log(`tech ${existing.name} set to ${layer}`)
+    }
     ids.push(existing.id as number)
   }
 
-  for (const { name, category } of NEW_TECH) {
+  for (const { name, category, layer } of NEW_TECH) {
     const slug = slugify(name)
     const found = await payload.find({
       collection: 'technologies',
@@ -210,19 +227,28 @@ const resolveTech = async (): Promise<number[]> => {
       overrideAccess: true,
     })
 
-    if (found.docs[0]) {
-      ids.push(found.docs[0].id as number)
-      log(`tech ${name} already there`)
+    const existing = found.docs[0]
+    if (existing) {
+      if (existing.layer !== layer) {
+        await payload.update({
+          collection: 'technologies',
+          id: existing.id,
+          data: { layer },
+          overrideAccess: true,
+        })
+        log(`tech ${name} set to ${layer}`)
+      }
+      ids.push(existing.id as number)
       continue
     }
 
     const created = await payload.create({
       collection: 'technologies',
-      data: { name, slug, category, highlight: false },
+      data: { name, slug, category, layer, highlight: false },
       overrideAccess: true,
     })
     ids.push(created.id as number)
-    log(`tech ${name} created`)
+    log(`tech ${name} created as ${layer}`)
   }
 
   return ids
@@ -454,7 +480,7 @@ const SECTIONS: { title: string; files: string[] }[] = [
 const BODY = doc([
   heading('Context'),
   paragraph(
-    'Deentz is practice-management software for small dental clinics in Brazil. It is mine end to end: schema, GraphQL API, web app, mobile app, landing page. Four repositories, one person, since March 2026. Two clinics run on it in beta.',
+    'This case covers the web app and the API behind it. Both are mine end to end, schema included: one person, since March 2026, and two clinics running on it in beta. There is a mobile client and a landing page as well; neither is discussed here.',
   ),
 
   heading('Problem'),
@@ -569,7 +595,7 @@ const BODY = doc([
     '**809 tests across 114 files** on the API, including its first integration tests against a real Postgres rather than mocks, with `tsc` and lint clean and a from-scratch rebuild verified. Measured by `npm run verify`.',
     'A 28-tooth treatment went from **28 queries to 2** through batch creation, and the per-patient teeth query from 2N+1 back to 1+N. Measured by query counts in the integration tests.',
     'Every compaction and pseudonymisation step is a pure function with its own test file, so the agent\'s privacy and cost behaviour is verifiable without mocking a provider.',
-    '**Two clinics in beta.** A compact mobile version, Expo and React Native, carries the copilot so the numbers are reachable away from the clinic.',
+    '**Two clinics in beta**, which is where the product is now.',
   ]),
   paragraph(
     'An LGPD audit of the two main repositories produced a written list of **14 gaps** in priority order. CPF and medical history are still plaintext at rest. Subject-rights tooling, meaning export, correction and deletion on request, is specified and not built. There is no retention job yet, so agent chat messages have no expiry. Deletion can never be the way a mistake is undone either, since dental records carry a 20-year retention duty under Lei 13.787/2018. Writing the list down is the part I would defend. None of it gets fixed by claiming otherwise.',
@@ -590,7 +616,7 @@ const seedCase = async () => {
     title: 'Deentz',
     slug: 'deentz',
     summary:
-      'An ERP/CRM I built for a solo dental clinic: paper forms and a nightly spreadsheet close replaced by one system, with an AI copilot over the data. In beta at two clinics.',
+      "An ERP/CRM for a solo dental clinic, replacing paper forms and a nightly spreadsheet close. A GraphQL API on Node and Postgres, where tenant isolation is enforced by the database instead of by remembering to check it. A Next.js app over it, and a copilot that answers questions about the clinic without the model ever seeing a patient's name, or a number it could alter. In beta at two clinics.",
     body: BODY,
     kind: 'web' as const,
     proofTier: 'tier2' as const,

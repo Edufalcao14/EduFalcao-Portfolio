@@ -88,7 +88,10 @@ const toProjectCard = (project: Project): ProjectCardType => ({
       mimeType: image.mimeType ?? undefined,
     })),
   })),
-  technology: relations<Technology>(project.tech).map((tech) => ({ name: tech.name })),
+  technology: relations<Technology>(project.tech).map((tech) => ({
+    name: tech.name,
+    layer: tech.layer ?? undefined,
+  })),
   body: project.body,
 })
 

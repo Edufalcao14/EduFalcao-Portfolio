@@ -57,6 +57,30 @@ export const Technologies: CollectionConfig = {
       },
     },
     {
+      /**
+       * Which side of a project this sits on, used to group the badges on a
+       * case page. Separate from `category`, which answers a different question:
+       * `category` splits the skills grid on the resume by platform (mobile /
+       * web / tooling), while a case page wants the stack read as frontend
+       * against backend. TanStack Query is the example that proves they are not
+       * the same axis: its category is mobile and it is frontend here.
+       *
+       * Optional on purpose. An unset technology still renders, just ungrouped,
+       * so adding this field could not blank out an existing case.
+       */
+      name: 'layer',
+      type: 'select',
+      options: [
+        { label: 'Frontend', value: 'frontend' },
+        { label: 'Backend', value: 'backend' },
+        { label: 'Tooling', value: 'tooling' },
+      ],
+      admin: {
+        position: 'sidebar',
+        description: 'Groups the badges on a case page. Leave empty to render it ungrouped.',
+      },
+    },
+    {
       name: 'order',
       type: 'number',
       admin: {

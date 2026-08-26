@@ -11,8 +11,12 @@ export type Image={
 }
 
 
+/** `layer` groups the badges on a case page. Absent means ungrouped. */
+export type TechLayer = 'frontend' | 'backend' | 'tooling'
+
 export type Technology = {
     name: string;
+    layer?: TechLayer;
 };
 
 export type ProjectSection = {

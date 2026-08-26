@@ -157,7 +157,7 @@ export interface Project {
   order?: number | null;
   title: string;
   /**
-   * One line. Used on the card and as the page meta description, so it has to stand alone.
+   * Up to about five lines. Read in the hero, and reused as the card and page meta description, so it has to stand alone. The first sentence is the one search results will show.
    */
   summary: string;
   body?: {
@@ -234,6 +234,10 @@ export interface Technology {
    * Appears in the skills grid on the resume page. Needs an icon below to render.
    */
   highlight?: boolean | null;
+  /**
+   * Groups the badges on a case page. Leave empty to render it ungrouped.
+   */
+  layer?: ('frontend' | 'backend' | 'tooling') | null;
   /**
    * Position in the skills grid. Lower comes first; entries without a number fall to the end, alphabetically.
    */
@@ -601,6 +605,7 @@ export interface TechnologiesSelect<T extends boolean = true> {
   slug?: T;
   category?: T;
   highlight?: T;
+  layer?: T;
   order?: T;
   iconSvg?: T;
   updatedAt?: T;

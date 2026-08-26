@@ -88,11 +88,15 @@ export const Projects: CollectionConfig = {
               type: 'textarea',
               required: true,
               localized: true,
-              maxLength: 200,
+              // Roughly five rendered lines in the hero, which is where this is
+              // read. It is also the meta description, so search engines will
+              // cut it around 160 characters: front-load the sentence that has
+              // to survive that cut.
+              maxLength: 400,
               validate: noBannedCopy,
               admin: {
                 description:
-                  'One line. Used on the card and as the page meta description, so it has to stand alone.',
+                  'Up to about five lines. Read in the hero, and reused as the card and page meta description, so it has to stand alone. The first sentence is the one search results will show.',
               },
             },
             {
