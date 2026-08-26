@@ -2,7 +2,6 @@ import { Suspense } from "react"
 import type { Metadata } from "next"
 import { PageIntroduction } from "@/components/pages/projects/page-introduction"
 import { ProjectCard } from "@/components/pages/projects/project-card"
-import { HorizontalDivider } from "@/components/divider/horizontal"
 import { getProjectsPageInfo, getSettings } from "@/lib/content"
 
 // Rendered per request: the build container has no database to prerender from.
@@ -23,14 +22,16 @@ async function ProjectsContent() {
   return (
     <>
       <PageIntroduction mainText={projectData.mainText} />
-      <div className="container mt-6">
+      {/* One rule per card, drawn by the card itself, and a closing rule under
+          the last one. The old divider sat between cards with `my-16` on both
+          sides, which put 128px of nothing between every project. */}
+      <ul className="container mt-6 border-b border-gray-800">
         {projectData.projectCard.map((project) => (
-          <div key={project.slug}>
+          <li key={project.slug}>
             <ProjectCard project={project} />
-            <HorizontalDivider className="my-16" />
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </>
   )
 }
