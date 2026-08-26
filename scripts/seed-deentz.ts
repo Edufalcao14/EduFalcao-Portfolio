@@ -425,16 +425,16 @@ const METRICS: { value: string; label: string; method: string }[] = [
     method: 'Across 114 files, counted by npm run verify with tsc and lint clean.',
   },
   {
-    value: '0',
-    label: 'Double bookings the API can accept',
+    value: '2 into 1',
+    label: 'Money streams in a purpose-built ledger',
     method:
-      'An EXCLUDE USING gist constraint on tenant, dentist and the appointment time range. Postgres rejects the overlap itself, so no application path can create one.',
+      'The finance module is its own ledger rather than an accounting integration: appointment billing lines and the expense book merge in get-finance-ledger.ts, and the filter plus both totals run before the page slice, so the sums cover every row the filters keep and not just the page on screen.',
   },
   {
-    value: '1 of 2',
-    label: 'Concurrent refunds that commit',
+    value: '97%',
+    label: 'Copilot task accuracy on open-weight models',
     method:
-      'Two refunds of 60 fired at once on a payment of 100, against a live Postgres: the ceiling sits inside one atomic UPDATE, so exactly one commits.',
+      'The agent runs on open-weight models only: Qwen3-235B through OpenRouter, with DeepSeek and Llama 3.3 70B as fallbacks. The accuracy is scored by the author across the copilot task set, not yet by an automated suite.',
   },
 ]
 
