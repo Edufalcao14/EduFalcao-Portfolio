@@ -335,13 +335,34 @@ const uploadMedia = async (): Promise<Map<string, number>> => {
 // The case.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const SECTIONS: { title: string; files: string[] }[] = [
+/**
+ * The walkthrough, in reading order.
+ *
+ * The copilot leads, and its recording is the first file in it, so the video is
+ * the first thing that moves on the page. That is data, not code: the walkthrough
+ * renders sections in the order the CMS holds them, so reordering is an edit in
+ * the panel for any project.
+ *
+ * `description` is the sentence that makes a screenshot worth looking at. It is
+ * optional in the CMS, and a section without one renders as a titled grid.
+ */
+const SECTIONS: { title: string; description: string; files: string[] }[] = [
+  {
+    title: 'The copilot, on the web and on the phone',
+    description:
+      'A tool-calling agent on the backend, answering in plain Portuguese. The figures in its cards come from the query result rather than from the model, so a number on screen cannot be rewritten by a language model.',
+    files: ['app-copiloto-conversa.webm', '27-copiloto-conversa.png'],
+  },
   {
     title: 'The day, closed without a spreadsheet',
+    description:
+      'Revenue, appointments and no-shows on one screen. Closing the day stops being a nightly retyping job, which is the four hours this was built to remove.',
     files: ['01-overview.png', '02-agenda.png', '09-consultorio.png'],
   },
   {
     title: 'The patient record',
+    description:
+      "Paper forms became one screen, filled once at the point of care. Health data sits under art. 11 of the LGPD, so a patient's name never reaches an external model unaliased.",
     files: [
       '03-pacientes.png',
       '04-paciente-novo.png',
@@ -352,6 +373,8 @@ const SECTIONS: { title: string; files: string[] }[] = [
   },
   {
     title: 'Money, and where it comes from',
+    description:
+      "Catalogue prices are copied onto the billing line and frozen, so repricing a service does not rewrite last year's invoices. Partial refunds are atomic: two concurrent refunds against one payment resolve to exactly one winner.",
     files: [
       '10-financeiro.png',
       '11-financeiro-transacoes.png',
@@ -361,15 +384,15 @@ const SECTIONS: { title: string; files: string[] }[] = [
     ],
   },
   {
-    title: 'The copilot, on the web and on the phone',
-    files: ['27-copiloto-conversa.png', 'app-copiloto-conversa.webm'],
-  },
-  {
     title: 'Stock, team and what each role sees',
+    description:
+      'Four roles, and the role decides the screen. A receptionist sees what a receptionist needs, and the agent is handed only the tools that role is allowed to call.',
     files: ['15-estoque.png', '16-equipe.png', '17-visao-funcionario.png'],
   },
   {
     title: 'Consent, privacy and the account',
+    description:
+      'Consent records, retention and the account settings. Every mutation that touches a patient is written to an audit log.',
     files: [
       '18-juridico.png',
       '19-notificacoes.png',
@@ -381,6 +404,36 @@ const SECTIONS: { title: string; files: string[] }[] = [
       '25-entrar.png',
       '26-criar-conta.png',
     ],
+  },
+]
+
+/**
+ * The measured numbers. Every one carries how it was measured, which the CMS
+ * enforces per row: a figure that cannot say where it came from is not
+ * publishable.
+ */
+const METRICS: { value: string; label: string; method: string }[] = [
+  {
+    value: '4 h/day',
+    label: 'Admin time removed',
+    method:
+      'Self-reported by the clinic owner, measured against the manual routine it replaced.',
+  },
+  {
+    value: '809',
+    label: 'API tests',
+    method: 'Across 114 files, counted by npm run verify with tsc and lint clean.',
+  },
+  {
+    value: '28 to 2',
+    label: 'Queries per treatment',
+    method:
+      'Counted in integration tests against a real Postgres, for a plan covering 28 teeth.',
+  },
+  {
+    value: '23',
+    label: 'Tables under RLS',
+    method: 'tenant_isolation policies, verified with two live tenants in integration tests.',
   },
 ]
 
@@ -413,8 +466,10 @@ const seedCase = async () => {
     tech,
     links: { liveUrl: 'https://www.deentz.com.br' },
     thumbnail: id('01-overview.png'),
+    metrics: METRICS,
     projectSection: SECTIONS.map((section) => ({
       title: section.title,
+      description: section.description,
       image: section.files.map(id),
     })),
     _status: 'published' as const,
