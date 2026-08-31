@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
+import { revalidateHooks } from '@/lib/revalidate'
+
 /**
  * Every image on the site comes from here.
  *
@@ -19,6 +21,9 @@ export const Media: CollectionConfig = {
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),
   },
+  // Replacing a file or fixing an alt text changes what the site serves, and the
+  // same image can sit on any page, so a media write purges like any other.
+  hooks: revalidateHooks,
   upload: {
     mimeTypes: ['image/*', 'video/mp4', 'video/webm'],
     focalPoint: true,

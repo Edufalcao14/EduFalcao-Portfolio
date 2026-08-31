@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
-import { revalidateResumeSource } from '@/lib/revalidate'
+import { revalidateHooks } from '@/lib/revalidate'
 import { slugField } from '@/lib/slug'
 
 /**
@@ -25,10 +25,7 @@ export const Technologies: CollectionConfig = {
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),
   },
-  hooks: {
-    afterChange: [revalidateResumeSource],
-    afterDelete: [revalidateResumeSource],
-  },
+  hooks: revalidateHooks,
   fields: [
     { name: 'name', type: 'text', required: true },
     slugField('name'),

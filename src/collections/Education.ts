@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
-import { revalidateResumeSource } from '@/lib/revalidate'
+import { revalidateHooks } from '@/lib/revalidate'
 import { noBannedCopy } from '@/lib/validators'
 
 export const Education: CollectionConfig = {
@@ -17,10 +17,7 @@ export const Education: CollectionConfig = {
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),
   },
-  hooks: {
-    afterChange: [revalidateResumeSource],
-    afterDelete: [revalidateResumeSource],
-  },
+  hooks: revalidateHooks,
   defaultSort: '-startDate',
   fields: [
     { name: 'degree', type: 'text', required: true, localized: true },

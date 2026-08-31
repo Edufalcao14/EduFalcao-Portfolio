@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 
-import { revalidateSettings } from '@/lib/revalidate'
+import { revalidateOnGlobalChange } from '@/lib/revalidate'
 import { noBannedCopy } from '@/lib/validators'
 
 /**
@@ -18,7 +18,7 @@ export const SiteSettings: GlobalConfig = {
     read: () => true,
     update: ({ req }) => Boolean(req.user),
   },
-  hooks: { afterChange: [revalidateSettings] },
+  hooks: { afterChange: [revalidateOnGlobalChange] },
   fields: [
     {
       type: 'tabs',

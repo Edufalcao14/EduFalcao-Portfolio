@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { proseEditor } from '@/fields/richText'
-import { revalidateResumeSource } from '@/lib/revalidate'
+import { revalidateHooks } from '@/lib/revalidate'
 import { noBannedCopy, noBannedCopyRichText, noJuniorTitle } from '@/lib/validators'
 
 export const Experiences: CollectionConfig = {
@@ -18,10 +18,7 @@ export const Experiences: CollectionConfig = {
     update: ({ req }) => Boolean(req.user),
     delete: ({ req }) => Boolean(req.user),
   },
-  hooks: {
-    afterChange: [revalidateResumeSource],
-    afterDelete: [revalidateResumeSource],
-  },
+  hooks: revalidateHooks,
   // Hand-set order wins, newest first only as the tie-break. Sorting purely by
   // date put a two-month freelance engagement above the current full-time role,
   // which is the opposite of the emphasis this page needs.

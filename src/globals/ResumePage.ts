@@ -1,7 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
 import { proseEditor } from '@/fields/richText'
-import { revalidateResume } from '@/lib/revalidate'
+import { revalidateOnGlobalChange } from '@/lib/revalidate'
 import { noBannedCopy, noBannedCopyRichText } from '@/lib/validators'
 
 /**
@@ -21,7 +21,7 @@ export const ResumePage: GlobalConfig = {
     update: ({ req }) => Boolean(req.user),
   },
   versions: { drafts: true, max: 20 },
-  hooks: { afterChange: [revalidateResume] },
+  hooks: { afterChange: [revalidateOnGlobalChange] },
   fields: [
     {
       type: 'tabs',

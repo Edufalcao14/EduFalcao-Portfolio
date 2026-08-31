@@ -1,7 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
 import { proseEditor } from '@/fields/richText'
-import { revalidateHome } from '@/lib/revalidate'
+import { revalidateOnGlobalChange } from '@/lib/revalidate'
 import { noBannedCopyRichText } from '@/lib/validators'
 
 /**
@@ -23,7 +23,7 @@ export const HomePage: GlobalConfig = {
     update: ({ req }) => Boolean(req.user),
   },
   versions: { drafts: true, max: 20 },
-  hooks: { afterChange: [revalidateHome] },
+  hooks: { afterChange: [revalidateOnGlobalChange] },
   fields: [
     {
       name: 'introduction',

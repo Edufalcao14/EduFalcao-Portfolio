@@ -3,7 +3,7 @@ import type { CollectionConfig } from 'payload'
 import { caseEditor } from '@/fields/richText'
 import { caseTemplateValue } from '@/fields/caseTemplate'
 import { slugField } from '@/lib/slug'
-import { revalidateProject } from '@/lib/revalidate'
+import { revalidateHooks } from '@/lib/revalidate'
 import {
   noBannedCopy,
   noBannedCopyRichText,
@@ -47,10 +47,7 @@ export const Projects: CollectionConfig = {
     },
     maxPerDoc: 20,
   },
-  hooks: {
-    afterChange: [revalidateProject],
-    afterDelete: [revalidateProject],
-  },
+  hooks: revalidateHooks,
   fields: [
     slugField('title'),
     {

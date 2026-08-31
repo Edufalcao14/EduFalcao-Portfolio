@@ -1,6 +1,6 @@
 import type { GlobalConfig } from 'payload'
 
-import { revalidateProjectsPage } from '@/lib/revalidate'
+import { revalidateOnGlobalChange } from '@/lib/revalidate'
 import { noBannedCopy } from '@/lib/validators'
 
 /** The intro copy above the project list. The cases themselves are a collection. */
@@ -15,7 +15,7 @@ export const ProjectsPage: GlobalConfig = {
     read: () => true,
     update: ({ req }) => Boolean(req.user),
   },
-  hooks: { afterChange: [revalidateProjectsPage] },
+  hooks: { afterChange: [revalidateOnGlobalChange] },
   fields: [
     {
       name: 'mainText',
