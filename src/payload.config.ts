@@ -18,6 +18,7 @@ import { HomePage } from './globals/HomePage'
 import { ProjectsPage } from './globals/ProjectsPage'
 import { ResumePage } from './globals/ResumePage'
 import { SiteSettings } from './globals/SiteSettings'
+import { migrations } from './migrations'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -85,6 +86,17 @@ export default buildConfig({
   db: postgresAdapter({
     pool: { connectionString: process.env.DATABASE_URI ?? '' },
     push: process.env.NODE_ENV === 'development',
+    /**
+     * The app applies its own pending migrations on boot in production.
+     *
+     * The compose file has a `migrate` service that the app waits on, but the
+     * deploy builds the Dockerfile directly, so that service never runs and a
+     * new column reached production only if someone remembered to migrate by
+     * hand. It did not, once, and the home page went down: the schema was
+     * missing a column the code selected. Doing it here means the schema can
+     * never be older than the code that needs it.
+     */
+    prodMigrations: migrations,
   }),
   /**
    * Localization is on from day one with a single exposed locale. Turning it on
