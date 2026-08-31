@@ -29,9 +29,6 @@ const client = async () => getPayload({ config })
  */
 const CACHE_SAFETY_NET_SECONDS = 3600
 
-/** What the hero pill said before it was editable, kept for an empty field. */
-const HERO_ROLE_TAG_FALLBACK = 'Full Stack Developer'
-
 const mediaUrl = (value: unknown, size: 'thumb' | 'card' | 'full' = 'card'): string => {
   if (!value || typeof value !== 'object') return ''
   const media = value as Media
@@ -70,8 +67,6 @@ export const getHomeInfo = unstable_cache(
     ])
 
     return {
-      // The pill has to say something: an empty one renders as a bare outline.
-      heroRoleTag: home.heroRoleTag ?? HERO_ROLE_TAG_FALLBACK,
       introduction: { raw: home.introduction },
       socials: (settings.socials ?? []).map(toSocial),
     }

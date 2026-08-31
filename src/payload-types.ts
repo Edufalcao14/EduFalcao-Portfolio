@@ -831,10 +831,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface HomePage {
   id: number;
   /**
-   * The pill above the hero paragraph. A job title, not a sentence. e.g. "Full Stack Developer".
-   */
-  heroRoleTag?: string | null;
-  /**
    * The hero paragraph. First person, short sentences, numbers over adjectives.
    */
   introduction: {
@@ -969,7 +965,6 @@ export interface SiteSetting {
  * via the `definition` "homePage_select".
  */
 export interface HomePageSelect<T extends boolean = true> {
-  heroRoleTag?: T;
   introduction?: T;
   seo?:
     | T

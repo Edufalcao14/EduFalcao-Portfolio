@@ -2,7 +2,7 @@ import type { GlobalConfig } from 'payload'
 
 import { proseEditor } from '@/fields/richText'
 import { revalidateOnGlobalChange } from '@/lib/revalidate'
-import { noBannedCopy, noBannedCopyRichText } from '@/lib/validators'
+import { noBannedCopyRichText } from '@/lib/validators'
 
 /**
  * The home page's editable content.
@@ -25,18 +25,6 @@ export const HomePage: GlobalConfig = {
   versions: { drafts: true, max: 20 },
   hooks: { afterChange: [revalidateOnGlobalChange] },
   fields: [
-    {
-      name: 'heroRoleTag',
-      label: 'Hero Role Tag',
-      type: 'text',
-      localized: true,
-      defaultValue: 'Full Stack Developer',
-      validate: noBannedCopy,
-      admin: {
-        description:
-          'The pill above the hero paragraph. A job title, not a sentence. e.g. "Full Stack Developer".',
-      },
-    },
     {
       name: 'introduction',
       type: 'richText',
