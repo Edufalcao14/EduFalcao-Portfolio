@@ -69,7 +69,7 @@ export function AnimatedHeroContent({ homeInfo }: AnimatedHeroContentProps) {
                         transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                     />
                     <span className="font-mono text-sm text-emerald-300 tracking-widest">
-                        Full Stack Developer
+                        {homeInfo.heroRoleTag}
                     </span>
                 </div>
             </motion.div>

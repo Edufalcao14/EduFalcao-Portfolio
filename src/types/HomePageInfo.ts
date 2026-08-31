@@ -6,6 +6,7 @@ export type Social = {
 }
 
 export type HomePageInfo={
+    heroRoleTag: string
     introduction:{
         raw:SerializedEditorState;
     }
