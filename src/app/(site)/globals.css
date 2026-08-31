@@ -38,3 +38,45 @@
 .tab-panel-fade {
   animation: tab-panel-fade 0.35s ease forwards;
 }
+/**
+ * Article list markers.
+ *
+ * These live in CSS rather than on the `li` component because a list item has no
+ * way to know whether its parent is a `ul` or an `ol`: react-markdown renders
+ * each element in isolation, so the component styled every item as a bullet and
+ * ordered lists silently lost their numbers. A parent selector is the only place
+ * the distinction actually exists.
+ */
+.markdown ul > li {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.markdown ul > li:not(.task-list-item)::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.5625rem;
+  width: 0.375rem;
+  height: 0.375rem;
+  border-radius: 9999px;
+  background-color: #34d399;
+  box-shadow: 0 0 6px 1px rgba(52, 211, 153, 0.6);
+}
+
+.markdown ul > li.task-list-item {
+  padding-left: 0;
+  list-style: none;
+}
+
+.markdown li.task-list-item input[type='checkbox'] {
+  margin-right: 0.5rem;
+  accent-color: #34d399;
+}
+
+/* Nested lists sit closer to their parent item than two sibling items do. */
+.markdown li > ul,
+.markdown li > ol {
+  margin-top: 0.75rem;
+  margin-bottom: 0;
+}

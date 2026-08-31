@@ -2,6 +2,17 @@ import React from 'react'
 import type { Metadata } from 'next'
 import { ContactForm } from "@/components/pages/contact/contact-form"
 
+/**
+ * Rendered per request, like every other route here.
+ *
+ * This page holds no CMS content of its own, but the layout around it does — the
+ * header and footer read site settings — so prerendering it made `next build`
+ * open a database connection. A build container has none, and worse, Payload
+ * greets a dev-pushed schema with an interactive prompt that a build cannot
+ * answer, so the export hung until it timed out.
+ */
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Contact',
   description:

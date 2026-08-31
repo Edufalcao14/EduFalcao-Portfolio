@@ -68,6 +68,7 @@ export interface Config {
   blocks: {};
   collections: {
     projects: Project;
+    articles: Article;
     technologies: Technology;
     experiences: Experience;
     education: Education;
@@ -82,6 +83,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    articles: ArticlesSelect<false> | ArticlesSelect<true>;
     technologies: TechnologiesSelect<false> | TechnologiesSelect<true>;
     experiences: ExperiencesSelect<false> | ExperiencesSelect<true>;
     education: EducationSelect<false> | EducationSelect<true>;
@@ -100,12 +102,14 @@ export interface Config {
   globals: {
     homePage: HomePage;
     projectsPage: ProjectsPage;
+    articlesPage: ArticlesPage;
     resumePage: ResumePage;
     siteSettings: SiteSetting;
   };
   globalsSelect: {
     homePage: HomePageSelect<false> | HomePageSelect<true>;
     projectsPage: ProjectsPageSelect<false> | ProjectsPageSelect<true>;
+    articlesPage: ArticlesPageSelect<false> | ArticlesPageSelect<true>;
     resumePage: ResumePageSelect<false> | ResumePageSelect<true>;
     siteSettings: SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
@@ -330,6 +334,55 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles".
+ */
+export interface Article {
+  id: number;
+  title: string;
+  /**
+   * URL segment. Filled from the title, safe to edit before publishing.
+   */
+  slug: string;
+  /**
+   * Two or three sentences. Shown on the article list and used as the search-result description, so write it for someone deciding whether to click.
+   */
+  summary: string;
+  /**
+   * Sets the dateline and the order of the list.
+   */
+  publishedAt: string;
+  body: string;
+  /**
+   * Every image and drawing this article references. Attach it here first, then reference it in the body by filename: ![alt](media:filename.svg).
+   */
+  media?: (number | Media)[] | null;
+  /**
+   * Optional. The list card and the social preview image.
+   */
+  cover?: (number | null) | Media;
+  /**
+   * Two or three, lowercase, existing words. Chips on the card, nothing more.
+   */
+  topics?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Leave empty and the title and summary above are used, which is usually right.
+   */
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "experiences".
  */
 export interface Experience {
@@ -520,6 +573,10 @@ export interface PayloadLockedDocument {
         value: number | Project;
       } | null)
     | ({
+        relationTo: 'articles';
+        value: number | Article;
+      } | null)
+    | ({
         relationTo: 'technologies';
         value: number | Technology;
       } | null)
@@ -627,6 +684,35 @@ export interface ProjectsSelect<T extends boolean = true> {
         description?: T;
         image?: T;
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articles_select".
+ */
+export interface ArticlesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  publishedAt?: T;
+  body?: T;
+  media?: T;
+  cover?: T;
+  topics?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -881,6 +967,24 @@ export interface ProjectsPage {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articlesPage".
+ */
+export interface ArticlesPage {
+  id: number;
+  /**
+   * What someone finds here and why it is worth their time.
+   */
+  mainText: string;
+  seo?: {
+    title?: string | null;
+    description?: string | null;
+    image?: (number | null) | Media;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "resumePage".
  */
 export interface ResumePage {
@@ -988,6 +1092,23 @@ export interface HomePageSelect<T extends boolean = true> {
  * via the `definition` "projectsPage_select".
  */
 export interface ProjectsPageSelect<T extends boolean = true> {
+  mainText?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "articlesPage_select".
+ */
+export interface ArticlesPageSelect<T extends boolean = true> {
   mainText?: T;
   seo?:
     | T

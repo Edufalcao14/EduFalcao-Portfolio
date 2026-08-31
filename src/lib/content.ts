@@ -3,11 +3,24 @@ import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 
 import { TAGS } from './revalidate'
+import type {
+  ArticleCardType,
+  ArticleImage,
+  ArticlesPageInfo,
+  ArticleType,
+} from '@/types/ArticlesInfo'
 import type { HomePageInfo, Social } from '@/types/HomePageInfo'
 import type { ProjectCardType, ProjectsPageInfo } from '@/types/ProjectsInfo'
 import type { EducationCard, ResumePageInfo, SkillCard } from '@/types/ResumePageInfo'
 import type { ExperienceItemType, ExperiencePageInfo } from '@/types/WorkExperiencesInfo'
-import type { Education, Experience, Media, Project, Technology } from '@/payload-types'
+import type {
+  Article,
+  Education,
+  Experience,
+  Media,
+  Project,
+  Technology,
+} from '@/payload-types'
 
 /**
  * The adapter layer.
@@ -278,4 +291,128 @@ export const getExperienceInfo = unstable_cache(
   },
   ['experience-info'],
   { tags: [TAGS.resume], revalidate: CACHE_SAFETY_NET_SECONDS },
+)
+
+/**
+ * Words per minute for the reading estimate. The usual figure for prose is 200
+ * to 250; the lower end is right here, because these pieces carry code and
+ * diagrams and nobody skims those.
+ */
+const WORDS_PER_MINUTE = 200
+
+const readingMinutes = (markdown: string): number => {
+  const words = markdown.trim().split(/\s+/).filter(Boolean).length
+  // A short note is "1 min", never "0 min".
+  return Math.max(1, Math.round(words / WORDS_PER_MINUTE))
+}
+
+const toArticleCard = (article: Article): ArticleCardType => ({
+  slug: article.slug,
+  title: article.title,
+  summary: article.summary,
+  publishedAt: article.publishedAt ?? null,
+  readingMinutes: readingMinutes(article.body ?? ''),
+  topics: (article.topics ?? []).map((topic) => topic.label),
+  cover:
+    article.cover && typeof article.cover === 'object'
+      ? {
+          url: mediaUrl(article.cover, 'card'),
+          alt: (article.cover as Media).alt,
+          mimeType: mediaMime(article.cover),
+        }
+      : undefined,
+})
+
+/**
+ * The body references images by filename. Resolving them here means the markdown
+ * renderer is a pure function of its props: it never queries anything, so it
+ * cannot be the reason a page is slow.
+ */
+const toArticleImages = (article: Article): ArticleImage[] =>
+  relations<Media>(article.media)
+    .filter((image) => typeof image.filename === 'string')
+    .map((image) => {
+      // 'full' rather than 'card': an article image is the width of the column.
+      // An SVG has no sizes at all, so this falls back to the original file.
+      const rendition = image.sizes?.full?.url ? image.sizes.full : image
+      return {
+        filename: image.filename as string,
+        url: rendition.url ?? '',
+        alt: image.alt,
+        // The dimensions have to describe the file in `url`, not the original:
+        // a 3024px width on a 1920px image is a wrong aspect ratio waiting to
+        // shift the layout.
+        width: rendition.width ?? undefined,
+        height: rendition.height ?? undefined,
+        mimeType: image.mimeType ?? undefined,
+      }
+    })
+
+export const getArticlesPageInfo = unstable_cache(
+  async (): Promise<ArticlesPageInfo> => {
+    const payload = await client()
+    const [page, articles] = await Promise.all([
+      payload.findGlobal({ slug: 'articlesPage', depth: 1 }),
+      payload.find({
+        collection: 'articles',
+        where: { _status: { equals: 'published' } },
+        sort: '-publishedAt',
+        depth: 1,
+        limit: 100,
+      }),
+    ])
+
+    return {
+      mainText: page.mainText,
+      articles: articles.docs.map(toArticleCard),
+    }
+  },
+  ['articles-page'],
+  { tags: [TAGS.articlesPage, TAGS.articles], revalidate: CACHE_SAFETY_NET_SECONDS },
+)
+
+export const getArticle = unstable_cache(
+  async (slug: string): Promise<ArticleType | null> => {
+    const payload = await client()
+    const result = await payload.find({
+      collection: 'articles',
+      where: { and: [{ slug: { equals: slug } }, { _status: { equals: 'published' } }] },
+      depth: 2,
+      limit: 1,
+    })
+    const article = result.docs[0]
+    if (!article) return null
+
+    return {
+      ...toArticleCard(article),
+      body: article.body ?? '',
+      images: toArticleImages(article),
+      seo: {
+        title: article.seo?.title ?? undefined,
+        description: article.seo?.description ?? undefined,
+        image: article.seo?.image ? mediaUrl(article.seo.image, 'full') : undefined,
+      },
+    }
+  },
+  ['article'],
+  { tags: [TAGS.articles], revalidate: CACHE_SAFETY_NET_SECONDS },
+)
+
+export const getArticleSlugs = unstable_cache(
+  async (): Promise<{ slug: string; publishedAt: string | null }[]> => {
+    const payload = await client()
+    const result = await payload.find({
+      collection: 'articles',
+      where: { _status: { equals: 'published' } },
+      depth: 0,
+      limit: 200,
+      select: { slug: true, publishedAt: true },
+    })
+    return result.docs.map((article) => ({
+      slug: article.slug,
+      publishedAt: article.publishedAt ?? null,
+    }))
+  },
+  ['article-slugs'],
+  { tags: [TAGS.articles], revalidate: CACHE_SAFETY_NET_SECONDS },
 )

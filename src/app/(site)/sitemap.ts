@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next'
 
-import { getProjectSlugs } from '@/lib/content'
+import { getArticleSlugs, getProjectSlugs } from '@/lib/content'
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://eduardofalcao.dev'
 
@@ -24,13 +24,29 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.error('Sitemap could not read projects:', error)
   }
 
+  let articles: { slug: string; publishedAt: string | null }[] = []
+  try {
+    articles = await getArticleSlugs()
+  } catch (error) {
+    console.error('Sitemap could not read articles:', error)
+  }
+
   return [
     { url: BASE_URL, changeFrequency: 'monthly', priority: 1 },
     { url: `${BASE_URL}/projects`, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${BASE_URL}/articles`, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${BASE_URL}/resume`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/contact`, changeFrequency: 'yearly', priority: 0.5 },
     ...projects.map((project) => ({
       url: `${BASE_URL}/projects/${project.slug}`,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
+    })),
+    ...articles.map((article) => ({
+      url: `${BASE_URL}/articles/${article.slug}`,
+      // `lastModified` is what tells a crawler a piece was revised; the
+      // publish date is the closest honest value we hold.
+      ...(article.publishedAt ? { lastModified: new Date(article.publishedAt) } : {}),
       changeFrequency: 'monthly' as const,
       priority: 0.7,
     })),

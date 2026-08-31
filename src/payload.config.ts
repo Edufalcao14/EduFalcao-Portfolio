@@ -7,6 +7,7 @@ import { s3Storage } from '@payloadcms/storage-s3'
 import { buildConfig, type Plugin } from 'payload'
 import sharp from 'sharp'
 
+import { Articles } from './collections/Articles'
 import { ContactMessages } from './collections/ContactMessages'
 import { Education } from './collections/Education'
 import { Experiences } from './collections/Experiences'
@@ -14,6 +15,7 @@ import { Media } from './collections/Media'
 import { Projects } from './collections/Projects'
 import { Technologies } from './collections/Technologies'
 import { Users } from './collections/Users'
+import { ArticlesPage } from './globals/ArticlesPage'
 import { HomePage } from './globals/HomePage'
 import { ProjectsPage } from './globals/ProjectsPage'
 import { ResumePage } from './globals/ResumePage'
@@ -80,8 +82,17 @@ export default buildConfig({
       robots: 'noindex, nofollow',
     },
   },
-  collections: [Projects, Technologies, Experiences, Education, Media, ContactMessages, Users],
-  globals: [HomePage, ProjectsPage, ResumePage, SiteSettings],
+  collections: [
+    Projects,
+    Articles,
+    Technologies,
+    Experiences,
+    Education,
+    Media,
+    ContactMessages,
+    Users,
+  ],
+  globals: [HomePage, ProjectsPage, ArticlesPage, ResumePage, SiteSettings],
   editor: lexicalEditor(),
   db: postgresAdapter({
     pool: { connectionString: process.env.DATABASE_URI ?? '' },

@@ -10,6 +10,7 @@ const NAV_ITEMS = [
   { label: 'Home', href: '/' },
   { label: 'Resume', href: '/resume' },
   { label: 'Projects', href: '/projects' },
+  { label: 'Articles', href: '/articles' },
   { label: 'Contact', href: '/contact' }
 ];
 

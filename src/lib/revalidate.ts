@@ -28,6 +28,8 @@ export const TAGS = {
   projectsPage: 'projects-page',
   settings: 'settings',
   projects: 'projects',
+  articlesPage: 'articles-page',
+  articles: 'articles',
 } as const
 
 /**
