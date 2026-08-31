@@ -4,7 +4,6 @@ import { Metadata } from 'next';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { BackToTop } from '@/components/back-to-top/backToTop';
-import { GlobalMatrixBackground } from '@/components/GlobalMatrixBackground';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import { getSettings } from '@/lib/content';
 
@@ -61,7 +60,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     // The site is written in English; it used to declare pt-BR.
     <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable}`}>
       <body>
-        <GlobalMatrixBackground />
         <Header />
         {children}
         <Footer />

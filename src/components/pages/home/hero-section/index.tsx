@@ -1,4 +1,3 @@
-import { ParticlesContainer } from "@/components/ParticlesContainer"
 import { HomePageInfo } from '@/types/HomePageInfo'
 import { AnimatedHeroContent } from './animated-hero-content'
 import { AnimatedProfileImage } from './animated-profile-image'
@@ -28,8 +27,6 @@ export const HeroSection = ({ homeInfo }: HomeSectionProps) => {
             </div>
 
             <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
-
-            <ParticlesContainer opacityScale={1} positioning="absolute" />
         </section>
     )
 }
