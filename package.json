@@ -19,12 +19,9 @@
     "migrate:create": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:create",
     "db:up": "docker compose up -d db",
     "db:down": "docker compose stop db",
-    "seed": "cross-env NODE_OPTIONS=--no-deprecation node --env-file=.env --import tsx scripts/seed.ts",
     "generate:ascii": "cross-env NODE_OPTIONS=--no-deprecation tsx scripts/generate-ascii.ts",
     "migrate:hygraph": "cross-env NODE_OPTIONS=--no-deprecation PAYLOAD_DISABLE_COPY_RULES=true node --env-file=.env --import tsx scripts/migrate-hygraph.ts",
     "check:storage": "cross-env NODE_OPTIONS=--no-deprecation node --env-file=.env --import tsx scripts/check-storage.ts",
-    "seed:deentz": "cross-env NODE_OPTIONS=--no-deprecation NODE_ENV=production node --env-file=.env --import tsx scripts/seed-deentz.ts",
-    "seed:buvio": "cross-env NODE_OPTIONS=--no-deprecation NODE_ENV=production node --env-file=.env --import tsx scripts/seed-buvio.ts",
     "set:hero": "cross-env NODE_OPTIONS=--no-deprecation NODE_ENV=production node --env-file=.env --import tsx scripts/set-project-hero.ts"
   },
   "dependencies": {
