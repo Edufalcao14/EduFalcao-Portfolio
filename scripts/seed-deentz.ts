@@ -461,7 +461,6 @@ const seedCase = async () => {
     kind: 'web' as const,
     proofTier: 'tier2' as const,
     company: 'Deentz',
-    role: 'Sole technical owner',
     periodStart: '2026-03-28T00:00:00.000Z',
     featured: true,
     order: 1,

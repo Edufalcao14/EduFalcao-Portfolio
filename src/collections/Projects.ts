@@ -151,9 +151,12 @@ export const Projects: CollectionConfig = {
               fields: [
                 { name: 'company', type: 'text', admin: { width: '50%' } },
                 {
+                  // The column is still called `role` from an earlier iteration.
+                  // Renaming it is a schema change, so the label carries the meaning.
                   name: 'role',
+                  label: 'Release date',
                   type: 'text',
-                  admin: { width: '50%', description: 'e.g. Sole technical owner, Mobile Engineer.' },
+                  admin: { width: '50%', description: 'As it should read on the page, e.g. 12 May 2025.' },
                 },
               ],
             },

@@ -45,7 +45,7 @@ type Fact = { label: string; value: string; accent?: boolean }
  */
 const buildFacts = (project: ProjectCardType): Fact[] =>
     [
-        project.role ? { label: 'Role', value: project.role } : null,
+        project.role ? { label: 'Release date', value: project.role } : null,
         project.company ? { label: 'Project name', value: project.company } : null,
     ].filter((fact): fact is Fact => fact !== null)
 
