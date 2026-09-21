@@ -169,9 +169,12 @@ export const ProjectDetails = ({ projectCard }: ProjectDetailsProps) => {
                         </div>
 
                         {/* The thumbnail at the size it was generated for, framed
-                            rather than stretched behind the text. */}
+                            rather than stretched behind the text. Centred in its
+                            column: the grid aligns to the end so the text sits on
+                            the baseline, but a media block a third the height of
+                            the copy read as fallen off the bottom. */}
                         {projectCard.thumbPhoto.url && (
-                            <figure className="border border-gray-800 bg-gray-900/60 p-2 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)]">
+                            <figure className="self-center border border-gray-800 bg-gray-900/60 p-2 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.9)]">
                                 <ProjectMedia
                                     media={projectCard.thumbPhoto}
                                     alt={`${projectCard.projectName} interface`}
