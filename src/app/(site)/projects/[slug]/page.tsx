@@ -5,7 +5,6 @@ import { HiArrowNarrowLeft } from "react-icons/hi"
 import { Link } from "@/components/Link"
 import { ProjectDetails } from "@/components/pages/projects/project-details"
 import { CaseWalkthrough } from "@/components/pages/projects/case-walkthrough"
-import { CaseSummary } from "@/components/pages/projects/case-summary"
 import { CaseBody } from "@/components/pages/projects/case-body"
 import { getProjectCard } from "@/lib/content"
 import type { ProjectCardType } from "@/types/ProjectsInfo"
@@ -84,7 +83,6 @@ export default async function Project({ params }: ProjectProps) {
   return (
     <>
       <ProjectDetails projectCard={projectCard} />
-      <CaseSummary text={projectCard.projectDescription} />
       <CaseBody projectCard={projectCard} />
       <CaseWalkthrough projectCard={projectCard} />
       <div className="container mb-20 border-t border-gray-800 pt-8">

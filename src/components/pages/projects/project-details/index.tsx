@@ -67,11 +67,15 @@ const buildLinks = (project: ProjectCardType): LinkSpec[] =>
             : null,
     ].filter((link): link is LinkSpec => link !== null)
 
-/** The first paragraph of the summary. The rest is its own block further down. */
-const ledeOf = (text: string): string => {
-    const [first] = text.split(/\n\s*\n/)
-    return (first ?? text).trim().replace(/\s*\n\s*/g, ' ')
-}
+/**
+ * The summary is a textarea, so blank lines are paragraph breaks and a single
+ * newline is just a wrapped line. HTML would collapse both into one wall.
+ */
+const toParagraphs = (text: string): string[] =>
+    text
+        .split(/\n\s*\n/)
+        .map((block) => block.trim().replace(/\s*\n\s*/g, ' '))
+        .filter((block) => block.length > 0)
 
 const MetricBand = ({ metrics }: { metrics: Metric[] }) => (
     <dl className="mt-10 grid grid-cols-1 border-t border-gray-800 sm:grid-cols-2 lg:grid-cols-4">
@@ -126,9 +130,16 @@ export const ProjectDetails = ({ projectCard }: ProjectDetailsProps) => {
                                 className="mt-6 h-px w-full bg-gradient-to-r from-emerald-500/60 via-emerald-500/20 to-transparent"
                             />
 
-                            <p className="mt-6 max-w-[52ch] text-base leading-relaxed text-gray-400 sm:text-lg">
-                                {ledeOf(projectCard.projectDescription)}
-                            </p>
+                            <div className="mt-6 flex max-w-[52ch] flex-col gap-4">
+                                {toParagraphs(projectCard.projectDescription).map((paragraph, index) => (
+                                    <p
+                                        key={index}
+                                        className="text-base leading-relaxed text-gray-400 sm:text-lg"
+                                    >
+                                        {paragraph}
+                                    </p>
+                                ))}
+                            </div>
 
                             {links.length > 0 && (
                                 <div className="mt-8 flex flex-wrap gap-3">

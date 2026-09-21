@@ -96,7 +96,7 @@ export const Projects: CollectionConfig = {
               validate: noBannedCopy,
               admin: {
                 description:
-                  'The description under the case title. Separate paragraphs with a blank line: the first one renders as a centred lede, the rest as left-aligned body text. The opening sentence is what search results show, so it has to stand alone.',
+                  'The description under the case title. Separate paragraphs with a blank line. The opening sentence is what search results and the project card show, so it has to stand alone.',
               },
             },
             {
