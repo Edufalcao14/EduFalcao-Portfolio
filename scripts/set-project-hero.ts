@@ -1,24 +1,26 @@
 /**
- * Uploads the Deentz teaser and makes it the project's thumbnail.
+ * Uploads a file and makes it a project's thumbnail (the hero media).
  *
  * Runs through the Payload local API rather than raw SQL so the file lands in
- * Supabase Storage through the S3 plugin, exactly like the rest of the case's
- * media. A video gets no `sizes` derivatives, which is fine: every renderer
- * falls back to the original URL and branches on the mime type.
+ * the bucket through the S3 plugin, exactly like the rest of the case's media.
+ * A video gets no `sizes` derivatives, which is fine: every renderer falls back
+ * to the original URL and branches on the mime type.
  *
  * Idempotent. The media row is matched by `alt`, so a second run replaces
  * nothing and simply re-points the thumbnail.
  *
- * Run: npm run set:deentz-hero
+ * Run: npm run set:hero -- <slug> <path-to-file> "<alt text>"
+ * e.g. npm run set:hero -- deentz media-temp/deentz-teaser.mp4 "Screen recording of Deentz: the dashboard, the schedule and the copilot answering a question"
  */
 import path from 'node:path'
 
 import config from '@payload-config'
 import { getPayload } from 'payload'
 
-const FILE = 'deentz-teaser.mp4'
-const ALT = 'Screen recording of Deentz: the dashboard, the schedule and the copilot answering a question'
-const SLUG = 'deentz'
+const [SLUG, FILE, ALT] = process.argv.slice(2)
+if (!SLUG || !FILE || !ALT) {
+  throw new Error('Usage: set:hero -- <slug> <path-to-file> "<alt text>"')
+}
 
 const uri = process.env.DATABASE_URI ?? ''
 console.log(`  database: ${uri.replace(/:\/\/[^@]*@/, '://***@')}`)
@@ -43,7 +45,7 @@ if (mediaId) {
   const created = await payload.create({
     collection: 'media',
     data: { alt: ALT },
-    filePath: path.resolve(process.cwd(), 'media-temp', FILE),
+    filePath: path.resolve(process.cwd(), FILE),
     overrideAccess: true,
   })
   mediaId = created.id as number
