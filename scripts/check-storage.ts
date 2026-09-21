@@ -1,5 +1,5 @@
 /**
- * Verifies the Supabase Storage wiring end to end, without touching the site.
+ * Verifies the R2 storage wiring end to end, without touching the site.
  *
  * Uploads a small file over the S3 protocol, reads it back over the public URL
  * the way a browser would, then deletes it. Those are two different code paths:
@@ -43,7 +43,7 @@ const client = new S3Client({
   },
 })
 
-const publicUrl = `https://${process.env.NEXT_PUBLIC_MEDIA_HOST}/storage/v1/object/public/${bucket}/${key}`
+const publicUrl = `https://${process.env.NEXT_PUBLIC_MEDIA_HOST}/${key}`
 
 const main = async () => {
   console.log(`\nBucket:   ${bucket}`)

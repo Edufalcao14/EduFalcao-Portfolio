@@ -25,23 +25,20 @@ import { migrations } from './migrations'
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 
 /**
- * Supabase Storage speaks the S3 API, so the official S3 adapter drives it.
+ * Cloudflare R2 speaks the S3 API, so the official S3 adapter drives it.
  * Enabled only when the credentials exist: local development falls back to
  * writing into the filesystem, so the project boots on a clean checkout with
  * nothing but a Postgres container.
- */
-/**
- * Public object base for the bucket.
  *
- * The adapter's default URL is `endpoint/bucket/key`, which points at the S3 API
- * path and needs a signed request, so a browser fetching it gets a 403. Public
- * objects live under a different path entirely, and that is the one the page has
+ * Public object base for the bucket. The adapter's default URL is
+ * `endpoint/bucket/key`, which is the S3 API path and needs a signed request,
+ * so a browser fetching it gets a 403. R2 serves public objects from the
+ * bucket's own domain at `https://<host>/<key>`, and that is what the page has
  * to load.
  */
-const publicObjectBase =
-  process.env.NEXT_PUBLIC_MEDIA_HOST && process.env.S3_BUCKET
-    ? `https://${process.env.NEXT_PUBLIC_MEDIA_HOST}/storage/v1/object/public/${process.env.S3_BUCKET}`
-    : null
+const publicObjectBase = process.env.NEXT_PUBLIC_MEDIA_HOST
+  ? `https://${process.env.NEXT_PUBLIC_MEDIA_HOST}`
+  : null
 
 const storagePlugins: Plugin[] =
   process.env.S3_BUCKET && process.env.S3_ENDPOINT

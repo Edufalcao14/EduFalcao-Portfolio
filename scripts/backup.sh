@@ -1,5 +1,5 @@
 #!/bin/sh
-# Nightly Postgres dump pushed to the Supabase bucket.
+# Nightly Postgres dump pushed to the R2 bucket.
 # Runs inside the `backup` service in docker-compose.yml.
 set -eu
 
@@ -20,5 +20,5 @@ else
   echo "S3 not configured — dump kept locally only"
 fi
 
-# Local retention. Remote retention is a bucket lifecycle rule, set in Supabase.
+# Local retention. Remote retention is a bucket lifecycle rule, set in Cloudflare R2.
 find /backups -name 'portfolio-*.sql.gz' -mtime "+${RETENTION_DAYS:-30}" -delete
