@@ -46,7 +46,7 @@ type Fact = { label: string; value: string; accent?: boolean }
 const buildFacts = (project: ProjectCardType): Fact[] =>
     [
         project.role ? { label: 'Role', value: project.role } : null,
-        project.company ? { label: 'Company', value: project.company } : null,
+        project.company ? { label: 'Project name', value: project.company } : null,
     ].filter((fact): fact is Fact => fact !== null)
 
 type LinkSpec = { href: string; label: string; icon: IconType; primary?: boolean }
