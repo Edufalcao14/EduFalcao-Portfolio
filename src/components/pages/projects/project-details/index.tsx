@@ -62,8 +62,16 @@ const buildLinks = (project: ProjectCardType): LinkSpec[] =>
         project.playStoreUrl
             ? { href: project.playStoreUrl, label: 'Play Store', icon: SiGoogleplay, primary: true }
             : null,
+        // Two repositories need two names. With one, 'Repository' says it all.
         project.githubUrl
-            ? { href: project.githubUrl, label: 'Repository', icon: TbBrandGithub }
+            ? {
+                  href: project.githubUrl,
+                  label: project.backendRepoUrl ? 'App repository' : 'Repository',
+                  icon: TbBrandGithub,
+              }
+            : null,
+        project.backendRepoUrl
+            ? { href: project.backendRepoUrl, label: 'API repository', icon: TbBrandGithub }
             : null,
     ].filter((link): link is LinkSpec => link !== null)
 

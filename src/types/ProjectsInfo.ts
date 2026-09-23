@@ -43,6 +43,8 @@ export type ProjectCardType = {
     projectName: string;
     projectDescription: string;
     githubUrl?: string;
+    /** Second repository, when the backend lives apart from the app. */
+    backendRepoUrl?: string;
     liveUrl?: string;
     /**
      * The card and the hero media. May be a video: the field accepts one, so

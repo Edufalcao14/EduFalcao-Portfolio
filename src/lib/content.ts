@@ -120,6 +120,7 @@ const toProjectCard = (project: Project): ProjectCardType => ({
   projectName: project.title,
   projectDescription: project.summary,
   githubUrl: project.links?.repoUrl ?? undefined,
+  backendRepoUrl: project.links?.backendRepoUrl ?? undefined,
   // liveUrl keeps the old fallback chain so the project cards on /projects,
   // which only render one link, are unchanged. The case page reads the store
   // URLs separately so it can name each button.

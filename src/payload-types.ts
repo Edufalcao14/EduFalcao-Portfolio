@@ -161,7 +161,7 @@ export interface Project {
   order?: number | null;
   title: string;
   /**
-   * The description under the case title. Separate paragraphs with a blank line: the first one renders as a centred lede, the rest as left-aligned body text. The opening sentence is what search results show, so it has to stand alone.
+   * The description under the case title. Separate paragraphs with a blank line. The opening sentence is what search results and the project card show, so it has to stand alone.
    */
   summary: string;
   body?: {
@@ -186,7 +186,7 @@ export interface Project {
   proofTier: 'tier1' | 'tier2' | 'tier3' | 'tier4';
   company?: string | null;
   /**
-   * e.g. Sole technical owner, Mobile Engineer.
+   * As it should read on the page, e.g. 12 May 2025.
    */
   role?: string | null;
   periodStart: string;
@@ -223,6 +223,10 @@ export interface Project {
     playStore?: string | null;
     liveUrl?: string | null;
     repoUrl?: string | null;
+    /**
+     * Optional. For a project split across two repositories; the one above then reads as the app.
+     */
+    backendRepoUrl?: string | null;
   };
   /**
    * Served at card resolution. Never the full-size original.
@@ -675,6 +679,7 @@ export interface ProjectsSelect<T extends boolean = true> {
         playStore?: T;
         liveUrl?: T;
         repoUrl?: T;
+        backendRepoUrl?: T;
       };
   thumbnail?: T;
   projectSection?:

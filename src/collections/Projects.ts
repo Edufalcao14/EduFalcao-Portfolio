@@ -273,6 +273,15 @@ export const Projects: CollectionConfig = {
                     { name: 'repoUrl', label: 'Repository', type: 'text', admin: { width: '50%' } },
                   ],
                 },
+                {
+                  name: 'backendRepoUrl',
+                  label: 'Backend repository',
+                  type: 'text',
+                  admin: {
+                    description:
+                      'Optional. For a project split across two repositories; the one above then reads as the app.',
+                  },
+                },
               ],
             },
             {

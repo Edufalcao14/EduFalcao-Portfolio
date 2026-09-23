@@ -119,7 +119,7 @@ export const noJuniorTitle: TextFieldValidation = (value) => {
  */
 export const requireAtLeastOneLink: Validate = (value) => {
   const links = (value ?? {}) as Record<string, unknown>
-  const filled = ['appStore', 'playStore', 'liveUrl', 'repoUrl'].some((key) => {
+  const filled = ['appStore', 'playStore', 'liveUrl', 'repoUrl', 'backendRepoUrl'].some((key) => {
     const link = links[key]
     return typeof link === 'string' && link.trim().length > 0
   })
