@@ -54,9 +54,9 @@ export const ProjectMedia = ({
                 width={width}
                 height={height}
                 className={className}
-                // `metadata` would be enough to size the box, but the video is
-                // meant to be playing already, so the bytes are wanted anyway.
-                preload="auto"
+                // Autoplay fetches the bytes regardless; `metadata` keeps the
+                // request from jumping the queue ahead of the screenshots.
+                preload="metadata"
                 // playsInline keeps iOS from taking the video fullscreen, which
                 // would hijack the page the moment it autoplays.
                 playsInline
@@ -69,6 +69,9 @@ export const ProjectMedia = ({
         )
     }
 
+    // The URL is Payload's `card` rendition, a 960px webp, which is the size
+    // this slot was designed for. Nothing to gain from resizing it again on
+    // the server, and the round trip through the VPS cost more than the bytes.
     return (
         <Image
             src={media.url}
@@ -76,6 +79,7 @@ export const ProjectMedia = ({
             height={height}
             className={className}
             priority={priority}
+            unoptimized
             alt={media.alt || alt}
         />
     )

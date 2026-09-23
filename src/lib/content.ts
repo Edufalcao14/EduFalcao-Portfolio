@@ -45,11 +45,32 @@ const CACHE_SAFETY_NET_SECONDS = 3600
 /** What the hero pill said before it was editable, kept for an empty field. */
 const HERO_ROLE_TAG_FALLBACK = 'Full Stack Developer'
 
-const mediaUrl = (value: unknown, size: 'thumb' | 'card' | 'full' = 'card'): string => {
-  if (!value || typeof value !== 'object') return ''
-  const media = value as Media
-  return media.sizes?.[size]?.url ?? media.url ?? ''
+/**
+ * Payload only generates a rendition when the original is at least that wide,
+ * so a 1206px phone screenshot has `card` and `thumb` but no `full`. Asking for
+ * `full` used to fall straight back to the original PNG, a megabyte where a
+ * 100 KB webp existed. Each size now falls through to the next one down.
+ */
+const FALLBACK: Record<'thumb' | 'card' | 'full', ('thumb' | 'card' | 'full')[]> = {
+  full: ['full', 'card', 'thumb'],
+  card: ['card', 'thumb'],
+  thumb: ['thumb'],
 }
+
+type Rendition = { url: string; width?: number; height?: number }
+
+const rendition = (value: unknown, size: 'thumb' | 'card' | 'full' = 'card'): Rendition => {
+  if (!value || typeof value !== 'object') return { url: '' }
+  const media = value as Media
+  for (const key of FALLBACK[size]) {
+    const found = media.sizes?.[key]
+    if (found?.url) return { url: found.url, width: found.width ?? undefined, height: found.height ?? undefined }
+  }
+  return { url: media.url ?? '', width: media.width ?? undefined, height: media.height ?? undefined }
+}
+
+const mediaUrl = (value: unknown, size: 'thumb' | 'card' | 'full' = 'card'): string =>
+  rendition(value, size).url
 
 const mediaMime = (value: unknown): string | undefined => {
   if (!value || typeof value !== 'object') return undefined
@@ -113,7 +134,9 @@ const toProjectCard = (project: Project): ProjectCardType => ({
     // A video has no `sizes`, so mediaUrl falls back to the original. mimeType
     // travels with it so the gallery can tell the two apart.
     image: relations<Media>(section.image).map((image) => ({
-      url: mediaUrl(image, 'full'),
+      // Width and height describe the file in `url`, so the browser reserves
+      // the right box before the bytes arrive.
+      ...rendition(image, 'full'),
       alt: image.alt,
       mimeType: image.mimeType ?? undefined,
     })),

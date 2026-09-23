@@ -8,6 +8,9 @@ export type Image={
     url:string
     alt?:string
     mimeType?:string
+    /** Dimensions of the file in `url`. Absent for video and for legacy rows. */
+    width?:number
+    height?:number
 }
 
 

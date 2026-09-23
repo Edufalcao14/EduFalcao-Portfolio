@@ -47,11 +47,18 @@ const MediaItem = ({ media, fallbackAlt }: { media: Media; fallbackAlt: string }
         )
     }
 
+    // `unoptimized`: the URL is already the webp rendition Payload generated at
+    // upload, at most 1920px wide. Routing it through /_next/image made the VPS
+    // download the original, resize it again and serve the result, 1.5 s per
+    // image on a page with thirty of them. The rendition goes straight from the
+    // bucket to the browser instead.
     return (
         <Image
             src={media.url}
-            width={1280}
-            height={800}
+            width={media.width ?? 1280}
+            height={media.height ?? 800}
+            sizes="(min-width: 1024px) 55vw, 100vw"
+            unoptimized
             className="h-auto w-full rounded-lg border border-gray-800"
             alt={media.alt || fallbackAlt}
         />
