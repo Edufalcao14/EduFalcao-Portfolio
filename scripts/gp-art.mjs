@@ -24,12 +24,12 @@ const divider = (y) => `<line x1="120" y1="${y}" x2="1800" y2="${y}" stroke="${C
 
 const art1 = frame(`${head('IMPACT · FEATURES', 'From the bank to the game, on a regulated casino app')}
 ${spot(120, 330, '30+', 'features shipped to production, as main developer')}
-${spot(900, 330, '1 bug', 'open for years, closed with a native module', 72)}
+${spot(900, 330, '1 bug', 'open for months, closed with a native module', 72)}
 ${divider(420)}
 ${item(120, 470, 780, 'Bank account verification', 'TrueLayer open banking, the account confirmed by the bank')}
 ${item(120, 590, 780, 'Identity verification', 'itsme, the Belgian digital identity, wired into onboarding')}
 ${item(120, 710, 780, 'Game provider integrations', 'third-party providers behind one launch flow, one wallet')}
-${item(120, 830, 780, 'Payments and wallet', 'several providers, one deposit and cash-out flow, player-set limits')}
+${item(120, 830, 780, 'Payments and wallet', 'several providers, one deposit and cash-out flow, player limits')}
 ${label(1000, 500, 'DEEP LINKS · WEB AND APP', 18)}
 ${box(1000, 530, 320, 150, C.rule, C.surface)}${label(1160, 595, 'web app', 24, C.text, 'middle')}${label(1160, 632, 'a link on any page', 15, C.muted, 'middle')}
 ${arrow(1320, 590, 1470, 590)}${arrow(1470, 620, 1320, 620)}
@@ -38,7 +38,7 @@ ${label(1000, 740, 'Universal links on iOS, app links on Android; the web', 17)}
 ${label(1000, 768, 'falls back to the store when the app is not installed.', 17)}
 ${label(1000, 840, 'NATIVE MODULE', 18)}
 ${label(1000, 878, 'The gesture handler and the live-table WebView fought over', 17)}
-${label(1000, 906, 'every touch for years. The module decides who owns it.', 17)}`)
+${label(1000, 906, 'every touch for months. The module decides who owns it.', 17)}`)
 
 const layer = (x, y, w, title, sub, hot = false) => `${box(x, y, w, 92, hot ? C.gold : C.rule, hot ? C.bg : C.surface, 12, hot ? 3 : 2)}${label(x+26, y+40, title, 22, hot ? C.gold : C.text)}${label(x+26, y+72, sub, 15)}`
 const art2 = frame(`${head('IMPACT · PERFORMANCE', 'Profiled on real low-end devices, fixed at the source')}
