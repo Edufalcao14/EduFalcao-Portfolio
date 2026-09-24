@@ -147,6 +147,7 @@ export interface UserAuthOperations {
  */
 export interface Project {
   id: number;
+  _order?: string | null;
   /**
    * URL segment. Filled from the title, safe to edit before publishing.
    */
@@ -155,10 +156,6 @@ export interface Project {
    * Shows on the home page. Academic work cannot be featured.
    */
   featured?: boolean | null;
-  /**
-   * Lower comes first. Ties fall back to date.
-   */
-  order?: number | null;
   title: string;
   /**
    * The description under the case title. Separate paragraphs with a blank line. The opening sentence is what search results and the project card show, so it has to stand alone.
@@ -651,9 +648,9 @@ export interface PayloadMigration {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
+  _order?: T;
   slug?: T;
   featured?: T;
-  order?: T;
   title?: T;
   summary?: T;
   body?: T;

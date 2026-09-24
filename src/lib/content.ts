@@ -166,9 +166,9 @@ export const getProjectsPageInfo = unstable_cache(
       payload.find({
         collection: 'projects',
         where: { _status: { equals: 'published' } },
-        // Hand-placed order first, then newest. Academic work sinks to the end
-        // regardless, so it never leads the list.
-        sort: ['order', '-periodStart'],
+        // The drag-and-drop order from the panel. Academic work still sinks to
+        // the end below, so it never leads the list.
+        sort: '_order',
         depth: 2,
         limit: 100,
       }),

@@ -4,6 +4,7 @@ import * as migration_20260826_194835_add_metrics_and_section_description from '
 import * as migration_20260831_165030_add_hero_role_tag from './20260831_165030_add_hero_role_tag';
 import * as migration_20260831_181429_add_articles from './20260831_181429_add_articles';
 import * as migration_20260923_120000_add_backend_repo_url from './20260923_120000_add_backend_repo_url';
+import * as migration_20260924_120000_add_projects_order from './20260924_120000_add_projects_order';
 
 export const migrations = [
   {
@@ -35,5 +36,10 @@ export const migrations = [
     up: migration_20260923_120000_add_backend_repo_url.up,
     down: migration_20260923_120000_add_backend_repo_url.down,
     name: '20260923_120000_add_backend_repo_url',
+  },
+  {
+    up: migration_20260924_120000_add_projects_order.up,
+    down: migration_20260924_120000_add_projects_order.down,
+    name: '20260924_120000_add_projects_order',
   },
 ];

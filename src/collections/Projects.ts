@@ -22,6 +22,15 @@ import {
 export const Projects: CollectionConfig = {
   slug: 'projects',
   labels: { singular: 'Case', plural: 'Cases' },
+  /**
+   * Drag-and-drop order in the list view. The site renders cases in exactly
+   * this order, so reordering in the panel is reordering the site. It replaces
+   * a hand-typed `order` number, which meant opening every case to move one.
+   * The old `order` column is left in the database, unused, so a deploy of
+   * older code keeps working until the new one is live.
+   */
+  orderable: true,
+  defaultSort: '_order',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'kind', 'proofTier', 'featured', '_status', 'updatedAt'],
@@ -64,11 +73,6 @@ export const Projects: CollectionConfig = {
         }
         return true
       },
-    },
-    {
-      name: 'order',
-      type: 'number',
-      admin: { position: 'sidebar', description: 'Lower comes first. Ties fall back to date.' },
     },
     {
       type: 'tabs',
